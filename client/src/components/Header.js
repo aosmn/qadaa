@@ -16,7 +16,15 @@ const Header = () => {
       <Navbar bg='dark' variant='dark' collapseOnSelect>
         <Container>
           <LinkContainer to='/'>
-            <Navbar.Brand>JWT Auth</Navbar.Brand>
+            <Navbar.Brand>
+              <img
+                src={`${process.env.PUBLIC_URL}/logo-grad.svg`}
+                width='30'
+                alt=''
+                className='mr-4'
+              />
+              Qadaa'
+            </Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>

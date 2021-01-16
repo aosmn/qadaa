@@ -1,10 +1,9 @@
 // Cyborg 4.5.3
 // Bootswatch
 
-
 // Variables ===================================================================
 
-$web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" !default;
+$web-font-path: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap' !default;
 @import url($web-font-path);
 
 // Navbar ======================================================================
@@ -15,7 +14,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&di
   }
 
   &.bg-dark {
-    background-color: $body-bg !important;
+    background-color: $body-bg-transparent !important;
     border: 1px solid $gray-700;
   }
 
@@ -38,7 +37,9 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&di
   @each $color, $value in $theme-colors {
     &-#{$color} {
       @if $enable-gradients {
-        background: $value linear-gradient(180deg, mix($white, $value, 15%), $value) repeat-x;
+        background: $value
+          linear-gradient(180deg, mix($white, $value, 15%), $value)
+          repeat-x;
       } @else {
         background-color: $value;
       }
@@ -197,7 +198,6 @@ table {
         background-color: $table-active-bg;
       }
     }
-
   }
 }
 
@@ -266,7 +266,9 @@ legend {
   @each $color, $value in $theme-colors {
     &-#{$color} {
       @if $enable-gradients {
-        background: $value linear-gradient(180deg, mix($white, $value, 15%), $value) repeat-x;
+        background: $value
+          linear-gradient(180deg, mix($white, $value, 15%), $value)
+          repeat-x;
       } @else {
         background-color: $value;
       }
@@ -281,7 +283,7 @@ legend {
 }
 
 .close {
-  opacity: .6;
+  opacity: 0.6;
 
   &:hover {
     opacity: 1;

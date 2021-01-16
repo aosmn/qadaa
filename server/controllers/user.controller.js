@@ -89,7 +89,7 @@ const sendPasswordReset = asyncHandler(async (req, res) => {
     const token = generateToken(user._id, '1d');
     user.setupPasswordReset(token, 3600000);
     const savedUser = await user.save();
-    const link = `http://${req.headers.origin}/reset-password?token=${savedUser.resetPasswordToken}&email=${savedUser.email}`;
+    const link = `${req.headers.origin}/reset-password?token=${savedUser.resetPasswordToken}&email=${savedUser.email}`;
     const text = `Hello ${savedUser.name.split(' ')[0]} \n
     Please click on the following link ${link} to reset your password. \n\n
     If you did not request this, please ignor this email and your password will remain unchanged`;

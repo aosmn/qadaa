@@ -8,5 +8,6 @@ export default function parseQuery(queryString) {
     var pair = pairs[i].split('=');
     query[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || '');
   }
+  console.log(query);
   return query;
 }

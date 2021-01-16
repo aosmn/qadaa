@@ -3,11 +3,12 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Home from './screens/HomeScreen';
-import Login from './screens/LoginScreen';
-import ResetPassword from './screens/ResetPasswordScreen';
-import ForgotPassword from './screens/ForgotPasswordScreen';
-import Register from './screens/RegisterScreen';
+// import Home from './screens/Authentication/HomeScreen';
+import Login from './screens/Authentication/LoginScreen';
+import ResetPassword from './screens/Authentication/ResetPasswordScreen';
+import ForgotPassword from './screens/Authentication/ForgotPasswordScreen';
+import Register from './screens/Authentication/RegisterScreen';
+// import LogPrayers from './screens/LogPrayersScreen';
 import './App.scss';
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
           <Route path='/reset-password' component={ResetPassword} />
           <Route path='/forgot-password' component={ForgotPassword} />
 
-          <Route exact path='/' component={Home} />
+          {/* <Route exact path='/' component={LogPrayers} /> */}
         </Container>
       </main>
       <Footer />

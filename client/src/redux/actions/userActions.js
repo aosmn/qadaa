@@ -16,30 +16,26 @@ import {
   CLEAR_PASSWORD_STATE
 } from '../actionTypes/userActionTypes.js';
 
-import axios from '../../utils/axiosRequest';
+import {
+  login as loginRequest,
+  register as registerRequest,
+  updateUser,
+  sendPasswordRecoverEmail,
+  resetPassword as resetPasswordRequest
+} from '../../api/user.api';
 
 export const login = (email, password) => async dispatch => {
   try {
     dispatch({
       type: USER_LOGIN_REQUEST
     });
-    const config = {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    };
 
-    const { data } = await axios.post(
-      '/api/users/login',
-      { email, password },
-      config
-    );
+    const data = await loginRequest({ email, password });
+
     dispatch({
       type: USER_LOGIN_SUCCESS,
       payload: data
     });
-
-    localStorage.setItem('user', JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: USER_LOGIN_FAIL,
@@ -61,17 +57,9 @@ export const register = (name, email, password) => async dispatch => {
     dispatch({
       type: USER_REGISTER_REQUEST
     });
-    const config = {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    };
 
-    const { data } = await axios.post(
-      '/api/users',
-      { name, email, password },
-      config
-    );
+    const data = await registerRequest({ name, email, password });
+
     dispatch({
       type: USER_REGISTER_SUCCESS,
       payload: data
@@ -80,8 +68,6 @@ export const register = (name, email, password) => async dispatch => {
       type: USER_LOGIN_SUCCESS,
       payload: data
     });
-
-    localStorage.setItem('user', JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: USER_REGISTER_FAIL,
@@ -102,14 +88,8 @@ export const updateUserProfile = user => async (dispatch, getState) => {
     const {
       userInfo: { user }
     } = getState();
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${user.token}`
-      }
-    };
 
-    const { data } = await axios.put(`/api/users`, user, config);
+    const data = await updateUser(user);
 
     dispatch({
       type: USER_UPDATE_SUCCESS,
@@ -138,13 +118,9 @@ export const sendRecoverEmail = email => async dispatch => {
     dispatch({
       type: PASSWORD_RESET_REQUEST
     });
-    const config = {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    };
 
-    const { data } = await axios.post('/api/users/recover', { email }, config);
+    const data = await sendPasswordRecoverEmail(email);
+
     dispatch({
       type: PASSWORD_RESET_SUCCESS,
       payload: data.message
@@ -165,17 +141,9 @@ export const resetPassword = (token, email, password) => async dispatch => {
     dispatch({
       type: PASSWORD_RESET_REQUEST
     });
-    const config = {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    };
 
-    const { data } = await axios.post(
-      '/api/users/reset',
-      { token, email, password },
-      config
-    );
+    const data = await resetPasswordRequest({ token, email, password });
+
     dispatch({
       type: PASSWORD_RESET_SUCCESS,
       payload: data.message

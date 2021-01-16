@@ -8,7 +8,7 @@ import { notFound, errorHandler } from './middleware/error.middleware.js';
 dotenv.config();
 
 var corsOptions = {
-  origin: [process.env.CLIENT_URL, process.env.CLIENT_IP_URL],
+  origin: [process.env.CLIENT_URL],
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 

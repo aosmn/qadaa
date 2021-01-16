@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import Message from '../components/Message';
-import Loader from '../components/Loader';
-import FormContainer from '../components/FormContainer';
+import Message from '../../components/Message';
+import Loader from '../../components/Loader';
+import FormContainer from '../../components/FormContainer';
 import {
   sendRecoverEmail,
   clearPasswordState
-} from '../redux/actions/userActions';
+} from '../../redux/actions/userActions';
 
 const ForgotPasswordScreen = ({ location, history }) => {
   const [email, setEmail] = useState('');
