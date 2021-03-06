@@ -63,7 +63,12 @@ const CarouselComponent = props => {
   useEffect(() => {
     if (props.prayerLogs && props.prayerLogs.today) {
       setToday(props.prayerLogs.today.total);
-      setDailyPercent(Math.round((((props.prayerLogs.today.total || 0) * 100) / (dailyTarget * 5)) * 100) / 100);
+      setDailyPercent(
+        Math.round(
+          (((props.prayerLogs.today.total || 0) * 100) / (dailyTarget * 5)) *
+            100
+        ) / 100
+      );
     }
   }, [props.prayerLogs]);
 
@@ -79,7 +84,12 @@ const CarouselComponent = props => {
   useEffect(() => {
     if (props.preferences) {
       setTotal(props.preferences.days * 5 || 0);
-      setDailyPercent(Math.round((((props.prayerLogs.today.total || 0) * 100) / (dailyTarget * 5)) * 100) / 100);
+      setDailyPercent(
+        Math.round(
+          (((props.prayerLogs.today.total || 0) * 100) / (dailyTarget * 5)) *
+            100
+        ) / 100
+      );
     }
   }, [props.preferences, totalMadeup, total]);
 
@@ -129,8 +139,8 @@ const CarouselComponent = props => {
 
   const saveDailyTarget = e => {
     // window.localStorage.setItem('dailyTarget', dailyTarget);
-    const preferences = props.preferences || {}
-    props.updatePreferences({...preferences, dailyTarget})
+    const preferences = props.preferences || {};
+    props.updatePreferences({ ...preferences, dailyTarget });
     setIsEditTarget(false);
   };
 
@@ -169,6 +179,9 @@ const CarouselComponent = props => {
           totalMadeup={totalMadeup}
           totalRemaining={totalRemaining}
           onEdit={() => setIsEditMakeup(true)}
+          editText='Edit Target'
+          isFinished={totalMadeup === total}
+          finishedText={'Congratulations! you are done with you Qadaa prayers'}
         />
       ) : (
         <>
@@ -271,7 +284,17 @@ const CarouselComponent = props => {
       key='dayCounter'>
       {!isEditTarget ? (
         <>
-          <div className='d-flex flex-column justify-content-center mt-5'>
+          <CircularComponent
+            percent={dailyPercent}
+            total={dailyTarget * 5}
+            totalMadeup={today}
+            totalRemaining={dailyTarget * 5 - today}
+            onEdit={() => setIsEditTarget(true)}
+            editText='Customize daily target?'
+            isFinished={dailyTarget > 0 && dailyTarget * 5 - today === 0}
+            finishedText='Well done! you are done for today'
+          />
+          {/* <div className='d-flex flex-column justify-content-center mt-5'>
             <CircularProgressbar
               className='mx-auto'
               value={dailyPercent}
@@ -308,22 +331,22 @@ const CarouselComponent = props => {
               <br />
             </div>
             <small className='very-small-text mx-auto text-center'>
-              {dailyTarget > 0 && dailyTarget * 5 - today === 0 &&
+              {dailyTarget > 0 && dailyTarget * 5 - today === 0 && (
                 <b>Well done! you are done for today</b>
-              }
-                <div>
-                  <Button
-                    variant='link'
-                    className='very-small-text p-0'
-                    style={{ color: 'rgb(255, 136, 136)' }}
-                    onClick={() => {
-                      setIsEditTarget(true);
-                    }}>
-                    <b>Customize daily target?</b>
-                  </Button>
-                </div>
+              )}
+              <div>
+                <Button
+                  variant='link'
+                  className='very-small-text p-0'
+                  style={{ color: 'rgb(255, 136, 136)' }}
+                  onClick={() => {
+                    setIsEditTarget(true);
+                  }}>
+                  <b>Customize daily target?</b>
+                </Button>
+              </div>
             </small>
-          </div>
+          </div> */}
         </>
       ) : (
         <>

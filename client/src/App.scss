@@ -248,7 +248,7 @@ td {
   font-weight: 400;
   position: absolute;
   left: calc(50%);
-  top: calc(50%);
+  top: calc(50% - 10px);
   transform: translate(-50%, -50%);
   .percent {
     font-size: 2.5rem;

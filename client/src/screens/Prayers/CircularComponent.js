@@ -6,7 +6,10 @@ const CircularComponent = ({
   total,
   totalMadeup,
   totalRemaining,
-  onEdit
+  onEdit,
+  editText = 'Edit',
+  isFinished,
+  finishedText
 }) => {
   return (
     <>
@@ -44,16 +47,20 @@ const CircularComponent = ({
           <div className='font-weight-bold mx-2'>{total}</div>
           <br />
         </div>
-        <div className='d-flex mx-auto align-items-center'>
-          <small className='very-small-text mr-2'>
-            Remaining <b className='pl-2'>{totalRemaining}</b>
-          </small>
+        <div className='d-flex flex-column mx-auto align-items-center'>
+          {isFinished ? (
+            <b>{finishedText}</b>
+          ) : (
+            <small className='very-small-text'>
+              Remaining <b className='px-2'>{totalRemaining}</b> prayers
+            </small>
+          )}
           <Button
             variant='link'
             className='p-0 very-small-text'
             style={{ color: 'rgb(255, 136, 136)' }}
             onClick={onEdit}>
-            <b>Edit</b>
+            <b>{editText}</b>
           </Button>
         </div>
       </div>
