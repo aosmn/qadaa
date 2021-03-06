@@ -283,71 +283,16 @@ const CarouselComponent = props => {
       onExited={() => setAnimating(false)}
       key='dayCounter'>
       {!isEditTarget ? (
-        <>
-          <CircularComponent
-            percent={dailyPercent}
-            total={dailyTarget * 5}
-            totalMadeup={today}
-            totalRemaining={dailyTarget * 5 - today}
-            onEdit={() => setIsEditTarget(true)}
-            editText='Customize daily target?'
-            isFinished={dailyTarget > 0 && dailyTarget * 5 - today === 0}
-            finishedText='Well done! you are done for today'
-          />
-          {/* <div className='d-flex flex-column justify-content-center mt-5'>
-            <CircularProgressbar
-              className='mx-auto'
-              value={dailyPercent}
-              // text={`${dailyPercent}%`}
-              styles={{
-                root: { width: '40%' },
-                path: {
-                  // Path color
-                  stroke: `#fffa`
-                },
-                trail: {
-                  // Trail color
-                  stroke: '#fff4'
-                },
-                text: {
-                  fill: '#f88'
-                }
-              }}
-            />
-
-            <div className='circular-progress-text text-center'>
-              <div className='percent'>{`${dailyPercent}%`}</div>
-              <div>Daily Progress</div>
-            </div>
-          </div>
-          <div className='d-flex text-dark flex-column justify-content-center'>
-            <div className='mt-4 p-0 d-flex justify-content-center'>
-              <div className='font-weight-bold mx-2'>
-                <b>{today}</b>
-              </div>
-              out of
-              <div className='font-weight-bold mx-2'>{dailyTarget * 5}</div>
-              prayers
-              <br />
-            </div>
-            <small className='very-small-text mx-auto text-center'>
-              {dailyTarget > 0 && dailyTarget * 5 - today === 0 && (
-                <b>Well done! you are done for today</b>
-              )}
-              <div>
-                <Button
-                  variant='link'
-                  className='very-small-text p-0'
-                  style={{ color: 'rgb(255, 136, 136)' }}
-                  onClick={() => {
-                    setIsEditTarget(true);
-                  }}>
-                  <b>Customize daily target?</b>
-                </Button>
-              </div>
-            </small>
-          </div> */}
-        </>
+        <CircularComponent
+          percent={dailyPercent}
+          total={dailyTarget * 5}
+          totalMadeup={today}
+          totalRemaining={dailyTarget * 5 - today}
+          onEdit={() => setIsEditTarget(true)}
+          editText='Customize daily target?'
+          isFinished={dailyTarget > 0 && dailyTarget * 5 - today === 0}
+          finishedText='Well done! you are done for today'
+        />
       ) : (
         <>
           <div className='d-flex flex-column justify-content-center mt-5'>
