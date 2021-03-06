@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import { updateUserPreferences } from '../../redux/actions/userActions';
 import { connect } from 'react-redux';
-var duration = require('dayjs/plugin/duration')
+var duration = require('dayjs/plugin/duration');
 day.extend(duration);
 
 const mapStateToProps = state => ({
@@ -104,24 +104,17 @@ const Calculator = props => {
   return (
     <Container>
       <Row>
-        <Col
-          sm={{ size: 5 }}
-          md={{ size: 8 }}
-          lg={{ size: 5 }}
-          className='mx-auto'>
+        <Col sm='5' md='8' lg='5' className='mx-auto'>
           <div className='calculator'>
-            <Link to='/' className='text-light ml-auto'>
-              <img
-                src={`${process.env.PUBLIC_URL}/cancel.svg`}
-                alt=''
-                width='12'
-                height='12'
-              />
+            <Link to='/' className='text-dark ml-auto'>
+              <h5 className='m-0'>
+                <ion-icon name='close-outline'></ion-icon>
+              </h5>
             </Link>
             <h3 className='text-center mb-4'>Qadaa' Calculator</h3>
             <Form onSubmit={onSubmit}>
               <Row>
-                <Col sm={{ size: 6 }}>
+                <Col sm='6'>
                   <FormGroup>
                     <Form.Label for='startTime'>Start Time</Form.Label>
                     <Form.Control
@@ -134,7 +127,7 @@ const Calculator = props => {
                     />
                   </FormGroup>
                 </Col>
-                <Col sm={{ size: 6 }}>
+                <Col sm='6'>
                   <FormGroup>
                     <Form.Label for='endTime'>End Time</Form.Label>
                     <Form.Control
@@ -147,36 +140,28 @@ const Calculator = props => {
                     />
                   </FormGroup>
                 </Col>
-                <Col sm={{ size: 12 }}>
-                  <FormGroup tag='fieldset'>
-                    <FormGroup check>
-                      <Form.Label check>
-                        <Form.Control
-                          type='radio'
-                          name='gender'
-                          onChange={onChange}
-                          value='male'
-                          checked={!isFemale}
-                        />
-                        Male
-                      </Form.Label>
-                    </FormGroup>
-                    <FormGroup check>
-                      <Form.Label check>
-                        <Form.Control
-                          type='radio'
-                          name='gender'
-                          onChange={onChange}
-                          value='female'
-                          checked={isFemale}
-                        />
-                        Female
-                      </Form.Label>
-                    </FormGroup>
-                  </FormGroup>
+                <Col sm='12'>
+                  <Form.Check
+                    type='radio'
+                    id='male'
+                    checked={!isFemale}
+                    label='Male'
+                    onChange={onChange}
+                    name='gender'
+                    value='male'
+                  />
+                  <Form.Check
+                    type='radio'
+                    id='female'
+                    checked={isFemale}
+                    label='Female'
+                    onChange={onChange}
+                    name='gender'
+                    value='female'
+                  />
                 </Col>
                 {isFemale ? (
-                  <Col sm={{ size: 12 }}>
+                  <Col sm='12'>
                     <FormGroup>
                       <Form.Label for='periodDays'>
                         Period Length{' '}
@@ -194,7 +179,7 @@ const Calculator = props => {
                   </Col>
                 ) : null}
               </Row>
-              <Button variant='success' className='col' type='sumbit'>
+              <Button variant='success' className='col mt-3' type='sumbit'>
                 Calculate
               </Button>
             </Form>
