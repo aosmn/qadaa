@@ -10,6 +10,7 @@ import ForgotPassword from './screens/Authentication/ForgotPasswordScreen';
 import Register from './screens/Authentication/RegisterScreen';
 import LogPrayers from './screens/Prayers/PrayersCounter';
 import PrayerLogs from './screens/PrayerLogs/PrayerLogs';
+import Calculator from './screens/Preferences/Calculator';
 import './App.scss';
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
 
           <Route exact path='/' component={LogPrayers} />
           <Route exact path='/logs' component={PrayerLogs} />
+          <Route path='/calculate' component={Calculator} />
         </Container>
       </main>
       <Footer />

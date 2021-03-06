@@ -79,6 +79,7 @@ const CarouselComponent = props => {
   useEffect(() => {
     if (props.preferences) {
       setTotal(props.preferences.days * 5 || 0);
+      setDailyPercent(Math.round((((props.prayerLogs.today.total || 0) * 100) / (dailyTarget * 5)) * 100) / 100);
     }
   }, [props.preferences, totalMadeup, total]);
 
@@ -86,8 +87,6 @@ const CarouselComponent = props => {
     setTotalRemaining(total - totalMadeup);
   }, [totalMadeup, total]);
   useEffect(() => {
-    console.log(total);
-    console.log(totalMadeup);
     setPercent(Math.round((((totalMadeup || 0) * 100) / total) * 100) / 100);
   }, [totalMadeup, total]);
 
@@ -129,7 +128,9 @@ const CarouselComponent = props => {
   };
 
   const saveDailyTarget = e => {
-    window.localStorage.setItem('dailyTarget', dailyTarget);
+    // window.localStorage.setItem('dailyTarget', dailyTarget);
+    const preferences = props.preferences || {}
+    props.updatePreferences({...preferences, dailyTarget})
     setIsEditTarget(false);
   };
 
@@ -306,10 +307,10 @@ const CarouselComponent = props => {
               prayers
               <br />
             </div>
-            <small className='very-small-text mx-auto'>
-              {dailyTarget > 0 && dailyTarget * 5 - today === 0 ? (
+            <small className='very-small-text mx-auto text-center'>
+              {dailyTarget > 0 && dailyTarget * 5 - today === 0 &&
                 <b>Well done! you are done for today</b>
-              ) : (
+              }
                 <div>
                   <Button
                     variant='link'
@@ -321,7 +322,6 @@ const CarouselComponent = props => {
                     <b>Customize daily target?</b>
                   </Button>
                 </div>
-              )}
             </small>
           </div>
         </>
