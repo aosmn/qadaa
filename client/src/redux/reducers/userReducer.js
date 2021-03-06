@@ -12,7 +12,10 @@ import {
   PASSWORD_RESET_REQUEST,
   PASSWORD_RESET_SUCCESS,
   PASSWORD_RESET_FAIL,
-  CLEAR_PASSWORD_STATE
+  CLEAR_PASSWORD_STATE,
+  USER_PREFERENCES_UPDATE_REQUEST,
+  USER_PREFERENCES_UPDATE_SUCCESS,
+  USER_PREFERENCES_UPDATE_FAIL
 } from '../actionTypes/userActionTypes';
 
 export const userReducer = (state = {}, action) => {
@@ -37,6 +40,12 @@ export const userReducer = (state = {}, action) => {
       return { loading: false, user: action.payload };
     case USER_UPDATE_FAIL:
       return { loading: false, error: action.payload };
+    case USER_PREFERENCES_UPDATE_REQUEST:
+      return {...state, loading: true}
+    case USER_PREFERENCES_UPDATE_SUCCESS:
+      return {...state, loading: false, user: {...state.user, preferences: action.payload}}
+    case USER_PREFERENCES_UPDATE_FAIL:
+      return {...state, loading: false, error: action.payload}
     default:
       return state;
   }

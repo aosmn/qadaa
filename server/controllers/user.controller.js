@@ -15,7 +15,8 @@ const authUser = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      token: generateToken(user._id)
+      token: generateToken(user._id),
+      preferences: user.preferences || {}
     });
   } else {
     res.status(401);
@@ -46,7 +47,8 @@ const registerUser = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      token: generateToken(user._id)
+      token: generateToken(user._id),
+      preferences: user.preferences || {}
     });
   } else {
     res.status(400);
@@ -72,7 +74,8 @@ const updateUser = asyncHandler(async (req, res) => {
       _id: updatedUser._id,
       name: updatedUser.name,
       email: updatedUser.email,
-      token: generateToken(updatedUser._id)
+      token: generateToken(updatedUser._id),
+      preferences: updatedUser.preferences || {}
     });
   } else {
     res.status(404);
@@ -147,4 +150,23 @@ const passwordReset = asyncHandler(async (req, res) => {
     throw new Error('Password reset token is invalid or has expired');
   }
 });
-export { authUser, registerUser, updateUser, sendPasswordReset, passwordReset };
+
+// @desc    Update user preferences
+// @route   PUT /api/users/prefs
+// @access  Private
+const updatePreferences = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+  if (user) {
+    user.preferences = {...user.prefereences, ...req.body};
+
+    const updatedUser = await user.save();
+
+    res.json({
+      preferences: user.preferences
+    });
+  } else {
+    res.status(404);
+    throw new Error('User not found');
+  }
+});
+export { authUser, registerUser, updateUser, sendPasswordReset, passwordReset, updatePreferences };

@@ -3,10 +3,18 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import { userReducer, passwordReducer } from './reducers/userReducer';
+import {
+  prayersReducer,
+  prayerTotalsReducer,
+  updateLogsReducer
+} from './reducers/prayerReducer';
 
 const reducer = combineReducers({
   userInfo: userReducer,
-  passwordReset: passwordReducer
+  passwordReset: passwordReducer,
+  prayerLogs: prayersReducer,
+  prayerTotals: prayerTotalsReducer,
+  // updateLogs: updateLogsReducer
 });
 
 const userFromStorage = localStorage.getItem('user')

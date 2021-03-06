@@ -1,6 +1,19 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
+const preferencesSchema = new mongoose.Schema({ start: Date,
+  end: Date,
+  days: Number,
+  period: Number,
+  dailyTarget: {
+    type: Number,
+    default: 2
+  },
+  tutorialDone: {
+    type: Boolean,
+    default: false
+  } });
+
 const userSchema = mongoose.Schema(
   {
     name: {
@@ -21,7 +34,8 @@ const userSchema = mongoose.Schema(
     },
     resetPasswordExpires: {
       type: Date
-    }
+    },
+    preferences: preferencesSchema
   },
   {
     timestamps: true

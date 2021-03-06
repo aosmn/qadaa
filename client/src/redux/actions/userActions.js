@@ -13,7 +13,10 @@ import {
   PASSWORD_RESET_REQUEST,
   PASSWORD_RESET_SUCCESS,
   PASSWORD_RESET_FAIL,
-  CLEAR_PASSWORD_STATE
+  CLEAR_PASSWORD_STATE,
+  USER_PREFERENCES_UPDATE_REQUEST,
+  USER_PREFERENCES_UPDATE_SUCCESS,
+  USER_PREFERENCES_UPDATE_FAIL
 } from '../actionTypes/userActionTypes.js';
 
 import {
@@ -21,7 +24,8 @@ import {
   register as registerRequest,
   updateUser,
   sendPasswordRecoverEmail,
-  resetPassword as resetPasswordRequest
+  resetPassword as resetPasswordRequest,
+  updatePrefs
 } from '../../api/user.api';
 
 export const login = (email, password) => async dispatch => {
@@ -85,9 +89,9 @@ export const updateUserProfile = user => async (dispatch, getState) => {
       type: USER_UPDATE_REQUEST
     });
 
-    const {
-      userInfo: { user }
-    } = getState();
+    // const {
+    //   userInfo: { user }
+    // } = getState();
 
     const data = await updateUser(user);
 
@@ -98,6 +102,37 @@ export const updateUserProfile = user => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: USER_UPDATE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+    });
+  }
+};
+
+export const updateUserPreferences = prefs => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({
+      type: USER_PREFERENCES_UPDATE_REQUEST
+    });
+
+    const {
+      userInfo: { user }
+    } = getState();
+
+    const { preferences } = await updatePrefs({ token: user.token, preferences: prefs });
+
+    dispatch({
+      type: USER_PREFERENCES_UPDATE_SUCCESS,
+      payload: preferences
+    });
+  } catch (error) {
+    console.log('error', error);
+    dispatch({
+      type: USER_PREFERENCES_UPDATE_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

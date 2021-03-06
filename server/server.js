@@ -4,6 +4,7 @@ import colors from 'colors';
 import cors from 'cors';
 import connectDB from './config/db.config.js';
 import userRouter from './routes/user.routes.js';
+import prayerRouter from './routes/prayer.routes.js';
 import { notFound, errorHandler } from './middleware/error.middleware.js';
 dotenv.config();
 
@@ -23,6 +24,8 @@ app.get('/', (req, res) => {
   res.send('API is running');
 });
 app.use('/api/users', userRouter);
+app.use('/api/prayers/', prayerRouter);
+
 app.use(notFound);
 app.use(errorHandler);
 
