@@ -60,6 +60,7 @@ const CarouselComponent = props => {
   // useEffect(() => {
   //   props.getTodayLogs();
   // }, []);
+
   useEffect(() => {
     if (props.prayerLogs && props.prayerLogs.today) {
       setToday(props.prayerLogs.today.total);
@@ -75,7 +76,6 @@ const CarouselComponent = props => {
   // useEffect(() => {
   // }, [today])
   useEffect(() => {
-    console.log(props.prayerTotals);
     if (props.prayerTotals && props.prayerTotals.totals) {
       setTotalMadeup(props.prayerTotals.totals[0]?.total);
     }

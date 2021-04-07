@@ -55,7 +55,6 @@ export const prayerTotalsReducer = (state = {}, action) => {
     case GET_PRAYER_TOTALS_REQUEST:
       return { loading: true };
     case GET_PRAYER_TOTALS_SUCCESS:
-      console.log(action);
       return { loading: false, totals: action.payload };
     case GET_PRAYER_TOTALS_FAIL:
       return { loading: false, error: action.payload };

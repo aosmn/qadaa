@@ -1,15 +1,15 @@
-import axios, { setAxiosAuth } from './axiosRequest';
-if (localStorage.getItem('user')) {
-  setAxiosAuth('Bearer ' + JSON.parse(localStorage.getItem('user')).token);
-}
+import axios from './axiosRequest';
+import { setAxiosAuth } from './axiosRequest';
+
 export const getLogs = async () => {
   const { data } = await axios.get(`/api/prayers`);
   // setLocalStorage
   return data;
 };
-export const getDayLogs = async (day) => {
-  const { data } = await axios.get(`/api/prayers/day`, {params: {day}});
+export const getDayLogs = async day => {
+  const { data } = await axios.get(`/api/prayers/day`, { params: { day } });
   // setLocalStorage
+
   return data;
 };
 export const getPrayerTotals = async id => {

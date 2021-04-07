@@ -59,20 +59,25 @@ prayerLogSchema.statics.updateDay = function ({ user, day, prayer, count }) {
         dayLog.total += (count*5);
         return dayLog.save();
       } else {
+        console.log('dayLog 2');
+
         let newLog = {user, day: dayjs(day), total: count*5};
-        dayLog[PRAYERS.FAJR] = count;
-        dayLog[PRAYERS.DHUHR] = count;
-        dayLog[PRAYERS.ASR] = count;
-        dayLog[PRAYERS.MAGHRIB] = count;
-        dayLog[PRAYERS.ISHA] = count;
+        newLog[PRAYERS.FAJR] = count;
+        newLog[PRAYERS.DHUHR] = count;
+        newLog[PRAYERS.ASR] = count;
+        newLog[PRAYERS.MAGHRIB] = count;
+        newLog[PRAYERS.ISHA] = count;
         return this.create(newLog)
       }
     } else {
       if (dayLog) {
+        console.log(dayLog);
         dayLog[prayer] += count;
         dayLog.total += count;
         return dayLog.save();
       } else {
+        console.log('dayLog 3');
+
         return this.create({user, day: dayjs(day), [prayer]:count, total: count})
       }
     }

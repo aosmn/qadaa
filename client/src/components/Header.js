@@ -1,13 +1,17 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../redux/actions/userActions';
+import { setAxiosAuth } from '../api/axiosRequest';
 const Header = () => {
   const userInfo = useSelector(state => state.userInfo);
   const { user } = userInfo;
   const dispatch = useDispatch();
+  useEffect(() => {
+          setAxiosAuth('Bearer ' + JSON.parse(localStorage.getItem('user')).token);
 
+  }, [])
   const logoutHandler = () => {
     dispatch(logout());
   };

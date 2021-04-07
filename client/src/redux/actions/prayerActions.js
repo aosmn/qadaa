@@ -21,6 +21,9 @@ import {
   updateLogs,
   updateLogsAllDay
 } from '../../api/prayerLogs.api';
+import { setAxiosAuth } from '../../api/axiosRequest';
+
+setAxiosAuth('Bearer ' + JSON.parse(localStorage.getItem('user')).token);
 
 export const getLogs = id => async dispatch => {
   try {
@@ -44,7 +47,7 @@ export const getLogs = id => async dispatch => {
   }
 };
 
-export const getDayLogs = (day=new Date()) => async dispatch => {
+export const getDayLogs = (day = new Date()) => async dispatch => {
   try {
     dispatch({
       type: GET_DAY_LOGS_REQUEST

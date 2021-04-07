@@ -24,6 +24,26 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Get user by token
+// @route   POST /api/users/me
+// @access  Private
+const getMe = asyncHandler(async (req, res) => {
+  // const { token } = req.body;
+  const user = req.user
+  if (user) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      token: generateToken(user._id),
+      preferences: user.preferences || {}
+    });
+  } else {
+    res.status(401);
+    throw new Error('Invalid email or password');
+  }
+});
+
 // @desc    Register a new user
 // @route   POST /api/users
 // @access  Public
@@ -157,7 +177,7 @@ const passwordReset = asyncHandler(async (req, res) => {
 const updatePreferences = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
   if (user) {
-    user.preferences = {...user.prefereences, ...req.body};
+    user.preferences = { ...user.prefereences, ...req.body };
 
     const updatedUser = await user.save();
 
@@ -169,4 +189,12 @@ const updatePreferences = asyncHandler(async (req, res) => {
     throw new Error('User not found');
   }
 });
-export { authUser, registerUser, updateUser, sendPasswordReset, passwordReset, updatePreferences };
+export {
+  authUser,
+  registerUser,
+  updateUser,
+  sendPasswordReset,
+  passwordReset,
+  updatePreferences,
+  getMe
+};

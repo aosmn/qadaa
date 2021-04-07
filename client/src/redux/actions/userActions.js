@@ -18,6 +18,7 @@ import {
   USER_PREFERENCES_UPDATE_SUCCESS,
   USER_PREFERENCES_UPDATE_FAIL
 } from '../actionTypes/userActionTypes.js';
+import { setAxiosAuth } from '../../api/axiosRequest';
 
 import {
   login as loginRequest,
@@ -27,6 +28,8 @@ import {
   resetPassword as resetPasswordRequest,
   updatePrefs
 } from '../../api/user.api';
+
+setAxiosAuth('Bearer ' + JSON.parse(localStorage.getItem('user')).token);
 
 export const login = (email, password) => async dispatch => {
   try {
@@ -110,10 +113,7 @@ export const updateUserProfile = user => async (dispatch, getState) => {
   }
 };
 
-export const updateUserPreferences = prefs => async (
-  dispatch,
-  getState
-) => {
+export const updateUserPreferences = prefs => async (dispatch, getState) => {
   try {
     dispatch({
       type: USER_PREFERENCES_UPDATE_REQUEST
@@ -123,7 +123,10 @@ export const updateUserPreferences = prefs => async (
       userInfo: { user }
     } = getState();
 
-    const { preferences } = await updatePrefs({ token: user.token, preferences: prefs });
+    const { preferences } = await updatePrefs({
+      token: user.token,
+      preferences: prefs
+    });
 
     dispatch({
       type: USER_PREFERENCES_UPDATE_SUCCESS,

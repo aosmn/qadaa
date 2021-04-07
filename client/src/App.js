@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import { setAxiosAuth } from './api/axiosRequest';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import Header from './components/Header';
 import Footer from './components/Footer';
+
 // import Home from './screens/Authentication/HomeScreen';
 import Login from './screens/Authentication/LoginScreen';
 import ResetPassword from './screens/Authentication/ResetPasswordScreen';
@@ -13,6 +15,9 @@ import PrayerLogs from './screens/PrayerLogs/PrayerLogs';
 import Calculator from './screens/Preferences/Calculator';
 import './App.scss';
 function App() {
+  useEffect(() => {
+    setAxiosAuth('Bearer ' + JSON.parse(localStorage.getItem('user')).token);
+  }, []);
   return (
     <Router>
       <Header />

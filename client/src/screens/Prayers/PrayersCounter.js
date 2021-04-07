@@ -94,11 +94,11 @@ class PrayersCounter extends Component {
     //   }
     // });
     if (this.props.userInfo && this.props.userInfo.user) {
+      console.log(this.props.userInfo);
       this.props.getPrayerTotals(this.props.userInfo.user._id);
       this.props.getLogs(this.props.userInfo.user._id);
       // this.props.getDayLogs(new Date());
       this.props.getTodayLogs();
-
     }
   }
 
@@ -291,8 +291,6 @@ class PrayersCounter extends Component {
                     style={{ width: '10%', height: '1rem', borderRadius: 0 }}
                     onFocus={this.onFocus}
                     ref={ref => {
-                      console.log('hena');
-                      console.log(ref);
                       this.input = ref;
                     }}
                   />

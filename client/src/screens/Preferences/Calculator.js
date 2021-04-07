@@ -20,7 +20,7 @@ const mapDispatchToProps = dispatch => ({
 
 const Calculator = props => {
   // const preferences = (window.localStorage.getItem('preferences') && JSON.parse(window.localStorage.getItem('preferences'))) || {}
-  const [preferences, setPreferences] = useState({});
+  const [, setPreferences] = useState({});
   const [isFemale, setIsFemale] = useState(false);
   const [numberOfDays, setNumberOfDays] = useState(0);
   const [periodDays, setPeriodDays] = useState(0);
@@ -33,7 +33,7 @@ const Calculator = props => {
   // }, []);
 
   useEffect(() => {
-    console.log('prefs', props.userInfo);
+    // console.log('prefs', props.userInfo);
     if (
       props.userInfo &&
       props.userInfo.user &&
