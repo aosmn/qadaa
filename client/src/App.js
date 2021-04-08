@@ -1,10 +1,10 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { setAxiosAuth } from './api/axiosRequest';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import Header from './components/Header';
 import Footer from './components/Footer';
-
+import ProtectedRoute from './ProtectedRoute';
 // import Home from './screens/Authentication/HomeScreen';
 import Login from './screens/Authentication/LoginScreen';
 import ResetPassword from './screens/Authentication/ResetPasswordScreen';
@@ -16,7 +16,9 @@ import Calculator from './screens/Preferences/Calculator';
 import './App.scss';
 function App() {
   useEffect(() => {
-    setAxiosAuth('Bearer ' + JSON.parse(localStorage.getItem('user')).token);
+    if (localStorage.getItem('user')) {
+      setAxiosAuth('Bearer ' + JSON.parse(localStorage.getItem('user')).token);
+    }
   }, []);
   return (
     <Router>
@@ -28,9 +30,9 @@ function App() {
           <Route path='/reset-password' component={ResetPassword} />
           <Route path='/forgot-password' component={ForgotPassword} />
 
-          <Route exact path='/' component={LogPrayers} />
-          <Route exact path='/logs' component={PrayerLogs} />
-          <Route path='/calculate' component={Calculator} />
+          <ProtectedRoute exact path='/' component={LogPrayers} />
+          <ProtectedRoute exact path='/logs' component={PrayerLogs} />
+          <ProtectedRoute path='/calculate' component={Calculator} />
         </Container>
       </main>
       <Footer />

@@ -29,7 +29,9 @@ import {
   updatePrefs
 } from '../../api/user.api';
 
-setAxiosAuth('Bearer ' + JSON.parse(localStorage.getItem('user')).token);
+if (localStorage.getItem('user')) {
+  setAxiosAuth('Bearer ' + JSON.parse(localStorage.getItem('user')).token);
+}
 
 export const login = (email, password) => async dispatch => {
   try {

@@ -50,7 +50,7 @@ export const updatePrefs = async ({token, preferences}) => {
     }
   };
   const { data } = await axios.put(`/api/users/prefs`, preferences, config);
-  localStorage.setItem('user', JSON.stringify(data));
+  localStorage.setItem('user', JSON.stringify({...JSON.parse(localStorage.getItem('user')), preferences: data.preferences}));
   return data;
 };
 

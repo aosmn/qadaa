@@ -1,19 +1,23 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../redux/actions/userActions';
 import { setAxiosAuth } from '../api/axiosRequest';
+import { useHistory } from 'react-router-dom';
 const Header = () => {
   const userInfo = useSelector(state => state.userInfo);
   const { user } = userInfo;
   const dispatch = useDispatch();
+  const history = useHistory();
   useEffect(() => {
-          setAxiosAuth('Bearer ' + JSON.parse(localStorage.getItem('user')).token);
-
-  }, [])
+    if (localStorage.getItem('user')) {
+      setAxiosAuth('Bearer ' + JSON.parse(localStorage.getItem('user')).token);
+    }
+  }, []);
   const logoutHandler = () => {
     dispatch(logout());
+    history.push('/login');
   };
   return (
     <header>

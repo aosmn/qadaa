@@ -138,8 +138,8 @@ export default class PrayerItem extends Component {
           </>
         )}
         <Col
-          sm={{ size: 5 }}
-          md={{ size: 4 }}
+          // sm={{ size: 5 }}
+          // md={{ size: 4 }}
           className='made-up font-weight-bold ml-auto p-0 d-flex flex-row align-items-center'>
           <Button
             title='missed a prayer'
