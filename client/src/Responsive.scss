@@ -1,0 +1,9 @@
+$breakpoint-mobile: 480px;
+@media (max-width: $breakpoint-mobile) {
+  .circular-progress-text {
+    font-size: .6rem !important;
+    .percent {
+      font-size: 1.5rem !important;
+    }
+  }
+}

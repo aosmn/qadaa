@@ -1,6 +1,8 @@
 @import './styles/_variables_cyborg.scss';
 @import '../node_modules/bootstrap/scss/bootstrap.scss';
 @import './styles/bootswatch_cyborg.scss';
+@import './Responsive.scss';
+@import './styles/calendar.scss';
 
 body {
   background-color: #330000;

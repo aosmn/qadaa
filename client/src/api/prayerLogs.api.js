@@ -1,5 +1,4 @@
 import axios from './axiosRequest';
-import { setAxiosAuth } from './axiosRequest';
 
 export const getLogs = async () => {
   const { data } = await axios.get(`/api/prayers`);
