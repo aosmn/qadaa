@@ -8,6 +8,9 @@ import {
   DAY_UPDATE_REQUEST,
   DAY_UPDATE_SUCCESS,
   DAY_UPDATE_FAIL,
+  DAY_SET_REQUEST,
+  DAY_SET_SUCCESS,
+  DAY_SET_FAIL,
   GET_DAY_LOGS_REQUEST,
   GET_DAY_LOGS_SUCCESS,
   GET_DAY_LOGS_FAIL
@@ -36,15 +39,47 @@ export const prayersReducer = (
     case DAY_UPDATE_REQUEST:
       return { ...state, updateLoading: true };
     case DAY_UPDATE_SUCCESS:
-      return { ...state, updateLoading: false, success: true, prayers: action.payload };
+      return {
+        ...state,
+        updateLoading: false,
+        success: true,
+        prayers: action.payload
+      };
     case DAY_UPDATE_FAIL:
       return { ...state, updateLoading: false, updateError: action.payload };
     case GET_DAY_LOGS_REQUEST:
-      return { ...state, loadingToday: true, todayError:'' };
+      return { ...state, loadingToday: true, todayError: '' };
     case GET_DAY_LOGS_SUCCESS:
-      return { ...state, loadingToday: false, todayError:'', today: action.payload};
+      return {
+        ...state,
+        loadingToday: false,
+        todayError: '',
+        today: action.payload
+      };
     case GET_DAY_LOGS_FAIL:
-      return { ...state, loadingToday: false, todayError: action.payload, today: {} };
+      return {
+        ...state,
+        loadingToday: false,
+        todayError: action.payload,
+        today: {}
+      };
+
+    case DAY_SET_REQUEST:
+      return { ...state, loading: true };
+    case DAY_SET_SUCCESS:
+      let newPrayers = state.prayers;
+      if (!state.prayers.find(d => d.day === action.payload.day)) {
+        newPrayers.push(action.payload);
+      } else {
+        newPrayers = state.prayers.map(d =>
+          d.day === action.payload.day ? action.payload : d
+        );
+      }
+
+      return { ...state, loading: false, success: true, prayers: newPrayers };
+    case DAY_SET_FAIL:
+      return { ...state, loading: false, error: action.payload };
+
     default:
       return state;
   }

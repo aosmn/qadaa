@@ -1,7 +1,13 @@
 import React, { useEffect } from 'react';
 import { Route, useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+const mapStateToProps = state => ({
+  userInfo: state.userInfo,
+});
+
 const ProtectedRoute = ({ component: Component, ...rest }) => {
-  const isAuthenticated = !!JSON.parse(localStorage.getItem('user'))?.token;
+  const isAuthenticated = !!rest.userInfo?.user?.token;
   const history = useHistory();
 
   useEffect(() => {
@@ -13,4 +19,4 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
   return <Route {...rest} render={props => <Component {...props} />} />;
 };
 
-export default ProtectedRoute;
+export default connect(mapStateToProps)(ProtectedRoute);

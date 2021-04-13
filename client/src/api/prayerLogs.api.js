@@ -32,3 +32,11 @@ export const updateLogsAllDay = async (day, count) => {
   });
   return data;
 };
+
+export const setLogs = async (day, prayers) => {
+  const { data } = await axios.post('/api/prayers/set', {
+    day,
+    prayers,
+  });
+  return data;
+};

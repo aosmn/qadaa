@@ -11,7 +11,10 @@ import {
   DAY_UPDATE_FAIL,
   GET_DAY_LOGS_REQUEST,
   GET_DAY_LOGS_SUCCESS,
-  GET_DAY_LOGS_FAIL
+  GET_DAY_LOGS_FAIL,
+  DAY_SET_REQUEST,
+  DAY_SET_SUCCESS,
+  DAY_SET_FAIL,
 } from '../actionTypes/prayerActionTypes.js';
 
 import {
@@ -19,14 +22,14 @@ import {
   getDayLogs as fetchDayLogs,
   getPrayerTotals as fetchTotals,
   updateLogs,
-  updateLogsAllDay
+  updateLogsAllDay,
+  setLogs as setDayLogs
 } from '../../api/prayerLogs.api';
 import { setAxiosAuth } from '../../api/axiosRequest';
 
 if (localStorage.getItem('user')) {
   setAxiosAuth('Bearer ' + JSON.parse(localStorage.getItem('user')).token);
 }
-
 
 export const getLogs = id => async dispatch => {
   try {
@@ -127,6 +130,30 @@ export const updateDayLogs = ({ day, prayer, count }) => async (
   } catch (error) {
     dispatch({
       type: DAY_UPDATE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+    });
+  }
+};
+
+export const setLogs = ({ day, prayers }) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: DAY_SET_REQUEST
+    });
+
+    let data;
+    data = await setDayLogs(day, prayers);
+    // dispatch(getDayLogs());
+    dispatch({
+      type: DAY_SET_SUCCESS,
+      payload: data
+    });
+  } catch (error) {
+    dispatch({
+      type: DAY_SET_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

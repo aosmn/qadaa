@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Card, Modal, Button } from 'react-bootstrap';
 import day from 'dayjs';
 import Calendar from 'react-calendar';
-import { getLogs } from '../../redux/actions/prayerActions.js';
+import { getLogs, setLogs } from '../../redux/actions/prayerActions.js';
 import { FAJR, DHUHR, ASR, MAGHRIB, ISHA } from '../../utils/constants';
 import Back from '../../components/BackButton';
 import 'react-calendar/dist/Calendar.css';
@@ -14,7 +14,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getLogs: id => dispatch(getLogs(id))
+  getLogs: id => dispatch(getLogs(id)),
+  setLogs: log => dispatch(setLogs(log))
+  // { day, prayer }
 });
 
 export class PrayerLogs extends Component {
@@ -78,46 +80,137 @@ export class PrayerLogs extends Component {
   };
   onChange = nextValue => {
     this.setState({
-      prayers:
-        this.props.prayerLogs.prayers.find(dDate =>
-          day(dDate.day).isSame(nextValue, 'day')
-        ) || null,
+      prayers: this.props.prayerLogs.prayers.find(dDate =>
+        day(dDate.day).isSame(nextValue, 'day')
+      ) || {
+        day: nextValue,
+        prayers: { fajr: 0, dhuhr: 0, asr: 0, maghrib: 0, isha: 0 }
+      },
       visible: true
     });
   };
 
   render() {
-    return this.props.prayerLogs.loading ? (
-      <div>loading...</div>
-    ) : (
-      // <div>
-        <Card>
-          <Card.Body>
-            <Card.Title>
-              <Back />
-              Prayer Logs
-            </Card.Title>
-            <div className='prayers-content d-flex justify-content-center'>
-              <Calendar
-                tileClassName={this.tileClassName}
-                tileContent={this.tileContent}
-                onChange={this.onChange}
-                tileDisabled={this.tileDisabled}
-              />
-            </div>
-            <PrayersModal
-              prayers={this.state.prayers}
-              show={!!this.state.prayers}
-              onHide={() => this.setState({ prayers: null })}
-            />
-          </Card.Body>
-        </Card>
-      // </div>
+    return (
+      <>
+        {this.props.prayerLogs.loading ? (
+          <div>loading...</div>
+        ) : (
+          // <div>
+          <Card>
+            <Card.Body>
+              <Card.Title>
+                <Back />
+                Prayer Logs
+              </Card.Title>
+              <div className='prayers-content d-flex justify-content-center'>
+                <Calendar
+                  tileClassName={this.tileClassName}
+                  tileContent={this.tileContent}
+                  onChange={this.onChange}
+                  tileDisabled={this.tileDisabled}
+                />
+              </div>
+            </Card.Body>
+          </Card>
+          // </div>
+        )}
+        <PrayersModal
+          setLogs={this.props.setLogs}
+          prayers={this.state.prayers}
+          show={!!this.state.prayers}
+          onHide={() => this.setState({ prayers: null })}
+        />
+      </>
     );
   }
 }
 
-const PrayersModal = ({ prayers, ...props }) => {
+const PrayersModal = ({ prayers, setLogs, ...props }) => {
+  const [fajr, setFajr] = useState(0);
+  const [dhuhr, setDhuhr] = useState(0);
+  const [asr, setAsr] = useState(0);
+  const [maghrib, setMaghrib] = useState(0);
+  const [isha, setIsha] = useState(0);
+  // const [prayerCounts, setPrayerCounts] = useState({});
+  useEffect(() => {
+    if (prayers) {
+      setFajr(prayers.fajr || 0);
+      setDhuhr(prayers.dhuhr || 0);
+      setAsr(prayers.asr || 0);
+      setMaghrib(prayers.maghrib || 0);
+      setIsha(prayers.isha || 0);
+    }
+  }, [prayers]);
+  const addPrayer = prayer => {
+    // setChanged(true)
+    switch (prayer) {
+      case 'fajr':
+        setFajr(fajr + 1);
+        break;
+      case 'dhuhr':
+        setDhuhr(dhuhr + 1);
+        break;
+      case 'asr':
+        setAsr(asr + 1);
+        break;
+      case 'maghrib':
+        setMaghrib(maghrib + 1);
+        break;
+      case 'isha':
+        setIsha(isha + 1);
+        break;
+      default:
+    }
+    // let counts = prayerCounts;
+    // let count = counts[prayer] + 1;
+    // counts[prayer] = count;
+    // setPrayerCounts(counts);
+  };
+  const subtractPrayer = prayer => {
+    // setChanged(true)
+    switch (prayer) {
+      case 'fajr':
+        setFajr(fajr - 1);
+        break;
+      case 'dhuhr':
+        setDhuhr(dhuhr - 1);
+        break;
+      case 'asr':
+        setAsr(asr - 1);
+        break;
+      case 'maghrib':
+        setMaghrib(maghrib - 1);
+        break;
+      case 'isha':
+        setIsha(isha - 1);
+        break;
+      default:
+    }
+    // let counts = prayerCounts;
+    // let count = counts[prayer] - 1;
+    // counts[prayer] = count;
+    // setPrayerCounts(counts);
+  };
+  const setPrayers = () => {
+    setLogs({ day: prayers.day, prayers: { fajr, dhuhr, asr, maghrib, isha } });
+    props.onHide();
+  };
+  const getPrayerCount = prayer => {
+    switch (prayer) {
+      case 'fajr':
+        return fajr;
+      case 'dhuhr':
+        return dhuhr;
+      case 'asr':
+        return asr;
+      case 'maghrib':
+        return maghrib;
+      case 'isha':
+        return isha;
+      default:
+    }
+  };
   return (
     <Modal
       {...props}
@@ -138,12 +231,33 @@ const PrayersModal = ({ prayers, ...props }) => {
         {prayers && (
           <div className='prayer-counts'>
             {[FAJR, DHUHR, ASR, MAGHRIB, ISHA].map(key => (
-              <div key={key}>
-                <span className='prayer-name'>{key}: </span>
-                {prayers[key]}
+              <div
+                className='d-flex flex-column text-center justify-content-center'
+                key={key}>
+                <div className='prayer-name mb-1 mt-2'>{key}</div>
+                <div className='d-flex flex-row align-items-center justify-content-center'>
+                  <Button variant='light' onClick={() => subtractPrayer(key)}>
+                    -
+                  </Button>
+                  <div className='mx-2'>{getPrayerCount(key)}</div>
+                  <Button variant='light' onClick={() => addPrayer(key)}>
+                    +
+                  </Button>
+                </div>
               </div>
             ))}
           </div>
+        )}
+        {!(
+          prayers?.fajr === fajr &&
+          prayers?.dhuhr === dhuhr &&
+          prayers?.asr === asr &&
+          prayers?.maghrib === maghrib &&
+          prayers?.isha === isha
+        ) && (
+          <Button variant='success' onClick={setPrayers}>
+            Update
+          </Button>
         )}
       </Modal.Body>
       <Modal.Footer>

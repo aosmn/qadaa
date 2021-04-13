@@ -86,7 +86,7 @@ const CarouselComponent = props => {
       setTotal(props.preferences.days * 5 || 0);
       setDailyPercent(
         Math.round(
-          (((props.prayerLogs?.today.total || 0) * 100) / (dailyTarget * 5)) *
+          (((props.prayerLogs?.today?.total || 0) * 100) / (dailyTarget * 5)) *
             100
         ) / 100
       );
