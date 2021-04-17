@@ -1,0 +1,41 @@
+@import './variables_cyborg';
+
+.swipe {
+  position: relative;
+  width: 100%;
+  background-color: $gray-800;
+  margin: 20px 0;
+  border-radius: $border-radius;
+  height: 74px;
+  .swipe-tab {
+    width: 50%;
+    height: 100%;
+    z-index: 2;
+    position: relative;
+    outline: none !important;
+    box-shadow: none !important;
+    &.selected {
+      color: #fff;
+    }
+  }
+  &::after {
+    content: '';
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    background-color: $primary;
+    border-radius: $border-radius;
+    left: 0;
+    margin-left: 50%;
+    z-index: 0;
+    transition: all 0.2s ease-in-out;
+    box-shadow: -5px 0px 8px -5px black;
+  }
+}
+.swipe.checked {
+  &::after {
+    margin-left: 0 !important;
+    box-shadow: 5px 0px 8px -5px black;
+
+  }
+}

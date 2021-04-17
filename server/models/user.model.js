@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs';
 const preferencesSchema = new mongoose.Schema({ start: Date,
   end: Date,
   days: Number,
+  isFemale: Boolean,
   period: Number,
   dailyTarget: {
     type: Number,

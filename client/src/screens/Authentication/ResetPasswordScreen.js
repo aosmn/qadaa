@@ -25,7 +25,7 @@ const ResetPasswordScreen = ({ location, history }) => {
   const { token, email } = query;
 
   useEffect(() => {
-    if (!token || !email) history.push('/');
+    if (query && (!token || !email)) history.push('/');
     if (message) {
       setPassword('');
       setConfirmPassword('');
@@ -46,46 +46,33 @@ const ResetPasswordScreen = ({ location, history }) => {
   };
 
   return (
-    <FormContainer>
-      <h1>Reset Password</h1>
-      {message ? (
-        <Message variant='success'>
-          {message}
-          <Link to='/login' className='ml-2'>
-            Sign In
-          </Link>
-        </Message>
-      ) : (
-        <>
-          {passwordError && <Message variant='danger'>{passwordError}</Message>}
-          {error && <Message variant='danger'>{error}</Message>}
-          {loading && <Loader />}
-          <Form onSubmit={submitHandler}>
-            <Form.Group controlId='password'>
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type='password'
-                placeholder='Enter Password'
-                value={password}
-                onChange={e => setPassword(e.target.value)}></Form.Control>
-            </Form.Group>
-            <Form.Group controlId='confirmPassword'>
-              <Form.Label>Confirm Password</Form.Label>
-              <Form.Control
-                type='password'
-                placeholder='Confirm Password'
-                value={confirmPassword}
-                onChange={e =>
-                  setConfirmPassword(e.target.value)
-                }></Form.Control>
-            </Form.Group>
-
-            <Button type='submit' variant={'primary'}>
-              Reset Password
-            </Button>
-          </Form>
-        </>
-      )}
+    <FormContainer
+      title='Reset Password'
+      loading={loading}
+      error={error}
+      message={message}
+      submit={submitHandler}
+      submitButtonText='Reset Password'
+      linkButton={{
+        to: '/login',
+        text: 'Cancel'
+      }}>
+      <Form.Group controlId='password'>
+        <Form.Control
+          type='password'
+          placeholder='Enter Password'
+          value={password}
+          onChange={e => setPassword(e.target.value)}></Form.Control>
+        <Form.Label>Password</Form.Label>
+      </Form.Group>
+      <Form.Group controlId='confirmPassword'>
+        <Form.Control
+          type='password'
+          placeholder='Confirm Password'
+          value={confirmPassword}
+          onChange={e => setConfirmPassword(e.target.value)}></Form.Control>
+        <Form.Label>Confirm Password</Form.Label>
+      </Form.Group>
     </FormContainer>
   );
 };

@@ -61,13 +61,13 @@ export const logout = () => dispatch => {
   dispatch({ type: USER_LOGOUT });
 };
 
-export const register = (name, email, password) => async dispatch => {
+export const register = (name, email, password, isFemale) => async dispatch => {
   try {
     dispatch({
       type: USER_REGISTER_REQUEST
     });
 
-    const data = await registerRequest({ name, email, password });
+    const data = await registerRequest({ name, email, password, isFemale });
 
     dispatch({
       type: USER_REGISTER_SUCCESS,

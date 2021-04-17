@@ -21,22 +21,24 @@ function App() {
     }
   }, []);
   return (
-    <Router>
-      <Header />
-      <main className='py-3'>
-        <Container>
-          <Route path='/register' component={Register} />
-          <Route path='/login' component={Login} />
-          <Route path='/reset-password' component={ResetPassword} />
-          <Route path='/forgot-password' component={ForgotPassword} />
+    <div className='h-100 d-flex flex-column'>
+      <Router>
+        <Header />
+        <main className='flex-grow-1 d-flex align-items-center'>
+          <Container className='h-100 py-5'>
+            <Route exact path='/reset-password' component={ResetPassword} />
+            <Route exact path='/forgot-password' component={ForgotPassword} />
+            <Route exact path='/register' component={Register} />
+            <Route exact path='/login' component={Login} />
 
-          <ProtectedRoute exact path='/' component={LogPrayers} />
-          <ProtectedRoute exact path='/logs' component={PrayerLogs} />
-          <ProtectedRoute path='/calculate' component={Calculator} />
-        </Container>
-      </main>
-      <Footer />
-    </Router>
+            <ProtectedRoute exact path='/logs' component={PrayerLogs} />
+            <ProtectedRoute exact path='/calculate' component={Calculator} />
+            <ProtectedRoute exact path='/' component={LogPrayers} />
+          </Container>
+        </main>
+        <Footer />
+      </Router>
+    </div>
   );
 }
 

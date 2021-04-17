@@ -29,7 +29,7 @@ const authUser = asyncHandler(async (req, res) => {
 // @access  Private
 const getMe = asyncHandler(async (req, res) => {
   // const { token } = req.body;
-  const user = req.user
+  const user = req.user;
   if (user) {
     res.json({
       _id: user._id,
@@ -48,20 +48,23 @@ const getMe = asyncHandler(async (req, res) => {
 // @route   POST /api/users
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
-
+  const { name, email, password, isFemale } = req.body;
+  console.log(isFemale);
   const userExists = await User.findOne({ email });
 
   if (userExists) {
     res.status(400);
     throw new Error('User already exists');
   }
-
-  const user = await User.create({
+  const userToCreate = {
     name,
     email,
     password
-  });
+  };
+  if (isFemale) {
+    userToCreate.preferences = { isFemale: true, period: 5 };
+  }
+  const user = await User.create(userToCreate);
   if (user) {
     res.status(201).json({
       _id: user._id,

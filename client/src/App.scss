@@ -9,11 +9,14 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 800 400'%3E%3Cdefs%3E%3CradialGradient id='a' cx='396' cy='281' r='514' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%2300063d'/%3E%3Cstop offset='1' stop-color='%23330000'/%3E%3C/radialGradient%3E%3ClinearGradient id='b' gradientUnits='userSpaceOnUse' x1='400' y1='148' x2='400' y2='333'%3E%3Cstop offset='0' stop-color='%23ffffff' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23ffffff' stop-opacity='0.5'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23a)' width='800' height='400'/%3E%3Cg fill-opacity='0.06'%3E%3Ccircle fill='url(%23b)' cx='267.5' cy='61' r='300'/%3E%3Ccircle fill='url(%23b)' cx='532.5' cy='61' r='300'/%3E%3Ccircle fill='url(%23b)' cx='400' cy='30' r='300'/%3E%3C/g%3E%3C/svg%3E");
   background-attachment: fixed;
   background-size: cover;
+  height: 100vh;
+  #root {
+    height: 100%
+  }
 }
 nav {
   background: rgba($color: #000000, $alpha: 0) !important;
 }
-
 
 .logs-list {
   max-height: calc(100vh - 450px);
@@ -26,9 +29,9 @@ nav {
   padding-left: 0 !important;
 }
 
-html, body {
+html,
+body {
   font-family: 'Montserrat', sans-serif !important;
-
 }
 
 body {
@@ -38,21 +41,42 @@ body {
   background-size: cover;
 }
 
-nav {
+nav,
+.logo-text {
   font-family: 'Quicksand', sans-serif !important;
 }
+.logo-container-vertical {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 32px auto;
+
+  img {
+    width: 80px;
+  }
+  .logo-text {
+    font-weight: 700;
+    font-size: 42px;
+    color: white;
+    margin-top: 10px;
+  }
+}
+
+
 /* b {
   letter-spacing: -1px;
   font-size: 1.1rem;
 } */
 
-.prayer-counts li{
+.prayer-counts li {
   background-color: #0000;
   background-color: #fff2;
   color: #fff;
 }
 
-.prayer-counts li .btn, .btn-counter{
+.prayer-counts li .btn,
+.btn-counter {
   border-radius: 0 !important;
 }
 
@@ -63,16 +87,15 @@ nav {
   color: white;
   padding: 1rem;
   /* padding-right: 1rem; */
-
 }
 
 .progress {
   position: absolute;
   z-index: -1;
-  height: 100%!important;
-  width: 100%!important;
+  height: 100% !important;
+  width: 100% !important;
   transform: rotate(180deg);
-  background-color: #0000!important;
+  background-color: #0000 !important;
 }
 .progress .progress-bar {
   background-color: #fff1;
@@ -95,14 +118,14 @@ hr {
 }
 
 .very-small-text {
-  font-size: .6rem !important;
+  font-size: 0.6rem !important;
 }
 
 .many-container {
   width: 100%;
   background: #f00;
   position: absolute;
-  height: 100%
+  height: 100%;
 }
 
 .badge {
@@ -116,20 +139,20 @@ hr {
 
 .history-badge {
   background-color: #ffffff !important;
-  color:  #330000 !important;
+  color: #330000 !important;
   border-radius: 0 0 0.25rem 0.25rem !important;
   float: right;
   padding: 8px !important;
-  font-size: .75rem !important;
+  font-size: 0.75rem !important;
 }
 
 .add-many-badge {
   background-color: #ffffff !important;
-  color:  #330000 !important;
+  color: #330000 !important;
   border-radius: 0.25rem 0.25rem 0 0 !important;
   /* float: right; */
   padding: 8px !important;
-  font-size: .75rem !important;
+  font-size: 0.75rem !important;
 }
 
 .day-container {
@@ -139,7 +162,7 @@ hr {
   /* width: 80%; */
   /* margin: auto; */
   padding: 10px;
-  color:  #330000 !important;
+  color: #330000 !important;
   margin-bottom: 1.5rem;
 }
 
@@ -150,13 +173,12 @@ hr {
   background-color: #fff4;
   position: absolute;
   left: 0;
-  bottom: -.75rem;
+  bottom: -0.75rem;
 }
 
 .day-container .custom-input {
-  color:  #330000 !important;
-  border-color:  #330000 !important;
-
+  color: #330000 !important;
+  border-color: #330000 !important;
 }
 
 li:first-child {
@@ -190,7 +212,7 @@ th {
 }
 
 td {
-  padding: 0 !important
+  padding: 0 !important;
 }
 
 .add-many-btn {
@@ -203,7 +225,6 @@ td {
 
 .btn-counter.btn-round {
   border-radius: 4px !important;
-
 }
 
 .add-day-container {
@@ -232,20 +253,18 @@ td {
   text-align: center !important;
   background-color: #fff !important;
   border-radius: 10px !important;
-
-
 }
 
 .line-height {
-  line-height: .5 !important;
+  line-height: 0.5 !important;
 }
 
 .table {
-  font-size: .8rem;
+  font-size: 0.8rem;
 }
 
 .circular-progress-text {
-  font-size: .6rem !important;
+  font-size: 0.6rem !important;
   color: #f88;
   font-weight: 400;
   position: absolute;
@@ -262,7 +281,7 @@ td {
 
 .carousel-text {
   line-height: 1.2;
-  font-size: .8rem;
+  font-size: 0.8rem;
   width: 80%;
   margin: auto;
   margin-bottom: 10px;
@@ -270,4 +289,11 @@ td {
 
 .label {
   text-transform: capitalize;
+}
+
+.show-pass {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0;
 }

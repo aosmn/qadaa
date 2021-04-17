@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Form, Button, Row, Col } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import Message from '../../components/Message';
-import Loader from '../../components/Loader';
 import FormContainer from '../../components/FormContainer';
 import { login } from '../../redux/actions/userActions';
 
@@ -30,44 +28,38 @@ const LoginScreen = ({ location, history }) => {
   };
 
   return (
-    <FormContainer>
-      <h1>Sign In</h1>
-      {error && <Message variant='danger'>{error}</Message>}
-      {loading && <Loader />}
-      <Form onSubmit={submitHandler}>
-        <Form.Group controlId='email'>
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            type='email'
-            placeholder='Enter Email'
-            value={email}
-            onChange={e => setEmail(e.target.value)}></Form.Control>
-        </Form.Group>
-        <Form.Group controlId='password'>
-          <Form.Label>Password</Form.Label>
+    <FormContainer
+      loading={loading}
+      error={error}
+      submit={submitHandler}
+      submitButtonText='Sign In'
+      linkButton={{
+        to: redirect ? `/register?redirect=${redirect}` : '/register',
+        text: 'Register'
+      }}>
+      <Form.Group controlId='email'>
+        <Form.Control
+          type='email'
+          placeholder='Enter Email'
+          value={email}
+          onChange={e => setEmail(e.target.value)}></Form.Control>
+        <Form.Label>Email</Form.Label>
+      </Form.Group>
+      <div className='d-flex flex-column'>
+        <Form.Group controlId='password' className='d-flex flex-column mb-0'>
           <Form.Control
             type='password'
             placeholder='Enter Password'
             value={password}
             onChange={e => setPassword(e.target.value)}></Form.Control>
+          <Form.Label>Password</Form.Label>
         </Form.Group>
-
-        <Button type='submit' variant={'primary'}>
-          Sign In
-        </Button>
-
-        <Link to='/forgot-password' className='ml-3'>
-          Forgot your password?
-        </Link>
-      </Form>
-      <Row className='py-3'>
-        <Col>
-          New user?{' '}
-          <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>
-            Register
+        <small className='input-action ml-auto mt-1 mr-2 mb-2'>
+          <Link to='/forgot-password' className='text-secondary'>
+            Forgot your password?
           </Link>
-        </Col>
-      </Row>
+        </small>
+      </div>
     </FormContainer>
   );
 };

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../../components/Message';
@@ -26,37 +25,31 @@ const ForgotPasswordScreen = ({ location, history }) => {
   }, [dispatch]);
 
   const submitHandler = e => {
+    console.log('hena');
     e.preventDefault();
     dispatch(sendRecoverEmail(email));
   };
 
   return (
-    <FormContainer>
-      <h1>Forgot Password</h1>
-      {message && <Message variant='success'>{message}</Message>}
-      {error && <Message variant='danger'>{error}</Message>}
-      {loading && <Loader />}
-      <Form onSubmit={submitHandler}>
-        <Form.Group controlId='email'>
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            type='email'
-            placeholder='Enter Email'
-            value={email}
-            onChange={e => setEmail(e.target.value)}></Form.Control>
-        </Form.Group>
-
-        <Button type='submit' variant={'primary'}>
-          Reset Password
-        </Button>
-      </Form>
-      <Row className='py-3'>
-        <Col>
-          <Link to={redirect ? `/login?redirect=${redirect}` : '/login'}>
-            Cancel
-          </Link>
-        </Col>
-      </Row>
+    <FormContainer
+      title='Forgot Password'
+      loading={loading}
+      error={error}
+      message={message}
+      submit={submitHandler}
+      submitButtonText='Reset Password'
+      linkButton={{
+        to: redirect ? `/login?redirect=${redirect}` : '/login',
+        text: 'Cancel'
+      }}>
+      <Form.Group controlId='email'>
+        <Form.Control
+          type='email'
+          placeholder='Enter Email'
+          value={email}
+          onChange={e => setEmail(e.target.value)}></Form.Control>
+        <Form.Label>Email</Form.Label>
+      </Form.Group>
     </FormContainer>
   );
 };
