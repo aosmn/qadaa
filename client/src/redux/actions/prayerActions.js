@@ -146,7 +146,7 @@ export const setLogs = ({ day, prayers }) => async (dispatch, getState) => {
 
     let data;
     data = await setDayLogs(day, prayers);
-    // dispatch(getDayLogs());
+    dispatch(getPrayerTotals());
     dispatch({
       type: DAY_SET_SUCCESS,
       payload: data

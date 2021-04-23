@@ -5,7 +5,7 @@ import { Container } from 'react-bootstrap';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ProtectedRoute from './ProtectedRoute';
-// import Home from './screens/Authentication/HomeScreen';
+import Home from './screens/Home';
 import Login from './screens/Authentication/LoginScreen';
 import ResetPassword from './screens/Authentication/ResetPasswordScreen';
 import ForgotPassword from './screens/Authentication/ForgotPasswordScreen';
@@ -25,7 +25,7 @@ function App() {
       <Router>
         <Header />
         <main className='flex-grow-1 d-flex align-items-center'>
-          <Container className='h-100 py-5'>
+          <Container className='h-100 pt-5 p-3'>
             <Route exact path='/reset-password' component={ResetPassword} />
             <Route exact path='/forgot-password' component={ForgotPassword} />
             <Route exact path='/register' component={Register} />
@@ -33,7 +33,7 @@ function App() {
 
             <ProtectedRoute exact path='/logs' component={PrayerLogs} />
             <ProtectedRoute exact path='/calculate' component={Calculator} />
-            <ProtectedRoute exact path='/' component={LogPrayers} />
+            <ProtectedRoute exact path='/' component={Home} />
           </Container>
         </main>
         <Footer />
