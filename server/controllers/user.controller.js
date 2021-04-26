@@ -180,12 +180,18 @@ const passwordReset = asyncHandler(async (req, res) => {
 const updatePreferences = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
   if (user) {
-    user.preferences = { ...user.prefereences, ...req.body };
+    // const prefs = user.preferences;
+    const preferences = req.body;
+    // // const newUser = {...user, preferences: newPreferences}
+    // user.preferences = { ...user.preferences, ...req.body };
+    // console.log(req.body);
+    // console.log(user.preferences);
+    // console.log(user);
 
-    const updatedUser = await user.save();
+    const updatedUser = await User.findByIdAndUpdate(req.user._id, {$set: {preferences}}, {new: true});
 
     res.json({
-      preferences: user.preferences
+      preferences: updatedUser.preferences
     });
   } else {
     res.status(404);

@@ -7,7 +7,8 @@ const connectDB = async () => {
       useUnifiedTopology: true,
       useNewUrlParser: true,
       useCreateIndex: true,
-      socketTimeoutMS: 30000
+      socketTimeoutMS: 30000,
+      useFindAndModify: false
     });
     console.log(`MongoDB Connected: ${conn.connection.host}`.cyan.underline);
   } catch (error) {

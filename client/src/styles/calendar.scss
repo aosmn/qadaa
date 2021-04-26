@@ -76,6 +76,12 @@
       &.react-calendar__month-view__days__day--neighboringMonth {
         color: $gray-600 !important;
       }
+      &.react-calendar__tile--active {
+        transition: all .1s ease-in-out;
+        &:hover {
+          background-color: #1c7fe2 !important;
+        }
+      }
       &.react-calendar__tile--now {
         background: none !important;
         position: relative;

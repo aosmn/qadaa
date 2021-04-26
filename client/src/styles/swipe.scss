@@ -36,6 +36,12 @@
   &::after {
     margin-left: 0 !important;
     box-shadow: 5px 0px 8px -5px black;
-
+  }
+}
+.swipe.small {
+  height: 52px;
+  .btn {
+    // font-size: 0.9rem !important;
+    padding: 0px !important;
   }
 }
