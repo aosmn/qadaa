@@ -50,7 +50,7 @@ export default class PrayerItem extends Component {
     const width = this.getWidth();
     const percent = Math.round(parseFloat(width) * 100) / 100;
     return (
-      <ListGroup.Item as='li' key={prayer} className='d-flex flex-row border-0 py-1'>
+      <ListGroup.Item as='li' key={prayer} className='d-flex flex-row border-0 py-1 justify-content-center'>
         {this.state.showMany && this.state.prayer === prayer ? (
           <>
             <Button
@@ -95,7 +95,7 @@ export default class PrayerItem extends Component {
               variant='primary'
               title='make up many'
               className='btn-round py-0 px-1 step-6 d-flex align-items-center'
-              onClick={this.onShowMany}>
+              onClick={this.props.onShowAddMany}>
               <ion-icon name='duplicate-outline'></ion-icon>
               {/* <img src={`${process.env.PUBLIC_URL}/addMany.svg`} width='16' height='16' alt=''/> */}
             </Button>
@@ -125,7 +125,7 @@ export default class PrayerItem extends Component {
                 ) : null}
               </div>
               {/* </div> */}
-              <div className='progress'>
+              {/* <div className='progress'>
                 <div
                   className='progress-bar'
                   role='progressbar'
@@ -133,7 +133,7 @@ export default class PrayerItem extends Component {
                   aria-valuemin='0'
                   aria-valuemax='100'
                   style={{ width }}></div>
-              </div>
+              </div> */}
             </Col>
           </>
         )}

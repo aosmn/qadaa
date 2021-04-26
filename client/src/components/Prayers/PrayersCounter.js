@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Button, ListGroup } from 'react-bootstrap';
+import { Button, ListGroup, Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import LongPressable from 'react-longpressable';
 
 // import { Link } from 'react-router-dom';
 import PrayerItem from './PrayerItem';
@@ -41,7 +42,10 @@ class PrayersCounter extends Component {
       timer: 0,
       timerRunning: false,
       clicksCounter: 0,
-      preferences: {}
+      preferences: {},
+      showPrayerMany: false,
+      prayerManyWhich: '',
+      addOnePrayerCount: 2
     };
   }
 
@@ -135,6 +139,20 @@ class PrayersCounter extends Component {
       clicksCounter: 0
     });
   };
+
+  setShowPrayerMany = prayer => {
+    this.setState({
+      showPrayerMany: true,
+      prayerManyWhich: prayer
+    });
+  };
+  hidePrayerMany = () => {
+    this.setState({
+      showPrayerMany: false,
+      showManyDays: false,
+      prayerManyWhich: ''
+    });
+  };
   onFocus = () => {
     this.input.select();
   };
@@ -143,64 +161,184 @@ class PrayersCounter extends Component {
       preferences: JSON.parse(window.localStorage.getItem('preferences'))
     });
   };
+
+  onMakeupPrayerMany = () => {
+    const count = parseInt(this.state.addOnePrayerCount);
+    // this.props.onMakeupMany(this.state.prayerManyWhich, count);
+    // if (this.state.prayerManyWhich === 'all') {
+    //   if (count > 0) {
+    //     this.props.updateDayLogs({ day: new Date(), prayer: 'all', count });
+    //     this.setState({ today: this.state.today + count * 5 });
+    //   }
+    // } else {
+    this.props.updateDayLogs({
+      day: new Date(),
+      prayer: this.state.prayerManyWhich,
+      count
+    });
+    // }
+
+    this.setState({
+      showPrayerMany: false,
+      showManyDays: false,
+      prayerManyWhich: '',
+      addOnePrayerCount: 2
+    });
+  };
+
+  onLongPress = e => {
+    this.setState({
+      showManyDays: true,
+      prayerManyWhich: 'all'
+      // clicksCounter: 0
+    });
+  };
   render() {
     let prayers =
       this.props.prayerTotals.totals && this.props.prayerTotals.totals[0];
     return (
-          <div className='prayers-container d-flex flex-row'>
-            <ListGroup className='prayers col px-1 py-2'>
-              <PrayerItem
-                prayer='Fajr'
-                dbTotal={prayers && prayers.fajr}
-                onMakeup={this.onMakeup}
-                onMakeupMany={this.onMakeupMany}
-                onMiss={this.onMiss}
-              />
-              <PrayerItem
-                prayer='Dhuhr'
-                dbTotal={prayers && prayers['dhuhr']}
-                onMakeup={this.onMakeup}
-                onMakeupMany={this.onMakeupMany}
-                onMiss={this.onMiss}
-              />
-              <PrayerItem
-                prayer='Asr'
-                dbTotal={prayers && prayers['asr']}
-                onMakeup={this.onMakeup}
-                onMakeupMany={this.onMakeupMany}
-                onMiss={this.onMiss}
-              />
-              <PrayerItem
-                prayer='Maghrib'
-                dbTotal={prayers && prayers['maghrib']}
-                onMakeup={this.onMakeup}
-                onMakeupMany={this.onMakeupMany}
-                onMiss={this.onMiss}
-              />
-              <PrayerItem
-                prayer='Isha'
-                dbTotal={prayers && prayers['isha']}
-                onMakeup={this.onMakeup}
-                onMakeupMany={this.onMakeupMany}
-                onMiss={this.onMiss}
-              />
-            </ListGroup>
-            <div className='add-day-container'>
-              <Button
-                variant='primary'
-                title='made up a day'
-                className='btn-add-many h-100 py-3 px-3 align-items-center'
-                onClick={this.onMakeupOneDay}>
-                <ion-icon name='duplicate-outline'></ion-icon>
-                {/* <img
-                    src={`${process.env.PUBLIC_URL}/addMany-lt.svg`}
-                    width='16'
-                    height='16'
-                    alt=''
-                  /> */}
-              </Button>
-            </div>
+      <div className='prayers-container d-flex flex-row'>
+        {/* {(true || this.state.showManyDays) && (
+          <div className='addManyDays'>
+            <Form.Group controlId='prayerCount'>
+              <Form.Control
+                required
+                type='number'
+                min={2}
+                placeholder='How many prayers?'
+                value={this.state.addOnePrayerCount}
+                onChange={e =>
+                  this.setState({ addOnePrayerCount: e.target.value })
+                }
+                className='small'></Form.Control>
+              <Form.Label>How many prayers?</Form.Label>
+            </Form.Group>
           </div>
+        )} */}
+        <div
+          className={`overlay ${
+            this.state.showPrayerMany || this.state.showManyDays ? 'shown' : ''
+          }`}>
+          {/* {addManyShown && } */}
+          {(this.state.showPrayerMany || this.state.showManyDays) && (
+            <>
+              <Button
+                variant='link-light'
+                title='make up many'
+                className='close-button'
+                onClick={() => {
+                  this.hidePrayerMany();
+                }}>
+                <ion-icon name='close'></ion-icon>
+              </Button>
+              <div className='content'>
+                <h6 className='title text-center'>
+                  Add many{' '}
+                  {this.state.showManyDays ? (
+                    <span>days' </span>
+                  ) : (
+                    <span className='capitalize'>
+                      {this.state.prayerManyWhich}{' '}
+                    </span>
+                  )}
+                  prayers
+                </h6>
+                <Form.Group controlId='prayerCount'>
+                  <Form.Control
+                    required
+                    type='number'
+                    min={2}
+                    placeholder={`How many ${
+                      this.state.showManyDays ? 'days' : 'prayers'
+                    }?`}
+                    value={this.state.addOnePrayerCount}
+                    onChange={e =>
+                      this.setState({ addOnePrayerCount: e.target.value })
+                    }
+                    className='small'></Form.Control>
+                  <Form.Label>
+                    How many {this.state.showManyDays ? 'days' : 'prayers'}?
+                  </Form.Label>
+                </Form.Group>
+                <Form.Group controlId='save' className='w-100'>
+                  <Button
+                    className='w-100 small'
+                    type='button'
+                    variant='light'
+                    onClick={this.onMakeupPrayerMany}>
+                    Save
+                  </Button>
+                </Form.Group>
+              </div>
+            </>
+          )}
+        </div>
+        <ListGroup className='prayers col px-1 py-2'>
+          <PrayerItem
+            prayer='Fajr'
+            dbTotal={prayers && prayers.fajr}
+            onMakeup={this.onMakeup}
+            onMakeupMany={this.onMakeupMany}
+            onMiss={this.onMiss}
+            onShowAddMany={() => {
+              this.setShowPrayerMany('fajr');
+            }}
+          />
+          <PrayerItem
+            prayer='Dhuhr'
+            dbTotal={prayers && prayers['dhuhr']}
+            onMakeup={this.onMakeup}
+            onMakeupMany={this.onMakeupMany}
+            onMiss={this.onMiss}
+            onShowAddMany={() => {
+              this.setShowPrayerMany('dhuhr');
+            }}
+          />
+          <PrayerItem
+            prayer='Asr'
+            dbTotal={prayers && prayers['asr']}
+            onMakeup={this.onMakeup}
+            onMakeupMany={this.onMakeupMany}
+            onMiss={this.onMiss}
+            onShowAddMany={() => {
+              this.setShowPrayerMany('asr');
+            }}
+          />
+          <PrayerItem
+            prayer='Maghrib'
+            dbTotal={prayers && prayers['maghrib']}
+            onMakeup={this.onMakeup}
+            onMakeupMany={this.onMakeupMany}
+            onMiss={this.onMiss}
+            onShowAddMany={() => {
+              this.setShowPrayerMany('maghrib');
+            }}
+          />
+          <PrayerItem
+            prayer='Isha'
+            dbTotal={prayers && prayers['isha']}
+            onMakeup={this.onMakeup}
+            onMakeupMany={this.onMakeupMany}
+            onMiss={this.onMiss}
+            onShowAddMany={() => {
+              this.setShowPrayerMany('isha');
+            }}
+          />
+        </ListGroup>
+        <div className='add-day-container'>
+          <LongPressable
+            onShortPress={this.onMakeupOneDay}
+            onLongPress={this.onLongPress}
+            longPressTime={700}>
+            <Button
+              variant='primary'
+              title='made up a day'
+              className='btn-add-many h-100 py-3 px-3 align-items-center'>
+              <ion-icon name='duplicate-outline'></ion-icon>
+            </Button>
+          </LongPressable>
+        </div>
+      </div>
     );
   }
 }
