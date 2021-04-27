@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Button, Row, Col } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import Message from '../../components/Message';
-import Loader from '../../components/Loader';
 import FormContainer from '../../components/FormContainer';
 import {
   sendRecoverEmail,
@@ -25,7 +23,6 @@ const ForgotPasswordScreen = ({ location, history }) => {
   }, [dispatch]);
 
   const submitHandler = e => {
-    console.log('hena');
     e.preventDefault();
     dispatch(sendRecoverEmail(email));
   };

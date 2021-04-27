@@ -59,7 +59,7 @@ prayerLogSchema.statics.updateDay = function ({ user, day, prayer, count }) {
         dayLog.total += count * 5;
         return dayLog.save();
       } else {
-        console.log('dayLog 2');
+        // console.log('dayLog 2');
 
         let newLog = { user, day: dayjs(day), total: count * 5 };
         newLog[PRAYERS.FAJR] = count;
@@ -71,12 +71,12 @@ prayerLogSchema.statics.updateDay = function ({ user, day, prayer, count }) {
       }
     } else {
       if (dayLog) {
-        console.log(dayLog);
+        // console.log(dayLog);
         dayLog[prayer] += count;
         dayLog.total += count;
         return dayLog.save();
       } else {
-        console.log('dayLog 3');
+        // console.log('dayLog 3');
 
         return this.create({
           user,

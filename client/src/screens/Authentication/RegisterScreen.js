@@ -11,7 +11,6 @@ const RegisterScreen = ({ location, history }) => {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [isFemale, setIsFemale] = useState(true);
-  // const [message, setMessage] = useState('');
 
   const dispatch = useDispatch();
   const userInfo = useSelector(state => state.userInfo);
@@ -28,17 +27,11 @@ const RegisterScreen = ({ location, history }) => {
 
   const submitHandler = e => {
     e.preventDefault();
-    // if (password !== confirmPassword) {
-    //   // setMessage("Passowrds don't match");
-    //   dispatch(registerFail("Passwords don't match"));
-    // } else {
     dispatch(register(name, email, password, isFemale));
-    // }
   };
 
   return (
     <FormContainer
-      // title='Register'
       loading={loading}
       error={error}
       submit={submitHandler}
@@ -65,7 +58,6 @@ const RegisterScreen = ({ location, history }) => {
           onChange={e => setEmail(e.target.value)}></Form.Control>
         <Form.Label>Email</Form.Label>
       </Form.Group>
-      {/* <Form.Check type='switch' id='custom-switch' label='Check this switch' /> */}
       <Swipe
         checkedText='Female'
         unCheckedText='Male'

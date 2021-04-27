@@ -36,15 +36,7 @@ const Settings = props => {
       setIsFemale(props.userInfo.user.preferences.isFemale);
       setDailyTarget(props.userInfo.user.preferences.dailyTarget || 2);
     }
-    // return () => {
-    //   if (!objectEmpty(props.userInfo.user.preferences)) {
-    //     setStart(new Date(props.userInfo.user.preferences.start));
-    //     setEnd(new Date(props.userInfo.user.preferences.end));
-    //     setPeriod(props.userInfo.user.preferences.period);
-    //     setIsFemale(props.userInfo.user.preferences.isFemale);
-    //     setDailyTarget(props.userInfo.user.preferences.dailyTarget || 2);
-    //   }
-    // };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onSaveSettings = e => {

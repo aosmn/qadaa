@@ -49,7 +49,7 @@ const getMe = asyncHandler(async (req, res) => {
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password, isFemale } = req.body;
-  console.log(isFemale);
+  // console.log(isFemale);
   const userExists = await User.findOne({ email });
 
   if (userExists) {

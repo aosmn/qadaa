@@ -3,7 +3,6 @@ import { Button, ListGroup, Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import LongPressable from 'react-longpressable';
 
-// import { Link } from 'react-router-dom';
 import PrayerItem from './PrayerItem';
 
 import {
@@ -164,19 +163,11 @@ class PrayersCounter extends Component {
 
   onMakeupPrayerMany = () => {
     const count = parseInt(this.state.addOnePrayerCount);
-    // this.props.onMakeupMany(this.state.prayerManyWhich, count);
-    // if (this.state.prayerManyWhich === 'all') {
-    //   if (count > 0) {
-    //     this.props.updateDayLogs({ day: new Date(), prayer: 'all', count });
-    //     this.setState({ today: this.state.today + count * 5 });
-    //   }
-    // } else {
     this.props.updateDayLogs({
       day: new Date(),
       prayer: this.state.prayerManyWhich,
       count
     });
-    // }
 
     this.setState({
       showPrayerMany: false,
@@ -190,7 +181,6 @@ class PrayersCounter extends Component {
     this.setState({
       showManyDays: true,
       prayerManyWhich: 'all'
-      // clicksCounter: 0
     });
   };
   render() {
@@ -198,28 +188,10 @@ class PrayersCounter extends Component {
       this.props.prayerTotals.totals && this.props.prayerTotals.totals[0];
     return (
       <div className='prayers-container d-flex flex-row'>
-        {/* {(true || this.state.showManyDays) && (
-          <div className='addManyDays'>
-            <Form.Group controlId='prayerCount'>
-              <Form.Control
-                required
-                type='number'
-                min={2}
-                placeholder='How many prayers?'
-                value={this.state.addOnePrayerCount}
-                onChange={e =>
-                  this.setState({ addOnePrayerCount: e.target.value })
-                }
-                className='small'></Form.Control>
-              <Form.Label>How many prayers?</Form.Label>
-            </Form.Group>
-          </div>
-        )} */}
         <div
           className={`overlay ${
             this.state.showPrayerMany || this.state.showManyDays ? 'shown' : ''
           }`}>
-          {/* {addManyShown && } */}
           {(this.state.showPrayerMany || this.state.showManyDays) && (
             <>
               <Button

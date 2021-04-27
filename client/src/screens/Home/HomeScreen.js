@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Prayers from '../../components/Prayers/PrayersCounter';
 import PrayersInput from '../../components/Prayers/PrayersInput';
 import Calendar from '../../components/Prayers/Calendar';
-// import Swipe from '../../components/SwipeComponent';
 import {
   Container,
   Row,
@@ -10,7 +9,6 @@ import {
   Card,
   ProgressBar,
   Button,
-  // Form
 } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import Loading from '../../components/Loader';
@@ -18,8 +16,6 @@ import day from 'dayjs';
 import { updateUserPreferences } from '../../redux/actions/userActions';
 import {
   setLogs,
-  // updateDayLogs,
-  // getPrayerTotals,
   getDayLogs
 } from '../../redux/actions/prayerActions.js';
 
@@ -54,6 +50,7 @@ const HomeScreen = props => {
   // let dailyTarget = props.userInfo?.user?.preferences.dailyTarget * 5 || 10;
   useEffect(() => {
     props.getDayLogs(new day());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const round2 = num => {
