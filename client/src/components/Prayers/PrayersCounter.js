@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, ListGroup, Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import LongPressable from 'react-longpressable';
+import { LoadingOverlay } from '../Loader';
 
 import PrayerItem from './PrayerItem';
 
@@ -188,6 +189,8 @@ class PrayersCounter extends Component {
       this.props.prayerTotals.totals && this.props.prayerTotals.totals[0];
     return (
       <div className='prayers-container d-flex flex-row'>
+        {(this.props.prayerTotals.loading ||
+          this.props.prayers.updateLoading) && <LoadingOverlay />}
         <div
           className={`overlay ${
             this.state.showPrayerMany || this.state.showManyDays ? 'shown' : ''

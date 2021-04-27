@@ -8,16 +8,13 @@ import {
   Col,
   Card,
   ProgressBar,
-  Button,
+  Button
 } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import Loading from '../../components/Loader';
+import { LoadingOverlay } from '../../components/Loader';
 import day from 'dayjs';
 import { updateUserPreferences } from '../../redux/actions/userActions';
-import {
-  setLogs,
-  getDayLogs
-} from '../../redux/actions/prayerActions.js';
+import { setLogs, getDayLogs } from '../../redux/actions/prayerActions.js';
 
 import Settings from '../../components/Settings';
 import { objectEmpty } from '../../utils/utils';
@@ -50,7 +47,7 @@ const HomeScreen = props => {
   // let dailyTarget = props.userInfo?.user?.preferences.dailyTarget * 5 || 10;
   useEffect(() => {
     props.getDayLogs(new day());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const round2 = num => {
@@ -65,6 +62,8 @@ const HomeScreen = props => {
             <Col>
               <Card>
                 <Card.Body>
+                  {props.userInfo.loading && <LoadingOverlay />}
+
                   <h6 className='font-weight-bold mb-0 d-flex align-items-center'>
                     Salam {props.userInfo.user.name?.split(' ')[0]}
                     {showSettings ? (
@@ -205,20 +204,17 @@ const HomeScreen = props => {
             <Col sm={12} md={4}>
               <Card className='h-100'>
                 <Card.Body className='d-flex flex-column align-items-center justify-content-center'>
-                  {props.prayerTotals.loading ? (
-                    <Loading />
-                  ) : (
-                    <>
-                      <h5 className='font-weight-bold'>
-                        {(props.prayerTotals.totals &&
-                          props.prayerTotals.totals[0]?.total) ||
-                          0}
-                      </h5>
-                      <div>
-                        <small>Total done</small>
-                      </div>
-                    </>
-                  )}
+                  {props.prayerTotals.loading && <LoadingOverlay />}
+                  <>
+                    <h5 className='font-weight-bold'>
+                      {(props.prayerTotals.totals &&
+                        props.prayerTotals.totals[0]?.total) ||
+                        0}
+                    </h5>
+                    <div>
+                      <small>Total done</small>
+                    </div>
+                  </>
                 </Card.Body>
               </Card>
             </Col>
@@ -227,7 +223,9 @@ const HomeScreen = props => {
             <Col className='h-100' sm={12} md={6} lg={5}>
               <Card className='h-100' style={{ minHeight: '317px' }}>
                 <Card.Body>
-                  <Calendar onSelect={selectDate} />
+                  <div className='h-100'>
+                    <Calendar onSelect={selectDate} />
+                  </div>
                 </Card.Body>
               </Card>
             </Col>

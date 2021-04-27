@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import Swipe from './SwipeComponent';
 import { Button, Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
-// import Loading from './Loader';
 import day from 'dayjs';
+import duration from 'dayjs/plugin/duration';
 import { updateUserPreferences } from '../redux/actions/userActions';
 import { setLogs, getDayLogs } from '../redux/actions/prayerActions.js';
 import { objectEmpty } from '../utils/utils';
+day.extend(duration);
 
 const mapStateToProps = state => ({
   prayerTotals: state.prayerTotals,
@@ -36,7 +37,7 @@ const Settings = props => {
       setIsFemale(props.userInfo.user.preferences.isFemale);
       setDailyTarget(props.userInfo.user.preferences.dailyTarget || 2);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onSaveSettings = e => {

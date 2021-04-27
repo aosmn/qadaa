@@ -7,10 +7,7 @@ import day from 'dayjs';
 import PrayerItem from './PrayerItem';
 
 import {
-  setLogs,
-  updateDayLogs,
-  getPrayerTotals,
-  getDayLogs
+  setLogs
 } from '../../redux/actions/prayerActions.js';
 
 const mapStateToProps = state => ({
