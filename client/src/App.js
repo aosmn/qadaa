@@ -10,9 +10,9 @@ import Login from './screens/Authentication/LoginScreen';
 import ResetPassword from './screens/Authentication/ResetPasswordScreen';
 import ForgotPassword from './screens/Authentication/ForgotPasswordScreen';
 import Register from './screens/Authentication/RegisterScreen';
-import LogPrayers from './screens/Prayers/PrayersCounter';
-import PrayerLogs from './screens/PrayerLogs/PrayerLogs';
-import Calculator from './screens/Preferences/Calculator';
+// import LogPrayers from './screens/Prayers/PrayersCounter';
+// import PrayerLogs from './screens/PrayerLogs/PrayerLogs';
+// import Calculator from './screens/Preferences/Calculator';
 import './App.scss';
 function App() {
   useEffect(() => {
@@ -31,8 +31,8 @@ function App() {
             <Route exact path='/register' component={Register} />
             <Route exact path='/login' component={Login} />
 
-            <ProtectedRoute exact path='/logs' component={PrayerLogs} />
-            <ProtectedRoute exact path='/calculate' component={Calculator} />
+            {/* <ProtectedRoute exact path='/logs' component={PrayerLogs} /> */}
+            {/* <ProtectedRoute exact path='/calculate' component={Calculator} /> */}
             <ProtectedRoute exact path='/' component={Home} />
           </Container>
         </main>
