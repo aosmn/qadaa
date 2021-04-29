@@ -15,6 +15,7 @@ import { LoadingOverlay } from '../../components/Loader';
 import day from 'dayjs';
 import { updateUserPreferences } from '../../redux/actions/userActions';
 import { setLogs, getDayLogs } from '../../redux/actions/prayerActions.js';
+import { Link } from 'react-router-dom';
 
 import Settings from '../../components/Settings';
 import { objectEmpty } from '../../utils/utils';
@@ -54,11 +55,12 @@ const HomeScreen = props => {
     const rounded = Math.floor(num * 100) / 100;
     return rounded;
   };
+  const openModal = () => {};
   return (
     <Container className='h-100'>
       <Row className='h-100'>
         <Col sm={12} lg={3}>
-          <Row className='mb-4 h-100'>
+          <Row className='mb-md-4 h-100'>
             <Col>
               <Card>
                 <Card.Body>
@@ -114,6 +116,7 @@ const HomeScreen = props => {
                           </div>
                           <ProgressBar
                             className='mt-3'
+                            aria-label={`today's progress`}
                             now={round2(
                               (props.today * 100) / (dailyTarget * 5)
                             )}
@@ -145,6 +148,7 @@ const HomeScreen = props => {
                             </small>
                           </div>
                           <ProgressBar
+                            aria-label='overall progress'
                             className='mt-3'
                             now={
                               props.prayerTotals &&
@@ -165,7 +169,13 @@ const HomeScreen = props => {
                         </div>
                       </>
                     )}
-                  <div className='progress-container mb-0'>
+                  <div
+                    className={`progress-container mb-0${
+                      showSettings ||
+                      objectEmpty(props.userInfo?.user?.preferences)
+                        ? 'd-block'
+                        : ' d-none d-lg-block'
+                    }`}>
                     {/* {objectEmpty(props.userInfo?.user?.preferences) ? ( */}
                     <Settings
                       show={
@@ -203,7 +213,7 @@ const HomeScreen = props => {
             </Col>
             <Col sm={12} md={4}>
               <Card className='h-100'>
-                <Card.Body className='d-flex flex-column align-items-center justify-content-center'>
+                <Card.Body className='d-none d-md-flex flex-column align-items-center justify-content-center'>
                   {props.prayerTotals.loading && <LoadingOverlay />}
                   <>
                     <h5 className='font-weight-bold'>
@@ -219,7 +229,7 @@ const HomeScreen = props => {
               </Card>
             </Col>
           </Row>
-          <Row className='d-flex align-items-center mt-4'>
+          <Row className='d-none d-md-flex align-items-center mt-4'>
             <Col className='h-100' sm={12} md={6} lg={5}>
               <Card className='h-100' style={{ minHeight: '317px' }}>
                 <Card.Body>
@@ -250,6 +260,34 @@ const HomeScreen = props => {
                   </Card.Body>
                 </Card>
               )}
+            </Col>
+          </Row>
+          <Row className='d-flex d-md-none align-items-center mt-4'>
+            <Col className='h-100' xs={6} md={6} lg={5}>
+              <Card className='h-100'>
+                <Card.Body className='h-100'>
+                  <Link
+                  to='/logs'
+                  className='btn btn-primary h-100 d-flex justify-content-center align-items-center font-weight-bold'>Logs</Link>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col className='h-100' xs={6} md={6} lg={7}>
+              <Card className='h-100'>
+                <Card.Body className='h-100'>
+                  <div className='h-100 text-center progress-container my-0'>
+                    {props.prayerTotals.loading && <LoadingOverlay />}
+                    <h5 className='font-weight-bold mb-0'>
+                      {(props.prayerTotals.totals &&
+                        props.prayerTotals.totals[0]?.total) ||
+                        0}
+                    </h5>
+                    <div>
+                      <small>Total done</small>
+                    </div>
+                  </div>
+                </Card.Body>
+              </Card>
             </Col>
           </Row>
         </Col>

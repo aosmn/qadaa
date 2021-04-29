@@ -102,13 +102,16 @@ export class PrayerLogs extends Component {
     return (
       <>
         <div className='h-100 prayers-content d-flex justify-content-center'>
-          {this.props.prayerLogs.loading && <LoadingOverlay />}
-          <Calendar
-            tileClassName={this.tileClassName}
-            tileContent={this.tileContent}
-            onChange={this.onChange}
-            tileDisabled={this.tileDisabled}
-          />
+          {this.props.prayerLogs.loading ? (
+            <LoadingOverlay />
+          ) : (
+            <Calendar
+              tileClassName={this.tileClassName}
+              tileContent={this.tileContent}
+              onChange={this.onChange}
+              tileDisabled={this.tileDisabled}
+            />
+          )}
         </div>
       </>
     );

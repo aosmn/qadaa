@@ -28,6 +28,7 @@ const Header = () => {
               <img
                 src={`${process.env.PUBLIC_URL}/logo-grad.svg`}
                 width='30'
+                height='36.25'
                 alt=''
                 className='mr-4'
               />

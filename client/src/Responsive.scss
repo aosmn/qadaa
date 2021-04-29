@@ -1,9 +1,37 @@
 $breakpoint-mobile: 480px;
 @media (max-width: $breakpoint-mobile) {
   .circular-progress-text {
-    font-size: .6rem !important;
+    font-size: 0.6rem !important;
     .percent {
       font-size: 1.5rem !important;
     }
   }
 }
+
+@include media-breakpoint-down(sm) {
+  .card {
+    background-color: rgba($color: #000000, $alpha: 0) !important;
+    .card-body {
+      padding: 0 !important;
+    }
+  }
+  // .progress-container {
+  //   background-color: $gray-900 !important;
+  // }
+  .btn-round {
+    height: 24px !important;
+    width: 24px !important;
+    padding: 10px;
+  }
+  .prayers {
+    li {
+      b {
+        font-size: 12px;
+      }
+    }
+  }
+}
+// @include media-breakpoint-down(md) { ... }
+// @include media-breakpoint-down(lg) { ... }
+// @include media-breakpoint-down(xl) { ... }
+// @include media-breakpoint-down(xxl) { ... }

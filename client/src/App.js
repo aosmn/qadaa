@@ -6,6 +6,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import ProtectedRoute from './ProtectedRoute';
 import Home from './screens/Home';
+import Logs from './screens/Home/LogsScreen';
 import Login from './screens/Authentication/LoginScreen';
 import ResetPassword from './screens/Authentication/ResetPasswordScreen';
 import ForgotPassword from './screens/Authentication/ForgotPasswordScreen';
@@ -31,7 +32,7 @@ function App() {
             <Route exact path='/register' component={Register} />
             <Route exact path='/login' component={Login} />
 
-            {/* <ProtectedRoute exact path='/logs' component={PrayerLogs} /> */}
+            <ProtectedRoute exact path='/logs' component={Logs} />
             {/* <ProtectedRoute exact path='/calculate' component={Calculator} /> */}
             <ProtectedRoute exact path='/' component={Home} />
           </Container>
