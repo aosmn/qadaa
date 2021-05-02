@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
-import { Form, Button, Row, Col } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 
-const PasswordInput = ({ value, onChange, required }) => {
+const PasswordInput = (props) => {
   const [showPass, setShowPass] = useState(false);
   const onClick = () => {
     setShowPass(!showPass);
   };
   return (
-    <Form.Group controlId='password'>
+    <Form.Group controlId='password' className='mb-5'>
       <Form.Control
-        required={required}
+        {...props}
+        // required={required}
         type={showPass ? 'text' : 'password'}
         placeholder='Enter Password'
-        value={value}
-        onChange={e => onChange(e)}></Form.Control>
+        // value={value}
+        // onChange={e => onChange(e)}
+        />
       <Form.Label>Password</Form.Label>
-      <button type='button' onClick={onClick} className='btn btn-link text-dark show-pass'>
+      <button type='button' onClick={onClick} className={`btn btn-link text-dark show-pass ${props.isInvalid ? 'mr-4': ''}`}>
         {showPass ? (
           <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -41,6 +43,10 @@ const PasswordInput = ({ value, onChange, required }) => {
           </svg>
         )}
       </button>
+
+        <Form.Control.Feedback type='invalid'>
+          {props.isInvalid && props.isInvalid.message}
+        </Form.Control.Feedback>
     </Form.Group>
   );
 };

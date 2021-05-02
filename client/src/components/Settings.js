@@ -7,6 +7,7 @@ import duration from 'dayjs/plugin/duration';
 import { updateUserPreferences } from '../redux/actions/userActions';
 import { setLogs, getDayLogs } from '../redux/actions/prayerActions.js';
 import { objectEmpty } from '../utils/utils';
+import { useForm } from 'react-hook-form';
 day.extend(duration);
 
 const mapStateToProps = state => ({
@@ -23,46 +24,57 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const Settings = props => {
-  const [start, setStart] = useState(new Date());
-  const [end, setEnd] = useState(new Date());
-  const [period, setPeriod] = useState(4);
   const [isFemale, setIsFemale] = useState(false);
-  const [dailyTarget, setDailyTarget] = useState(2);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+    reset
+  } = useForm();
 
   useEffect(() => {
     if (!objectEmpty(props.userInfo.user.preferences)) {
-      setStart(new Date(props.userInfo.user.preferences.start));
-      setEnd(new Date(props.userInfo.user.preferences.end));
-      setPeriod(props.userInfo.user.preferences.period);
+      reset({
+        start: props.userInfo.user.preferences.start
+          ? new Date(props.userInfo.user.preferences.start)
+          : new Date(),
+        end: props.userInfo.user.preferences.end
+          ? new Date(props.userInfo.user.preferences.end)
+          : new Date(),
+        period: props.userInfo.user.preferences.period || 0,
+        dailyTarget: props.userInfo.user.preferences.dailyTarget || 2
+      });
       setIsFemale(props.userInfo.user.preferences.isFemale);
-      setDailyTarget(props.userInfo.user.preferences.dailyTarget || 2);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onSaveSettings = e => {
-    const startDate = day(start),
-      endDate = day(end),
-      periodLength = isFemale ? period : 0;
-    // console.log(isFemale);
+  const submitHandler = e => {
+    e.preventDefault();
+    handleSubmit(onSaveSettings)();
+  };
+
+  const onSaveSettings = data => {
+    const startDate = day(data.start),
+      endDate = day(data.end),
+      periodLength = isFemale ? data.period : 0;
     const duration = day.duration(endDate.diff(startDate));
     const totalDays = Math.ceil(
       duration.asDays() - periodLength * duration.asMonths()
     );
-    // console.log(duration.asDays)
-    // console.log(duration.asMonths)
     const numberOfDays = isFemale ? totalDays : Math.ceil(duration.asDays());
     if (duration.asDays() === 0) {
       alert("Start date and End date can't be the same");
     } else {
       props.updatePreferences(
         {
-          start,
-          end,
+          start: data.start,
+          end: data.end,
           isFemale,
           days: numberOfDays,
           period: periodLength,
-          dailyTarget,
+          dailyTarget: data.dailyTarget || 0,
           updatedAt: new Date()
         },
         props.user
@@ -100,7 +112,7 @@ const Settings = props => {
           </div>
           <div>
             <small className='font-weight-bold'>Daily Target</small>
-            <p className='mb-2'>{dailyTarget * 5} prayers</p>
+            <p className='mb-2'>{(props.userInfo?.user?.preferences.dailyTarget || 0) * 5} prayers</p>
           </div>
           {props.userInfo?.user?.preferences.isFemale && (
             <div>
@@ -113,25 +125,45 @@ const Settings = props => {
         </div>
       ) : (
         <div className='settings'>
-          <Form.Group controlId='start'>
+          <Form.Group controlId='start' className='mb-4'>
             <Form.Control
-              required
+              {...register('start', {
+                required: 'Start date required',
+                validate: val => {
+                  return (
+                    day(val).isBefore(day(getValues().end)) ||
+                    'Start Date should be before End Date'
+                  );
+                }
+              })}
               type='date'
-              placeholder='Enter start'
-              value={day(start).format('YYYY-MM-DD')}
-              onChange={e => setStart(e.target.value)}
-              className='small'></Form.Control>
+              className='small'
+              isInvalid={errors.start}
+            />
             <Form.Label>Start Date</Form.Label>
+            <Form.Control.Feedback type='invalid'>
+              {errors.start && errors.start.message}
+            </Form.Control.Feedback>
           </Form.Group>
-          <Form.Group controlId='end'>
+          <Form.Group controlId='end' className='mb-4'>
             <Form.Control
-              required
+              {...register('end', {
+                required: 'End date required',
+                validate: val => {
+                  return (
+                    day(val).isAfter(day(getValues().start)) ||
+                    'Start Date should be before End Date'
+                  );
+                }
+              })}
               type='date'
-              placeholder='Enter end'
-              value={day(end).format('YYYY-MM-DD')}
-              onChange={e => setEnd(e.target.value)}
-              className='small'></Form.Control>
+              className='small'
+              isInvalid={errors.end}
+            />
             <Form.Label>End Date</Form.Label>
+            <Form.Control.Feedback type='invalid'>
+              {errors.end && errors.end.message}
+            </Form.Control.Feedback>
           </Form.Group>
           <Swipe
             small
@@ -141,27 +173,33 @@ const Settings = props => {
             onChange={v => setIsFemale(v)}
           />
           {isFemale && (
-            <Form.Group controlId='period'>
+            <Form.Group controlId='period' className='mb-4'>
               <Form.Control
-                required
+                {...register('period', {
+                  required: 'Period length required',
+                  validate: val => {
+                    return (
+                      (val < 16 && val > 3) ||
+                      'Period length must be between 3 and 15'
+                    );
+                  }
+                })}
                 type='number'
-                min={2}
+                min={3}
                 max={15}
-                placeholder='Enter period length'
-                value={period}
-                onChange={e => setPeriod(e.target.value)}
-                className='small'></Form.Control>
+                className='small'
+                isInvalid={errors.period}></Form.Control>
               <Form.Label>Period Length</Form.Label>
+              <Form.Control.Feedback type='invalid'>
+                {errors.period && errors.period.message}
+              </Form.Control.Feedback>
             </Form.Group>
           )}
 
-          <Form.Group controlId='dailyTarget'>
+          <Form.Group controlId='dailyTarget' className='mb-4'>
             <Form.Control
-              required
+              {...register('dailyTarget')}
               type='number'
-              placeholder='Enter daily target'
-              value={dailyTarget}
-              onChange={e => setDailyTarget(e.target.value)}
               className='small'></Form.Control>
             <Form.Label>Daily Target (days)</Form.Label>
           </Form.Group>
@@ -170,7 +208,7 @@ const Settings = props => {
               className='w-100'
               type='button'
               variant='primary'
-              onClick={onSaveSettings}>
+              onClick={submitHandler}>
               Save
             </Button>
           </Form.Group>

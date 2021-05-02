@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { useForm } from 'react-hook-form';
 import FormContainer from '../../components/FormContainer';
-import { register } from '../../redux/actions/userActions';
+import { register as registerUser } from '../../redux/actions/userActions';
 import PasswordInput from '../../components/PasswordInput';
 import Swipe from '../../components/SwipeComponent';
-// TODO add react form hook
+import { validPassword } from '../../utils/utils';
+
 const RegisterScreen = ({ location, history }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm();
+
   const [isFemale, setIsFemale] = useState(true);
 
   const dispatch = useDispatch();
@@ -25,9 +30,14 @@ const RegisterScreen = ({ location, history }) => {
     }
   }, [history, user, redirect]);
 
+  const onSubmit = data => {
+    const { name, email, password } = data;
+    dispatch(registerUser(name, email, password, isFemale));
+  };
+
   const submitHandler = e => {
     e.preventDefault();
-    dispatch(register(name, email, password, isFemale));
+    handleSubmit(onSubmit)();
   };
 
   return (
@@ -40,23 +50,29 @@ const RegisterScreen = ({ location, history }) => {
         to: redirect ? `/login?redirect=${redirect}` : '/login',
         text: 'Already have an account? Login'
       }}>
-      <Form.Group controlId='name'>
+      <Form.Group controlId='name' className='mb-4'>
         <Form.Control
-          required
-          type='name'
+          type='text'
           placeholder='Enter name'
-          value={name}
-          onChange={e => setName(e.target.value)}></Form.Control>
+          {...register('name', { required: 'Please enter your name' })}
+          isInvalid={errors.name}
+        />
         <Form.Label>Name</Form.Label>
+        <Form.Control.Feedback type='invalid'>
+          {errors.name && errors.name.message}
+        </Form.Control.Feedback>
       </Form.Group>
-      <Form.Group controlId='email' className='mb-0'>
+      <Form.Group controlId='email' className='mb-3'>
         <Form.Control
-          required
           type='email'
           placeholder='Enter Email'
-          value={email}
-          onChange={e => setEmail(e.target.value)}></Form.Control>
+          {...register('email', { required: 'Please enter your email' })}
+          isInvalid={errors.email}
+        />
         <Form.Label>Email</Form.Label>
+        <Form.Control.Feedback type='invalid'>
+          {errors.email && errors.email.message}
+        </Form.Control.Feedback>
       </Form.Group>
       <Swipe
         checkedText='Female'
@@ -65,9 +81,13 @@ const RegisterScreen = ({ location, history }) => {
         onChange={v => setIsFemale(v)}
       />
       <PasswordInput
-        required
-        value={password}
-        onChange={e => setPassword(e.target.value)}
+        {...register('password', {
+          required: 'Please enter your password',
+          validate: value => {
+            return validPassword(value) || 'Password must contain at least 1 letter, 1 number & must be > 6 characters';
+          }
+        })}
+        isInvalid={errors.password}
       />
     </FormContainer>
   );

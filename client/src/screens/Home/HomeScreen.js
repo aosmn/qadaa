@@ -78,7 +78,7 @@ const HomeScreen = props => {
                         <ion-icon name='close'></ion-icon>
                       </Button>
                     ) : (
-                      !objectEmpty(props.userInfo.user.preferences) && (
+                      props.userInfo?.user?.preferences?.start && (
                         <Button
                           variant='link'
                           className='btn text-dark p-0 ml-auto'
@@ -91,84 +91,92 @@ const HomeScreen = props => {
                     )}
                   </h6>
 
-                  {objectEmpty(props.userInfo.user.preferences) && (
-                    <small>Welcome! Set up your target</small>
+                  {!props.userInfo?.user?.preferences?.start && (
+                    <div className='d-flex mt-2'>
+                      <small>Welcome! Set up your target</small>
+                      <Button
+                        variant='link'
+                        className='btn text-dark p-0 mx-2'
+                        onClick={() => {
+                          setShowSettings(true);
+                        }}>
+                        <ion-icon name='settings-outline'></ion-icon>
+                      </Button>
+                    </div>
                   )}
-                  {!showSettings &&
-                    !objectEmpty(props.userInfo?.user?.preferences) && (
-                      <>
-                        <div className='progress-container'>
-                          <div>
-                            <h6 className='font-weight-bold mb-0'>
-                              Today's progress
-                            </h6>
-                          </div>
-                          <div className='label'>
-                            <b>{props.today}</b> prayers out of{' '}
-                            <b>{dailyTarget * 5}</b>{' '}
-                            <small>
-                              (
-                              {round2(
-                                ((props.today || 0) * 100) / (dailyTarget * 5)
-                              )}
-                              %)
-                            </small>
-                          </div>
-                          <ProgressBar
-                            className='mt-3'
-                            aria-label={`today's progress`}
-                            now={round2(
-                              (props.today * 100) / (dailyTarget * 5)
-                            )}
-                            // label={`${(props.today * 100) / 10}%`}
-                          />
-                        </div>
-                        <div className='progress-container'>
+                  {/* TODO: if total */}
+                  {!showSettings && props.userInfo?.user?.preferences.start && (
+                    <>
+                      <div className='progress-container'>
+                        <div>
                           <h6 className='font-weight-bold mb-0'>
-                            Overall progress
+                            Today's progress
                           </h6>
-                          <div className='label'>
-                            <b>
-                              {(props.prayerTotals &&
-                                props.prayerTotals.totals &&
-                                props.prayerTotals.totals[0]?.total) ||
-                                0}
-                            </b>{' '}
-                            prayers out of <b>{total}</b>{' '}
-                            <small>
-                              (
-                              {props.prayerTotals &&
-                                props.prayerTotals.totals &&
-                                round2(
-                                  ((props.prayerTotals.totals[0]?.total || 0) *
-                                    100) /
-                                    total
-                                )}
-                              %)
-                            </small>
-                          </div>
-                          <ProgressBar
-                            aria-label='overall progress'
-                            className='mt-3'
-                            now={
-                              props.prayerTotals &&
+                        </div>
+                        <div className='label'>
+                          <b>{props.today}</b> prayers out of{' '}
+                          <b>{dailyTarget * 5}</b>{' '}
+                          <small>
+                            (
+                            {round2(
+                              ((props.today || 0) * 100) / (dailyTarget * 5)
+                            )}
+                            %)
+                          </small>
+                        </div>
+                        <ProgressBar
+                          className='mt-3'
+                          aria-label={`today's progress`}
+                          now={round2((props.today * 100) / (dailyTarget * 5))}
+                          // label={`${(props.today * 100) / 10}%`}
+                        />
+                      </div>
+                      <div className='progress-container'>
+                        <h6 className='font-weight-bold mb-0'>
+                          Overall progress
+                        </h6>
+                        <div className='label'>
+                          <b>
+                            {(props.prayerTotals &&
+                              props.prayerTotals.totals &&
+                              props.prayerTotals.totals[0]?.total) ||
+                              0}
+                          </b>{' '}
+                          prayers out of <b>{total || 0}</b>{' '}
+                          <small>
+                            (
+                            {props.prayerTotals &&
                               props.prayerTotals.totals &&
                               round2(
                                 ((props.prayerTotals.totals[0]?.total || 0) *
                                   100) /
-                                  total
-                              )
-                            }
-                            // label={`${
-                            //   props.prayerTotals &&
-                            //   props.prayerTotals.totals &&
-                            //   ((props.prayerTotals.totals[0]?.total || 0) * 100) /
-                            //     total
-                            // }%`}
-                          />
+                                  (total || 1)
+                              )}
+                            %)
+                          </small>
                         </div>
-                      </>
-                    )}
+                        <ProgressBar
+                          aria-label='overall progress'
+                          className='mt-3'
+                          now={
+                            props.prayerTotals &&
+                            props.prayerTotals.totals &&
+                            round2(
+                              ((props.prayerTotals.totals[0]?.total || 0) *
+                                100) /
+                                total
+                            )
+                          }
+                          // label={`${
+                          //   props.prayerTotals &&
+                          //   props.prayerTotals.totals &&
+                          //   ((props.prayerTotals.totals[0]?.total || 0) * 100) /
+                          //     total
+                          // }%`}
+                        />
+                      </div>
+                    </>
+                  )}
                   <div
                     className={`progress-container mb-0${
                       showSettings ||
@@ -267,8 +275,10 @@ const HomeScreen = props => {
               <Card className='h-100'>
                 <Card.Body className='h-100'>
                   <Link
-                  to='/logs'
-                  className='btn btn-primary h-100 d-flex justify-content-center align-items-center font-weight-bold'>Logs</Link>
+                    to='/logs'
+                    className='btn btn-primary h-100 d-flex justify-content-center align-items-center font-weight-bold'>
+                    Logs
+                  </Link>
                 </Card.Body>
               </Card>
             </Col>
