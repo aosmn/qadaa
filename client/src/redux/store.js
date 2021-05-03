@@ -6,7 +6,7 @@ import { userReducer, passwordReducer, joyrideReducer } from './reducers/userRed
 import {
   prayersReducer,
   prayerTotalsReducer,
-  updateLogsReducer
+  // updateLogsReducer
 } from './reducers/prayerReducer';
 
 const reducer = combineReducers({

@@ -157,7 +157,7 @@ const App = props => {
       // Need to set our running state to false, so we can restart if we click start again.
       // this.setState({ run: false });
       // window.localStorage.setItem('tutorialDone', true)
-      props.updatePreferences({ ...props.userInfo?.user?.preferences, tutorialDone: true });
+      props.updatePreferences({ tutorialDone: true });
     }
   };
   return (

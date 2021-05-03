@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Route, useHistory, Redirect } from 'react-router-dom';
+import React from 'react';
+import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => ({

@@ -101,7 +101,7 @@ class PrayersCounter extends Component {
 
   onMakeupOneDay = e => {
     setTimeout(() => {
-      this.props.joyride.next();
+      this.props.joyride && this.props.joyride.next();
     }, 200);
     this.startTimer();
     if (this.state.timerRunning) {
@@ -146,7 +146,7 @@ class PrayersCounter extends Component {
 
   setShowPrayerMany = prayer => {
     setTimeout(() => {
-      this.props.joyride.next();
+      this.props.joyride && this.props.joyride.next();
     }, 200);
     this.setState({
       showPrayerMany: true,
@@ -171,7 +171,7 @@ class PrayersCounter extends Component {
 
   onMakeupPrayerMany = () => {
     setTimeout(() => {
-      this.props.joyride.next();
+      this.props.joyride && this.props.joyride.next();
     }, 200);
     const count = parseInt(this.state.addOnePrayerCount);
     this.props.updateDayLogs({
@@ -190,7 +190,7 @@ class PrayersCounter extends Component {
 
   onLongPress = e => {
     setTimeout(() => {
-      this.props.joyride.next();
+      this.props.joyride && this.props.joyride.next();
     }, 200);
     this.setState({
       showManyDays: true,
@@ -215,7 +215,7 @@ class PrayersCounter extends Component {
                 title='make up many'
                 className='close-button closeOverlay'
                 onClick={() => {
-                  this.props.joyride.next();
+                  this.props.joyride && this.props.joyride.next();
                   this.hidePrayerMany();
                 }}>
                 <ion-icon name='close'></ion-icon>
