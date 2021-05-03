@@ -80,7 +80,7 @@ export class PrayerLogs extends Component {
   onChange = nextValue => {
     this.props.onSelect({
       prayers: (this.props.prayerLogs.prayers &&
-        this.props.prayerLogs.prayers.find(dDate =>
+        this.props.prayerLogs.prayers.length > 0 && this.props.prayerLogs.prayers.find(dDate =>
           day(dDate.day).isSame(nextValue, 'day')
         )) || {
         day: nextValue,
@@ -88,9 +88,10 @@ export class PrayerLogs extends Component {
       }
     });
     this.setState({
-      prayers: this.props.prayerLogs.prayers.find(dDate =>
+      prayers: this.props.prayerLogs.prayers &&
+        this.props.prayerLogs.prayers.length > 0 ? this.props.prayerLogs.prayers.find(dDate =>
         day(dDate.day).isSame(nextValue, 'day')
-      ) || {
+      ) : {
         day: nextValue,
         prayers: { fajr: 0, dhuhr: 0, asr: 0, maghrib: 0, isha: 0 }
       },

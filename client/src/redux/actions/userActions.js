@@ -16,7 +16,8 @@ import {
   CLEAR_PASSWORD_STATE,
   USER_PREFERENCES_UPDATE_REQUEST,
   USER_PREFERENCES_UPDATE_SUCCESS,
-  USER_PREFERENCES_UPDATE_FAIL
+  USER_PREFERENCES_UPDATE_FAIL,
+  SET_JOYRIDE_NEXT
 } from '../actionTypes/userActionTypes.js';
 import { setAxiosAuth } from '../../api/axiosRequest';
 
@@ -202,5 +203,12 @@ export const resetPassword = (token, email, password) => async dispatch => {
 export const clearPasswordState = () => async dispatch => {
   dispatch({
     type: CLEAR_PASSWORD_STATE
+  });
+};
+
+export const setJoyrideNext = (next) => async dispatch => {
+  dispatch({
+    type: SET_JOYRIDE_NEXT,
+    payload: next
   });
 };

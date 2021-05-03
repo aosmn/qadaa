@@ -94,7 +94,7 @@ export default class PrayerItem extends Component {
             <Button
               variant='primary'
               title='make up many'
-              className='btn-round py-0 px-1 step-6 d-flex align-items-center'
+              className='btn-round py-0 px-1 d-flex align-items-center addManyPrayers'
               onClick={this.props.onShowAddMany}>
               <ion-icon name='duplicate-outline'></ion-icon>
               {/* <img src={`${process.env.PUBLIC_URL}/addMany.svg`} width='16' height='16' alt=''/> */}
@@ -145,7 +145,7 @@ export default class PrayerItem extends Component {
             onClick={this.onMiss}>
             -
           </Button>
-          <div className='mx-auto d-flex flex-column text-center step-3'>
+          <div className='mx-auto d-flex flex-column text-center step-3 prayersCount'>
             <small className='text-secondary-lt very-small-text'>Made up</small>
             <small>{dbTotal || 0}</small>
           </div>
@@ -153,7 +153,7 @@ export default class PrayerItem extends Component {
           <Button
             variant='primary'
             title='made up a prayer'
-            className='btn-round step-4'
+            className={`btn-round addPrayer`}
             onClick={this.onMakeup}>
             +
           </Button>

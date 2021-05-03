@@ -30,7 +30,7 @@ const Header = () => {
                 width='30'
                 height='36.25'
                 alt=''
-                className='mr-4'
+                className='mr-4 logo'
               />
               Qadaa'
             </Navbar.Brand>

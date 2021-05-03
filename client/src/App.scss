@@ -334,7 +334,7 @@ td {
       background-color: rgba($color: $primary, $alpha: 1);
     }
     border-radius: $border-radius;
-    z-index: 1000;
+    z-index: 99;
     overflow: hidden;
     .close-button {
       position: absolute;

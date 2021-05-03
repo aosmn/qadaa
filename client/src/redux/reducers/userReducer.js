@@ -15,7 +15,8 @@ import {
   CLEAR_PASSWORD_STATE,
   USER_PREFERENCES_UPDATE_REQUEST,
   USER_PREFERENCES_UPDATE_SUCCESS,
-  USER_PREFERENCES_UPDATE_FAIL
+  USER_PREFERENCES_UPDATE_FAIL,
+  SET_JOYRIDE_NEXT
 } from '../actionTypes/userActionTypes';
 
 export const userReducer = (state = {}, action) => {
@@ -41,11 +42,15 @@ export const userReducer = (state = {}, action) => {
     case USER_UPDATE_FAIL:
       return { loading: false, error: action.payload };
     case USER_PREFERENCES_UPDATE_REQUEST:
-      return {...state, loading: true}
+      return { ...state, loading: true };
     case USER_PREFERENCES_UPDATE_SUCCESS:
-      return {...state, loading: false, user: {...state.user, preferences: action.payload}}
+      return {
+        ...state,
+        loading: false,
+        user: { ...state.user, preferences: action.payload }
+      };
     case USER_PREFERENCES_UPDATE_FAIL:
-      return {...state, loading: false, error: action.payload}
+      return { ...state, loading: false, error: action.payload };
     default:
       return state;
   }
@@ -61,6 +66,15 @@ export const passwordReducer = (state = {}, action) => {
       return { loading: false, error: action.payload };
     case CLEAR_PASSWORD_STATE:
       return {};
+    default:
+      return state;
+  }
+};
+
+export const joyrideReducer = (state = {}, action) => {
+  switch (action.type) {
+    case SET_JOYRIDE_NEXT:
+      return { next: action.payload };
     default:
       return state;
   }

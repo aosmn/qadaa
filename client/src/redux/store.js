@@ -2,7 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-import { userReducer, passwordReducer } from './reducers/userReducer';
+import { userReducer, passwordReducer, joyrideReducer } from './reducers/userReducer';
 import {
   prayersReducer,
   prayerTotalsReducer,
@@ -14,6 +14,7 @@ const reducer = combineReducers({
   passwordReset: passwordReducer,
   prayerLogs: prayersReducer,
   prayerTotals: prayerTotalsReducer,
+  joyride: joyrideReducer
   // updateLogs: updateLogsReducer
 });
 

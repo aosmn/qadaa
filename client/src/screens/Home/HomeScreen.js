@@ -18,12 +18,11 @@ import { setLogs, getDayLogs } from '../../redux/actions/prayerActions.js';
 import { Link } from 'react-router-dom';
 
 import Settings from '../../components/Settings';
-import { objectEmpty } from '../../utils/utils';
 
 const mapStateToProps = state => ({
   prayerTotals: state.prayerTotals,
   today: state.prayerLogs.today?.total || 0,
-  userInfo: state.userInfo
+  userInfo: state.userInfo,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -55,14 +54,14 @@ const HomeScreen = props => {
     const rounded = Math.floor(num * 100) / 100;
     return rounded;
   };
-  const openModal = () => {};
+// console.log(props);
   return (
-    <Container className='h-100'>
+    <Container className='h-100 home'>
       <Row className='h-100'>
         <Col sm={12} lg={3}>
           <Row className='mb-md-4 h-100'>
             <Col>
-              <Card>
+              <Card className='personal'>
                 <Card.Body>
                   {props.userInfo.loading && <LoadingOverlay />}
 
@@ -104,7 +103,7 @@ const HomeScreen = props => {
                       </Button>
                     </div>
                   )}
-                  {/* TODO: if total */}
+
                   {!showSettings && props.userInfo?.user?.preferences.start && (
                     <>
                       <div className='progress-container'>
@@ -178,9 +177,9 @@ const HomeScreen = props => {
                     </>
                   )}
                   <div
-                    className={`progress-container mb-0${
+                    className={`progress-container settings mb-0${
                       showSettings ||
-                      objectEmpty(props.userInfo?.user?.preferences)
+                      !props.userInfo?.user?.preferences.start
                         ? 'd-block'
                         : ' d-none d-lg-block'
                     }`}>
@@ -188,7 +187,7 @@ const HomeScreen = props => {
                     <Settings
                       show={
                         showSettings ||
-                        objectEmpty(props.userInfo?.user?.preferences)
+                        !props.userInfo?.user?.preferences.start
                       }
                       hide={() => setShowSettings(false)}
                     />
@@ -213,9 +212,9 @@ const HomeScreen = props => {
         <Col className='d-flex flex-column' sm={12} lg={9}>
           <Row>
             <Col sm={12} md={8}>
-              <Card>
+              <Card className='counter'>
                 <Card.Body>
-                  <Prayers />
+                  <Prayers joyrideNext={props.joyrideNext}/>
                 </Card.Body>
               </Card>
             </Col>
@@ -241,13 +240,13 @@ const HomeScreen = props => {
             <Col className='h-100' sm={12} md={6} lg={5}>
               <Card className='h-100' style={{ minHeight: '317px' }}>
                 <Card.Body>
-                  <div className='h-100'>
+                  <div className='h-100 calendar'>
                     <Calendar onSelect={selectDate} />
                   </div>
                 </Card.Body>
               </Card>
             </Col>
-            <Col className='h-100' sm={12} md={6} lg={7}>
+            <Col className='h-100 dayDetails' sm={12} md={6} lg={7}>
               {!selectedDate ? (
                 <Card className='h-100'>
                   <Card.Body className='h-100 d-flex align-items-center justify-content-center'>
@@ -272,7 +271,7 @@ const HomeScreen = props => {
           </Row>
           <Row className='d-flex d-md-none align-items-center mt-4'>
             <Col className='h-100' xs={6} md={6} lg={5}>
-              <Card className='h-100'>
+              <Card className='h-100 logs'>
                 <Card.Body className='h-100'>
                   <Link
                     to='/logs'
@@ -283,7 +282,7 @@ const HomeScreen = props => {
               </Card>
             </Col>
             <Col className='h-100' xs={6} md={6} lg={7}>
-              <Card className='h-100'>
+              <Card className='h-100 totalPrayers'>
                 <Card.Body className='h-100'>
                   <div className='h-100 text-center progress-container my-0'>
                     {props.prayerTotals.loading && <LoadingOverlay />}

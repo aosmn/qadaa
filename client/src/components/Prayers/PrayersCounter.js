@@ -16,7 +16,8 @@ import {
 const mapStateToProps = state => ({
   userInfo: state.userInfo,
   prayerTotals: state.prayerTotals,
-  prayers: state.prayerLogs
+  prayers: state.prayerLogs,
+  joyride: state.joyride
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -99,6 +100,9 @@ class PrayersCounter extends Component {
   };
 
   onMakeupOneDay = e => {
+    setTimeout(() => {
+      this.props.joyride.next();
+    }, 200);
     this.startTimer();
     if (this.state.timerRunning) {
       let newCounter = this.state.clicksCounter + 1;
@@ -141,6 +145,9 @@ class PrayersCounter extends Component {
   };
 
   setShowPrayerMany = prayer => {
+    setTimeout(() => {
+      this.props.joyride.next();
+    }, 200);
     this.setState({
       showPrayerMany: true,
       prayerManyWhich: prayer
@@ -163,6 +170,9 @@ class PrayersCounter extends Component {
   };
 
   onMakeupPrayerMany = () => {
+    setTimeout(() => {
+      this.props.joyride.next();
+    }, 200);
     const count = parseInt(this.state.addOnePrayerCount);
     this.props.updateDayLogs({
       day: new Date(),
@@ -179,6 +189,9 @@ class PrayersCounter extends Component {
   };
 
   onLongPress = e => {
+    setTimeout(() => {
+      this.props.joyride.next();
+    }, 200);
     this.setState({
       showManyDays: true,
       prayerManyWhich: 'all'
@@ -200,8 +213,9 @@ class PrayersCounter extends Component {
               <Button
                 variant='link-light'
                 title='make up many'
-                className='close-button'
+                className='close-button closeOverlay'
                 onClick={() => {
+                  this.props.joyride.next();
                   this.hidePrayerMany();
                 }}>
                 <ion-icon name='close'></ion-icon>
@@ -230,14 +244,18 @@ class PrayersCounter extends Component {
                     onChange={e =>
                       this.setState({ addOnePrayerCount: e.target.value })
                     }
-                    className='small'></Form.Control>
+                    className={`small ${
+                      this.state.showManyDays
+                        ? 'manyDaysCount'
+                        : 'manyPrayersCount'
+                    }`}></Form.Control>
                   <Form.Label>
                     How many {this.state.showManyDays ? 'days' : 'prayers'}?
                   </Form.Label>
                 </Form.Group>
                 <Form.Group controlId='save' className='w-100'>
                   <Button
-                    className='w-100 small'
+                    className='w-100 small saveManyPrayers'
                     type='button'
                     variant='light'
                     onClick={this.onMakeupPrayerMany}>
@@ -308,7 +326,7 @@ class PrayersCounter extends Component {
             <Button
               variant='primary'
               title='made up a day'
-              className='btn-add-many h-100 py-3 px-3 align-items-center'>
+              className='btn-add-many h-100 py-3 px-3 align-items-center addDay'>
               <ion-icon name='duplicate-outline'></ion-icon>
             </Button>
           </LongPressable>

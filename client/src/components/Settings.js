@@ -13,7 +13,8 @@ day.extend(duration);
 const mapStateToProps = state => ({
   prayerTotals: state.prayerTotals,
   today: state.prayerLogs.today?.total || 0,
-  userInfo: state.userInfo
+  userInfo: state.userInfo,
+  joyride: state.joyride
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -78,7 +79,10 @@ const Settings = props => {
           updatedAt: new Date()
         },
         props.user
-      );
+      ).then(() => {
+        props.joyride.next();
+
+      })
       props.hide();
     }
   };
@@ -112,7 +116,9 @@ const Settings = props => {
           </div>
           <div>
             <small className='font-weight-bold'>Daily Target</small>
-            <p className='mb-2'>{(props.userInfo?.user?.preferences.dailyTarget || 0) * 5} prayers</p>
+            <p className='mb-2'>
+              {(props.userInfo?.user?.preferences.dailyTarget || 0) * 5} prayers
+            </p>
           </div>
           {props.userInfo?.user?.preferences.isFemale && (
             <div>
@@ -137,7 +143,7 @@ const Settings = props => {
                 }
               })}
               type='date'
-              className='small'
+              className='small startDate'
               isInvalid={errors.start}
             />
             <Form.Label>Start Date</Form.Label>
@@ -157,7 +163,7 @@ const Settings = props => {
                 }
               })}
               type='date'
-              className='small'
+              className='small endDate'
               isInvalid={errors.end}
             />
             <Form.Label>End Date</Form.Label>
@@ -170,6 +176,7 @@ const Settings = props => {
             checkedText='Female'
             unCheckedText='Male'
             value={isFemale}
+            className='isFemale'
             onChange={v => setIsFemale(v)}
           />
           {isFemale && (
@@ -187,7 +194,7 @@ const Settings = props => {
                 type='number'
                 min={3}
                 max={15}
-                className='small'
+                className='small period'
                 isInvalid={errors.period}></Form.Control>
               <Form.Label>Period Length</Form.Label>
               <Form.Control.Feedback type='invalid'>
@@ -200,12 +207,12 @@ const Settings = props => {
             <Form.Control
               {...register('dailyTarget')}
               type='number'
-              className='small'></Form.Control>
+              className='small dailyTarget'></Form.Control>
             <Form.Label>Daily Target (days)</Form.Label>
           </Form.Group>
           <Form.Group controlId='save' className='w-100'>
             <Button
-              className='w-100'
+              className='w-100 saveSettings'
               type='button'
               variant='primary'
               onClick={submitHandler}>
