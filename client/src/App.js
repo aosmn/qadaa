@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { setAxiosAuth } from './api/axiosRequest';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { Container } from 'react-bootstrap';
+import { Container, Alert } from 'react-bootstrap';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ProtectedRoute from './ProtectedRoute';
@@ -18,7 +18,8 @@ import { connect } from 'react-redux';
 import Joyride, { STATUS } from 'react-joyride';
 import {
   updateUserPreferences,
-  setJoyrideNext
+  setJoyrideNext,
+  getMe
 } from './redux/actions/userActions';
 
 import './App.scss';
@@ -32,11 +33,13 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   updatePreferences: prefs => dispatch(updateUserPreferences(prefs)),
-  setJoyrideNext: next => dispatch(setJoyrideNext(next))
+  setJoyrideNext: next => dispatch(setJoyrideNext(next)),
+  getMe: () => dispatch(getMe())
 });
 
 const App = props => {
-  let joyrideNext = null;
+  const [offline, setOffline] = useState(!window.navigator.onLine);
+
   const counterSteps = [
     {
       target: '.addPrayer',
@@ -73,7 +76,7 @@ const App = props => {
     {
       target: '.counter',
       content: `This will add to every prayer's counter`
-    },
+    }
     // {
     //   target: '.closeOverlay',
     //   content: `You can cancel here`
@@ -92,35 +95,35 @@ const App = props => {
     }
   ];
   const settingsSteps = [
-        {
-          target: '.settings',
-          content: `Let's setup your profile to calculate the number of prayers you missed`
-        },
-        {
-          target: '.startDate',
-          content: `Start date is the start of the period you want to make up for. Select it now`
-        },
-        {
-          target: '.endDate',
-          content: `End date is the end of the period you want to make up for. Select it now`
-        },
-        {
-          target: '.isFemale',
-          content: `Please select your gender`
-        },
-        {
-          target: '.period',
-          content: `Your period days aren't added in the total days you need to make up for`
-        },
-        {
-          target: '.dailyTarget',
-          content: `Set a daily target to make up prayers every day`
-        },
-        {
-          target: '.saveSettings',
-          content: `Let's save your settings and start making up prayers`
-        }
-      ];
+    {
+      target: '.settings',
+      content: `Let's setup your profile to calculate the number of prayers you missed`
+    },
+    {
+      target: '.startDate',
+      content: `Start date is the start of the period you want to make up for. Select it now`
+    },
+    {
+      target: '.endDate',
+      content: `End date is the end of the period you want to make up for. Select it now`
+    },
+    {
+      target: '.isFemale',
+      content: `Please select your gender`
+    },
+    {
+      target: '.period',
+      content: `Your period days aren't added in the total days you need to make up for`
+    },
+    {
+      target: '.dailyTarget',
+      content: `Set a daily target to make up prayers every day`
+    },
+    {
+      target: '.saveSettings',
+      content: `Let's save your settings and start making up prayers`
+    }
+  ];
   const steps = [
     {
       target: '.logo',
@@ -146,8 +149,19 @@ const App = props => {
   ];
   useEffect(() => {
     if (localStorage.getItem('user')) {
+      // console.log('henaaa');
       setAxiosAuth('Bearer ' + JSON.parse(localStorage.getItem('user')).token);
+      props.getMe()
     }
+
+    window.addEventListener('offline', function (e) {
+      setOffline(true)
+    });
+
+    window.addEventListener('online', function (e) {
+      setOffline(false)
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleJoyrideCallback = data => {
@@ -164,6 +178,14 @@ const App = props => {
     <div className='h-100 d-flex flex-column'>
       <Router>
         <Header />
+        {offline && (
+          <Container fluid className='p-0'>
+            <Alert variant='secondary' className='w-100 offline-alert py-1'>
+              You are offline, changes you make will be added when you go
+              online.
+            </Alert>
+          </Container>
+        )}
         <main className='flex-grow-1 d-flex align-items-center'>
           <Container className='h-100 pt-5 p-3'>
             {props.userInfo?.user &&
@@ -188,13 +210,7 @@ const App = props => {
             <Route exact path='/login' component={Login} />
 
             <ProtectedRoute exact path='/logs' component={Logs} />
-            {/* <ProtectedRoute exact path='/calculate' component={Calculator} /> */}
-            <ProtectedRoute
-              exact
-              path='/'
-              component={Home}
-              joyrideNext={joyrideNext}
-            />
+            <ProtectedRoute exact path='/' component={Home} />
           </Container>
         </main>
         <Footer />

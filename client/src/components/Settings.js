@@ -36,7 +36,7 @@ const Settings = props => {
   } = useForm();
 
   useEffect(() => {
-    if (!objectEmpty(props.userInfo.user.preferences)) {
+    if (!objectEmpty(props.userInfo.user?.preferences)) {
       reset({
         start: props.userInfo.user.preferences.start
           ? day(props.userInfo.user.preferences.start).format('YYYY-MM-DD')
@@ -302,7 +302,7 @@ const Settings = props => {
               Save
             </Button>
           </Form.Group>
-          {props.userInfo.user.preferences.start && (
+          {props.userInfo.user?.preferences.start && (
             <Form.Group controlId='cancel' className='w-100'>
               <Button
                 className='w-100 py-3'

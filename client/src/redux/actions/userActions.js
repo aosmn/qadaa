@@ -17,7 +17,10 @@ import {
   USER_PREFERENCES_UPDATE_REQUEST,
   USER_PREFERENCES_UPDATE_SUCCESS,
   USER_PREFERENCES_UPDATE_FAIL,
-  SET_JOYRIDE_NEXT
+  SET_JOYRIDE_NEXT,
+  USER_ME_REQUEST,
+  USER_ME_SUCCESS,
+  USER_ME_FAIL
 } from '../actionTypes/userActionTypes.js';
 import { setAxiosAuth } from '../../api/axiosRequest';
 
@@ -27,7 +30,8 @@ import {
   updateUser,
   sendPasswordRecoverEmail,
   resetPassword as resetPasswordRequest,
-  updatePrefs
+  updatePrefs,
+  getMe as getUser
 } from '../../api/user.api';
 
 if (localStorage.getItem('user')) {
@@ -49,6 +53,29 @@ export const login = (email, password) => async dispatch => {
   } catch (error) {
     dispatch({
       type: USER_LOGIN_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+    });
+  }
+};
+
+export const getMe = () => async dispatch => {
+  try {
+    dispatch({
+      type: USER_ME_REQUEST
+    });
+
+    const data = await getUser();
+
+    dispatch({
+      type: USER_ME_SUCCESS,
+      payload: data
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_ME_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
@@ -136,7 +163,7 @@ export const updateUserPreferences = prefs => async (dispatch, getState) => {
       payload: preferences
     });
   } catch (error) {
-    console.log('error', error);
+    // console.log('error', error);
     dispatch({
       type: USER_PREFERENCES_UPDATE_FAIL,
       payload:
@@ -206,7 +233,7 @@ export const clearPasswordState = () => async dispatch => {
   });
 };
 
-export const setJoyrideNext = (next) => async dispatch => {
+export const setJoyrideNext = next => async dispatch => {
   dispatch({
     type: SET_JOYRIDE_NEXT,
     payload: next

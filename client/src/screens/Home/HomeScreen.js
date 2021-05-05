@@ -12,7 +12,6 @@ import {
 } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { LoadingOverlay } from '../../components/Loader';
-import day from 'dayjs';
 import { updateUserPreferences } from '../../redux/actions/userActions';
 import { setLogs, getDayLogs } from '../../redux/actions/prayerActions.js';
 import { Link } from 'react-router-dom';
@@ -46,7 +45,7 @@ const HomeScreen = props => {
   let total = props.userInfo?.user?.preferences?.days * 5;
   // let dailyTarget = props.userInfo?.user?.preferences.dailyTarget * 5 || 10;
   useEffect(() => {
-    props.getDayLogs(new day());
+    props.getDayLogs();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -66,7 +65,7 @@ const HomeScreen = props => {
                   {props.userInfo.loading && <LoadingOverlay />}
 
                   <h6 className='font-weight-bold mb-0 d-flex align-items-center'>
-                    Salam {props.userInfo.user.name?.split(' ')[0]}
+                    Salam {props.userInfo.user?.name?.split(' ')[0]}
                     {showSettings ? (
                       <Button
                         variant='link'

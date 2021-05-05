@@ -24,10 +24,18 @@ export class PrayerLogs extends Component {
     this.state = {
       selectedDate: null,
       prayers: null,
-      visible: false
+      visible: false,
+      offline: !window.navigator.onLine
     };
   }
   componentDidMount() {
+    window.addEventListener('offline', function (e) {
+      this.setState({ offline: true });
+    });
+
+    window.addEventListener('online', function (e) {
+      this.setState({ offline: false });
+    });
     this.props.getLogs();
   }
 
@@ -80,7 +88,8 @@ export class PrayerLogs extends Component {
   onChange = nextValue => {
     this.props.onSelect({
       prayers: (this.props.prayerLogs.prayers &&
-        this.props.prayerLogs.prayers.length > 0 && this.props.prayerLogs.prayers.find(dDate =>
+        this.props.prayerLogs.prayers.length > 0 &&
+        this.props.prayerLogs.prayers.find(dDate =>
           day(dDate.day).isSame(nextValue, 'day')
         )) || {
         day: nextValue,
@@ -88,13 +97,16 @@ export class PrayerLogs extends Component {
       }
     });
     this.setState({
-      prayers: this.props.prayerLogs.prayers &&
-        this.props.prayerLogs.prayers.length > 0 ? this.props.prayerLogs.prayers.find(dDate =>
-        day(dDate.day).isSame(nextValue, 'day')
-      ) : {
-        day: nextValue,
-        prayers: { fajr: 0, dhuhr: 0, asr: 0, maghrib: 0, isha: 0 }
-      },
+      prayers:
+        this.props.prayerLogs.prayers &&
+        this.props.prayerLogs.prayers.length > 0
+          ? this.props.prayerLogs.prayers.find(dDate =>
+              day(dDate.day).isSame(nextValue, 'day')
+            )
+          : {
+              day: nextValue,
+              prayers: { fajr: 0, dhuhr: 0, asr: 0, maghrib: 0, isha: 0 }
+            },
       visible: true
     });
   };
@@ -103,7 +115,11 @@ export class PrayerLogs extends Component {
     return (
       <>
         <div className='h-100 prayers-content d-flex justify-content-center'>
-          {this.props.prayerLogs.loading ? (
+          {this.state.offline ? (
+            <div className='loading-overlay'>
+              <p>Logs not available offline</p>
+            </div>
+          ) : this.props.prayerLogs.loading ? (
             <LoadingOverlay />
           ) : (
             <Calendar

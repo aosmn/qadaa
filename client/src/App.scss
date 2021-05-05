@@ -428,3 +428,6 @@ input.small:not(:placeholder-shown) + label {
   justify-content: center;
 }
 
+.offline-alert {
+  border-radius: 0;
+}

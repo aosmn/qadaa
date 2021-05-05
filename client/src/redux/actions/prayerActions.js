@@ -88,6 +88,8 @@ export const getPrayerTotals = id => async dispatch => {
       payload: data
     });
   } catch (error) {
+    console.log('offlineeeeeeee????');
+
     dispatch({
       type: GET_PRAYER_TOTALS_FAIL,
       payload:

@@ -61,7 +61,7 @@ export const prayersReducer = (
         ...state,
         loadingToday: false,
         todayError: action.payload,
-        today: {}
+        today: JSON.parse(localStorage.getItem('today')) || {}
       };
 
     case DAY_SET_REQUEST:
@@ -88,11 +88,12 @@ export const prayersReducer = (
 export const prayerTotalsReducer = (state = {}, action) => {
   switch (action.type) {
     case GET_PRAYER_TOTALS_REQUEST:
-      return { loading: true };
+      return { ...state, loading: true };
     case GET_PRAYER_TOTALS_SUCCESS:
-      return { loading: false, totals: action.payload };
+      return { ...state, loading: false, totals: action.payload };
     case GET_PRAYER_TOTALS_FAIL:
-      return { loading: false, error: action.payload };
+    console.log('henaaa');
+      return { ...state, loading: false, error: action.payload,  totals: JSON.parse(localStorage.getItem('totals'))};
     default:
       return state;
   }
