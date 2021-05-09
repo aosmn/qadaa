@@ -18,10 +18,12 @@ import { Link } from 'react-router-dom';
 
 import Settings from '../../components/Settings';
 
+import { getOfflineTotals } from '../../services/DBHelper';
+
 const mapStateToProps = state => ({
   prayerTotals: state.prayerTotals,
   today: state.prayerLogs.today?.total || 0,
-  userInfo: state.userInfo,
+  userInfo: state.userInfo
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -34,6 +36,7 @@ const mapDispatchToProps = dispatch => ({
 const HomeScreen = props => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [showSettings, setShowSettings] = useState(false);
+  const [offlineTotal, setOfflineTotal] = useState(0);
 
   const [dailyTarget] = useState(
     props.userInfo?.user?.preferences?.dailyTarget || 2
@@ -46,6 +49,9 @@ const HomeScreen = props => {
   // let dailyTarget = props.userInfo?.user?.preferences.dailyTarget * 5 || 10;
   useEffect(() => {
     props.getDayLogs();
+    getOfflineTotals().then(totals => {
+      setOfflineTotal(totals.total);
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -53,7 +59,7 @@ const HomeScreen = props => {
     const rounded = Math.floor(num * 100) / 100;
     return rounded;
   };
-// console.log(props);
+  // console.log(props);
   return (
     <Container className='h-100 home'>
       <Row className='h-100'>
@@ -135,10 +141,10 @@ const HomeScreen = props => {
                         </h6>
                         <div className='label'>
                           <b>
-                            {(props.prayerTotals &&
+                            {((props.prayerTotals &&
                               props.prayerTotals.totals &&
                               props.prayerTotals.totals[0]?.total) ||
-                              0}
+                              0) + offlineTotal}
                           </b>{' '}
                           prayers out of <b>{total || 0}</b>{' '}
                           <small>
@@ -146,7 +152,7 @@ const HomeScreen = props => {
                             {props.prayerTotals &&
                               props.prayerTotals.totals &&
                               round2(
-                                ((props.prayerTotals.totals[0]?.total || 0) *
+                                (((props.prayerTotals.totals[0]?.total || 0) + offlineTotal) *
                                   100) /
                                   (total || 1)
                               )}
@@ -160,7 +166,7 @@ const HomeScreen = props => {
                             props.prayerTotals &&
                             props.prayerTotals.totals &&
                             round2(
-                              ((props.prayerTotals.totals[0]?.total || 0) *
+                              (((props.prayerTotals.totals[0]?.total || 0) + offlineTotal) *
                                 100) /
                                 total
                             )
@@ -177,16 +183,14 @@ const HomeScreen = props => {
                   )}
                   <div
                     className={`progress-container settings mb-0${
-                      showSettings ||
-                      !props.userInfo?.user?.preferences.start
+                      showSettings || !props.userInfo?.user?.preferences.start
                         ? 'd-block'
                         : ' d-none d-lg-block'
                     }`}>
                     {/* {objectEmpty(props.userInfo?.user?.preferences) ? ( */}
                     <Settings
                       show={
-                        showSettings ||
-                        !props.userInfo?.user?.preferences.start
+                        showSettings || !props.userInfo?.user?.preferences.start
                       }
                       hide={() => setShowSettings(false)}
                     />
@@ -213,7 +217,7 @@ const HomeScreen = props => {
             <Col sm={12} md={8}>
               <Card className='counter'>
                 <Card.Body>
-                  <Prayers joyrideNext={props.joyrideNext}/>
+                  <Prayers joyrideNext={props.joyrideNext} />
                 </Card.Body>
               </Card>
             </Col>
@@ -223,9 +227,9 @@ const HomeScreen = props => {
                   {props.prayerTotals.loading && <LoadingOverlay />}
                   <>
                     <h5 className='font-weight-bold'>
-                      {(props.prayerTotals.totals &&
+                      {((props.prayerTotals.totals &&
                         props.prayerTotals.totals[0]?.total) ||
-                        0}
+                        0) + offlineTotal}
                     </h5>
                     <div>
                       <small>Total done</small>
@@ -286,9 +290,9 @@ const HomeScreen = props => {
                   <div className='h-100 text-center progress-container my-0'>
                     {props.prayerTotals.loading && <LoadingOverlay />}
                     <h5 className='font-weight-bold mb-0'>
-                      {(props.prayerTotals.totals &&
+                      {((props.prayerTotals.totals &&
                         props.prayerTotals.totals[0]?.total) ||
-                        0}
+                        0)+ offlineTotal}
                     </h5>
                     <div>
                       <small>Total done</small>

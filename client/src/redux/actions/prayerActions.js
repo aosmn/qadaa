@@ -14,7 +14,7 @@ import {
   GET_DAY_LOGS_FAIL,
   DAY_SET_REQUEST,
   DAY_SET_SUCCESS,
-  DAY_SET_FAIL,
+  DAY_SET_FAIL
 } from '../actionTypes/prayerActionTypes.js';
 
 import {
@@ -23,9 +23,12 @@ import {
   getPrayerTotals as fetchTotals,
   updateLogs,
   updateLogsAllDay,
-  setLogs as setDayLogs
+  setLogs as setDayLogs,
+  postOfflinePrayers
 } from '../../api/prayerLogs.api';
 import { setAxiosAuth } from '../../api/axiosRequest';
+
+import { logPrayersOffline } from '../../services/DBHelper';
 
 if (localStorage.getItem('user')) {
   setAxiosAuth('Bearer ' + JSON.parse(localStorage.getItem('user')).token);
@@ -88,8 +91,6 @@ export const getPrayerTotals = id => async dispatch => {
       payload: data
     });
   } catch (error) {
-    console.log('offlineeeeeeee????');
-
     dispatch({
       type: GET_PRAYER_TOTALS_FAIL,
       payload:
@@ -130,6 +131,7 @@ export const updateDayLogs = ({ day, prayer, count }) => async (
       payload: totals
     });
   } catch (error) {
+    logPrayersOffline({ prayer, count, day });
     dispatch({
       type: DAY_UPDATE_FAIL,
       payload:
@@ -153,6 +155,31 @@ export const setLogs = ({ day, prayers }) => async (dispatch, getState) => {
       type: DAY_SET_SUCCESS,
       payload: data
     });
+  } catch (error) {
+    dispatch({
+      type: DAY_SET_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+    });
+  }
+};
+
+export const saveOfflineLogs = ({ day, prayers }) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: DAY_SET_REQUEST
+    });
+
+    let data;
+    data = await postOfflinePrayers(day, prayers);
+    dispatch(getPrayerTotals());
+    dispatch({
+      type: DAY_SET_SUCCESS,
+      payload: data
+    });
+    return data
   } catch (error) {
     dispatch({
       type: DAY_SET_FAIL,

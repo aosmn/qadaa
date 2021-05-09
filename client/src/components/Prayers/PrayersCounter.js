@@ -10,13 +10,16 @@ import {
   getLogs,
   updateDayLogs,
   getPrayerTotals,
-  getDayLogs
+  getDayLogs,
 } from '../../redux/actions/prayerActions.js';
+
+import { getOfflineTotals } from '../../services/DBHelper';
 
 const mapStateToProps = state => ({
   userInfo: state.userInfo,
   prayerTotals: state.prayerTotals,
   prayers: state.prayerLogs,
+  updateError: state.prayerLogs.updateError,
   joyride: state.joyride
 });
 
@@ -31,11 +34,19 @@ class PrayersCounter extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      FajrDBTotal: 0,
-      DhuhrDBTotal: 0,
-      AsrDBTotal: 0,
-      MaghribDBTotal: 0,
-      IshaDBTotal: 0,
+      offlineTotals: {
+        fajr: 0,
+        dhuhr: 0,
+        asr: 0,
+        maghrib: 0,
+        isha: 0
+      },
+      fajrOfflineTotal: 0,
+      dhuhrOfflineTotal: 0,
+      asrOfflineTotal: 0,
+      maghribOfflineTotal: 0,
+      ishaOfflineTotal: 0,
+      offlinTotal: 0,
       dayCount: 2,
       prayer: '',
       today: 0,
@@ -51,10 +62,32 @@ class PrayersCounter extends Component {
   }
 
   componentDidMount() {
+    // getOfflineDayLogs().then(logs => console.log(logs));
+    getOfflineTotals().then(totals => {
+      this.setState({
+        offlineTotals: totals
+      });
+    });
     if (this.props.userInfo && this.props.userInfo.user) {
       this.props.getPrayerTotals(this.props.userInfo.user._id);
       this.props.getLogs(this.props.userInfo.user._id);
       this.props.getTodayLogs();
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    // Typical usage (don't forget to compare props):
+    if (this.props.updateError !== prevProps.updateError || this.props.prayerTotals.loading !== prevProps.prayerTotals.loading ) {
+      if (this.props.updateError) {
+        // getOfflineDayLogs().then(logs => console.log(logs));
+        setTimeout(() => {
+          getOfflineTotals().then(totals => {
+            this.setState({
+              offlineTotals: totals
+            });
+          });
+        }, 1000);
+      }
     }
   }
 
@@ -171,7 +204,9 @@ class PrayersCounter extends Component {
 
   onMakeupPrayerMany = () => {
     setTimeout(() => {
-      this.props.joyride && this.props.joyride.next();
+      this.props.joyride &&
+        this.props.joyride.next &&
+        this.props.joyride.next();
     }, 200);
     const count = parseInt(this.state.addOnePrayerCount);
     this.props.updateDayLogs({
@@ -269,7 +304,7 @@ class PrayersCounter extends Component {
         <ListGroup className='prayers col px-1 py-2'>
           <PrayerItem
             prayer='Fajr'
-            dbTotal={prayers && prayers.fajr}
+            dbTotal={prayers && prayers.fajr + this.state.offlineTotals.fajr}
             onMakeup={this.onMakeup}
             onMakeupMany={this.onMakeupMany}
             onMiss={this.onMiss}
@@ -279,7 +314,7 @@ class PrayersCounter extends Component {
           />
           <PrayerItem
             prayer='Dhuhr'
-            dbTotal={prayers && prayers['dhuhr']}
+            dbTotal={prayers && prayers.dhuhr + this.state.offlineTotals.dhuhr}
             onMakeup={this.onMakeup}
             onMakeupMany={this.onMakeupMany}
             onMiss={this.onMiss}
@@ -289,7 +324,7 @@ class PrayersCounter extends Component {
           />
           <PrayerItem
             prayer='Asr'
-            dbTotal={prayers && prayers['asr']}
+            dbTotal={prayers && prayers.asr + this.state.offlineTotals.asr}
             onMakeup={this.onMakeup}
             onMakeupMany={this.onMakeupMany}
             onMiss={this.onMiss}
@@ -299,7 +334,9 @@ class PrayersCounter extends Component {
           />
           <PrayerItem
             prayer='Maghrib'
-            dbTotal={prayers && prayers['maghrib']}
+            dbTotal={
+              prayers && prayers.maghrib + this.state.offlineTotals.maghrib
+            }
             onMakeup={this.onMakeup}
             onMakeupMany={this.onMakeupMany}
             onMiss={this.onMiss}
@@ -309,7 +346,7 @@ class PrayersCounter extends Component {
           />
           <PrayerItem
             prayer='Isha'
-            dbTotal={prayers && prayers['isha']}
+            dbTotal={prayers && prayers.isha + this.state.offlineTotals.isha}
             onMakeup={this.onMakeup}
             onMakeupMany={this.onMakeupMany}
             onMiss={this.onMiss}

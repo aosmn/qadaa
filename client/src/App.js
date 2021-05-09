@@ -12,6 +12,7 @@ import ResetPassword from './screens/Authentication/ResetPasswordScreen';
 import ForgotPassword from './screens/Authentication/ForgotPasswordScreen';
 import Register from './screens/Authentication/RegisterScreen';
 import { connect } from 'react-redux';
+import day from 'dayjs';
 // import LogPrayers from './screens/Prayers/PrayersCounter';
 // import PrayerLogs from './screens/PrayerLogs/PrayerLogs';
 // import Calculator from './screens/Preferences/Calculator';
@@ -21,6 +22,10 @@ import {
   setJoyrideNext,
   getMe
 } from './redux/actions/userActions';
+
+import { getOfflineDayLogs, deleteDayLogsByDay } from './services/DBHelper';
+
+import { saveOfflineLogs } from './redux/actions/prayerActions.js';
 
 import './App.scss';
 
@@ -34,12 +39,16 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   updatePreferences: prefs => dispatch(updateUserPreferences(prefs)),
   setJoyrideNext: next => dispatch(setJoyrideNext(next)),
-  getMe: () => dispatch(getMe())
+  getMe: () => dispatch(getMe()),
+  saveOfflineLogs: log => dispatch(saveOfflineLogs(log))
 });
 
 const App = props => {
-  const [offline, setOffline] = useState(!window.navigator.onLine);
-
+  const [offline, setOffline] = useState(false);
+  // console.log(window.navigator.isOnline);
+  useEffect(() => {
+    setOffline(window.navigator.isOnline);
+  }, []);
   const counterSteps = [
     {
       target: '.addPrayer',
@@ -151,17 +160,41 @@ const App = props => {
     if (localStorage.getItem('user')) {
       // console.log('henaaa');
       setAxiosAuth('Bearer ' + JSON.parse(localStorage.getItem('user')).token);
-      props.getMe()
+      props.getMe();
     }
 
     window.addEventListener('offline', function (e) {
-      setOffline(true)
+      setOffline(true);
     });
 
     window.addEventListener('online', function (e) {
-      setOffline(false)
+      setOffline(false);
+      getOfflineDayLogs().then(res => {
+        console.log(res);
+        res.forEach(offlineDay => {
+          props
+            .saveOfflineLogs({
+              day: day(offlineDay.day),
+              prayers: {
+                fajr: offlineDay.fajr || 0,
+                dhuhr: offlineDay.dhuhr || 0,
+                asr: offlineDay.asr || 0,
+                maghrib: offlineDay.maghrib || 0,
+                isha: offlineDay.isha || 0
+              }
+            })
+            .then(res => {
+              if (res) {
+                deleteDayLogsByDay(offlineDay.id);
+              } else {
+                // TODO: Alert
+                console.log('error uploading offline logs');
+              }
+            });
+        });
+      });
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleJoyrideCallback = data => {

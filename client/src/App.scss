@@ -431,3 +431,8 @@ input.small:not(:placeholder-shown) + label {
 .offline-alert {
   border-radius: 0;
 }
+
+::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: .7
+}

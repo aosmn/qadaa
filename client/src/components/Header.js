@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../redux/actions/userActions';
 import { setAxiosAuth } from '../api/axiosRequest';
 import { useHistory } from 'react-router-dom';
+import logo from '../assets/logo-grad.svg';
+
 const Header = () => {
   const userInfo = useSelector(state => state.userInfo);
   const { user } = userInfo;
@@ -26,7 +28,7 @@ const Header = () => {
           <LinkContainer to='/'>
             <Navbar.Brand>
               <img
-                src={`${process.env.PUBLIC_URL}/logo-grad.svg`}
+                src={logo}
                 width='30'
                 height='36.25'
                 alt=''

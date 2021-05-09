@@ -10,7 +10,7 @@ export const getDayLogs = async day => {
   const { data } = await axios.get(`/api/prayers/day`, { params: { day } });
   // setLocalStorage
   if(data) localStorage.setItem('today', JSON.stringify(data));
-  else {console.log('henaaaaaaaaaaaaaaaaaaaaaaaaaaaaaas');
+  else {
   JSON.parse(localStorage.getItem('today'))}
   return data;
 };
@@ -18,7 +18,7 @@ export const getPrayerTotals = async id => {
   const { data } = await axios.get(`/api/prayers/totals`);
   // console.log('getPrayerTotals', data);
   // setLocalStorage
-  console.log('getPrayersTotals',data);
+  // console.log('getPrayersTotals',data);
   if(data) localStorage.setItem('totals', JSON.stringify(data));
   else JSON.parse(localStorage.getItem('totals'))
   return data;
@@ -42,6 +42,14 @@ export const updateLogsAllDay = async (day, count) => {
 
 export const setLogs = async (day, prayers) => {
   const { data } = await axios.post('/api/prayers/set', {
+    day,
+    prayers
+  });
+  return data;
+};
+
+export const postOfflinePrayers = async (day, prayers) => {
+  const { data } = await axios.put('/api/prayers/set', {
     day,
     prayers
   });

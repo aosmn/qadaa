@@ -20,6 +20,15 @@ export const updateLogs = asyncHandler(async (req, res) => {
 });
 
 // @desc    update user prayer log by day
+// @route   PUT /api/prayers/set
+// @access  Private
+// body {user, day, prayer, count}
+export const updateDayPrayers = asyncHandler(async (req, res) => {
+  const prayers = await Prayers.updateDayPrayers({...req.body, user: req.user._id });
+  res.json(prayers);
+});
+
+// @desc    update user prayer log by day
 // @route   POST /api/prayers/all
 // @access  Private
 // body {user, day, count}

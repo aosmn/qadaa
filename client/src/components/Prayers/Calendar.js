@@ -29,11 +29,11 @@ export class PrayerLogs extends Component {
     };
   }
   componentDidMount() {
-    window.addEventListener('offline', function (e) {
+    window.addEventListener('offline', (e) => {
       this.setState({ offline: true });
     });
 
-    window.addEventListener('online', function (e) {
+    window.addEventListener('online', (e) => {
       this.setState({ offline: false });
     });
     this.props.getLogs();

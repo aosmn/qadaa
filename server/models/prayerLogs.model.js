@@ -89,6 +89,40 @@ prayerLogSchema.statics.updateDay = function ({ user, day, prayer, count }) {
   });
 };
 
+prayerLogSchema.statics.updateDayPrayers = function ({ user, day, prayers }) {
+  return this.findOne({
+    user,
+    day: {
+      $gte: dayjs(day).startOf('day'),
+      $lte: dayjs(day).endOf('day')
+    }
+  }).then(dayLog => {
+    const count =
+      prayers[PRAYERS.FAJR] +
+      prayers[PRAYERS.DHUHR] +
+      prayers[PRAYERS.ASR] +
+      prayers[PRAYERS.MAGHRIB] +
+      prayers[PRAYERS.ISHA];
+    if (dayLog) {
+      dayLog[PRAYERS.FAJR] += prayers[PRAYERS.FAJR];
+      dayLog[PRAYERS.DHUHR] += prayers[PRAYERS.DHUHR];
+      dayLog[PRAYERS.ASR] += prayers[PRAYERS.ASR];
+      dayLog[PRAYERS.MAGHRIB] += prayers[PRAYERS.MAGHRIB];
+      dayLog[PRAYERS.ISHA] += prayers[PRAYERS.ISHA];
+      dayLog.total += count;
+      return dayLog.save();
+    } else {
+      let newLog = { user, day: dayjs(day), total: count };
+      newLog[PRAYERS.FAJR] = prayers[PRAYERS.FAJR];
+      newLog[PRAYERS.DHUHR] = prayers[PRAYERS.DHUHR];
+      newLog[PRAYERS.ASR] = prayers[PRAYERS.ASR];
+      newLog[PRAYERS.MAGHRIB] = prayers[PRAYERS.MAGHRIB];
+      newLog[PRAYERS.ISHA] = prayers[PRAYERS.ISHA];
+      return this.create(newLog);
+    }
+  });
+};
+
 prayerLogSchema.statics.setDay = function ({ user, day, prayers }) {
   return this.findOne({
     user,

@@ -37,7 +37,7 @@ export const prayersReducer = (
     case GET_LOGS_FAIL:
       return { ...state, loading: false, error: action.payload };
     case DAY_UPDATE_REQUEST:
-      return { ...state, updateLoading: true };
+      return { ...state, updateError: null, updateLoading: true };
     case DAY_UPDATE_SUCCESS:
       return {
         ...state,
@@ -92,7 +92,6 @@ export const prayerTotalsReducer = (state = {}, action) => {
     case GET_PRAYER_TOTALS_SUCCESS:
       return { ...state, loading: false, totals: action.payload };
     case GET_PRAYER_TOTALS_FAIL:
-    console.log('henaaa');
       return { ...state, loading: false, error: action.payload,  totals: JSON.parse(localStorage.getItem('totals'))};
     default:
       return state;
