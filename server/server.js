@@ -5,8 +5,10 @@ import cors from 'cors';
 import connectDB from './config/db.config.js';
 import userRouter from './routes/user.routes.js';
 import prayerRouter from './routes/prayer.routes.js';
+import path from 'path';
 import { notFound, errorHandler } from './middleware/error.middleware.js';
-dotenv.config();
+
+dotenv.config({path: `.env${process.env.NODE_ENV === 'production' ? '' : '.development'}`});
 
 var corsOptions = {
   origin: [process.env.CLIENT_URL],
@@ -20,11 +22,20 @@ app.use(express.json());
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
 
-app.get('/', (req, res) => {
-  res.send('API is running');
-});
 app.use('/api/users', userRouter);
 app.use('/api/prayers/', prayerRouter);
+const __dirname = path.resolve();
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '/client/build')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+} else {
+  app.get('/', (req, res) => {
+    res.send('API is running');
+  });
+}
 
 app.use(notFound);
 app.use(errorHandler);
