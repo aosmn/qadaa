@@ -1,22 +1,11 @@
 import React, { useState } from 'react';
 import Calendar from '../../components/Prayers/Calendar';
 import PrayersInput from '../../components/Prayers/PrayersInput';
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  ProgressBar,
-  Button
-} from 'react-bootstrap';
+import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 
 const LogsScreen = props => {
   const [selectedDate, setSelectedDate] = useState(null);
-  const [showSettings, setShowSettings] = useState(false);
-
-  const [dailyTarget] = useState(
-    props.userInfo?.user?.preferences?.dailyTarget || 2
-  );
 
   const selectDate = selected => {
     setSelectedDate(selected);
@@ -27,6 +16,14 @@ const LogsScreen = props => {
         <Col sm={12} lg={12}>
           <Row className='d-flex align-items-center mt-4'>
             <Col className='h-100' sm={12} md={6} lg={5}>
+              <h5>
+                <LinkContainer to='/'>
+                  <Button variant='link-light' className='p-0 mr-4'>
+                    <ion-icon name='chevron-back-outline'></ion-icon>
+                  </Button>
+                </LinkContainer>
+                Your Calendar
+              </h5>
               <Card className='h-100' style={{ minHeight: '317px' }}>
                 <Card.Body>
                   <div className='h-100 progress-container'>

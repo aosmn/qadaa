@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Button, ListGroup, Row, Col } from 'react-bootstrap';
+import { Button, ListGroup, Row, Col, Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import day from 'dayjs';
+import LongPressable from 'react-longpressable';
 
 // import { Link } from 'react-router-dom';
 import PrayerItem from './PrayerItem';
 
-import {
-  setLogs
-} from '../../redux/actions/prayerActions.js';
+import { setLogs } from '../../redux/actions/prayerActions.js';
 
 const mapStateToProps = state => ({
   userInfo: state.userInfo,
@@ -21,17 +20,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const PrayersCounter = props => {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     prayers: {}
-  //   };
-  // }
-
-  // componentDidMount() {
-  //   this.setState({ prayers: props.prayers });
-  // }
-
   let prayers = props.selectedDate.prayers;
 
   const [fajr, setFajr] = useState(0);
@@ -39,6 +27,10 @@ const PrayersCounter = props => {
   const [asr, setAsr] = useState(0);
   const [maghrib, setMaghrib] = useState(0);
   const [isha, setIsha] = useState(0);
+  const [showManyDays, setShowManyDays] = useState(false);
+  const [showPrayerMany, setShowPrayerMany] = useState(false);
+  const [prayerManyWhich, setPrayerManyWhich] = useState('');
+  const [addPrayersCount, setAddPrayersCount] = useState(2);
   // const [prayerCounts, setPrayerCounts] = useState({});
   useEffect(() => {
     if (prayers) {
@@ -78,6 +70,13 @@ const PrayersCounter = props => {
   };
   const addPrayerMany = (prayer, count) => {
     switch (prayer.toLowerCase()) {
+      case 'all':
+        setFajr(fajr + count);
+        setDhuhr(dhuhr + count);
+        setAsr(asr + count);
+        setMaghrib(maghrib + count);
+        setIsha(isha + count);
+        break;
       case 'fajr':
         setFajr(fajr + count);
         break;
@@ -122,7 +121,10 @@ const PrayersCounter = props => {
     // setPrayerCounts(counts);
   };
   const setPrayers = () => {
-    props.setLogs({ day: prayers.day, prayers: { fajr, dhuhr, asr, maghrib, isha } });
+    props.setLogs({
+      day: prayers.day,
+      prayers: { fajr, dhuhr, asr, maghrib, isha }
+    });
     props.onCancel();
   };
   const getPrayerCount = prayer => {
@@ -140,12 +142,87 @@ const PrayersCounter = props => {
       default:
     }
   };
+
+  const onLongPress = e => {
+    setShowManyDays(true);
+    setPrayerManyWhich('all');
+  };
+  const hidePrayerMany = () => {
+    setShowManyDays(false);
+    setPrayerManyWhich('');
+    setShowPrayerMany(false);
+  };
+
+  const submitManyForm = () => {
+    const count = parseInt(addPrayersCount);
+    addPrayerMany(prayerManyWhich, count);
+
+    setShowPrayerMany(false);
+    setShowManyDays(false);
+    setPrayerManyWhich('');
+    setAddPrayersCount(2);
+  };
   return (
     <>
       <h6>
         <b>{day(props.selectedDate?.prayers?.day).format('ddd DD-MM-YYYY')}</b>
       </h6>
       <div className='prayers-container small d-flex flex-row'>
+        <div
+          className={`overlay ${
+            showPrayerMany || showManyDays ? 'shown' : ''
+          }`}>
+          {(showPrayerMany || showManyDays) && (
+            <>
+              <Button
+                variant='link-light'
+                title='make up many'
+                className='close-button closeOverlay'
+                onClick={() => {
+                  hidePrayerMany();
+                }}>
+                <ion-icon name='close'></ion-icon>
+              </Button>
+              <div className='content'>
+                <h6 className='title text-center'>
+                  Add many{' '}
+                  {showManyDays ? (
+                    <span>days' </span>
+                  ) : (
+                    <span className='capitalize'>{prayerManyWhich} </span>
+                  )}
+                  prayers
+                </h6>
+                <Form.Group controlId='prayerCount'>
+                  <Form.Control
+                    required
+                    type='number'
+                    min={2}
+                    placeholder={`How many ${
+                      showManyDays ? 'days' : 'prayers'
+                    }?`}
+                    value={addPrayersCount}
+                    onChange={e => setAddPrayersCount(e.target.value)}
+                    className={`small ${
+                      showManyDays ? 'manyDaysCount' : 'manyPrayersCount'
+                    }`}></Form.Control>
+                  <Form.Label>
+                    How many {showManyDays ? 'days' : 'prayers'}?
+                  </Form.Label>
+                </Form.Group>
+                <Form.Group controlId='save' className='w-100'>
+                  <Button
+                    className='w-100 small saveManyPrayers'
+                    type='button'
+                    variant='light'
+                    onClick={submitManyForm}>
+                    Add
+                  </Button>
+                </Form.Group>
+              </div>
+            </>
+          )}
+        </div>
         <ListGroup className='prayers col px-1 py-2'>
           <PrayerItem
             prayer='Fajr'
@@ -153,6 +230,10 @@ const PrayersCounter = props => {
             onMakeup={addPrayer}
             onMakeupMany={addPrayerMany}
             onMiss={subtractPrayer}
+            onShowAddMany={() => {
+              setPrayerManyWhich('fajr');
+              setShowPrayerMany(true);
+            }}
           />
           <PrayerItem
             prayer='Dhuhr'
@@ -160,6 +241,10 @@ const PrayersCounter = props => {
             onMakeup={addPrayer}
             onMakeupMany={addPrayerMany}
             onMiss={subtractPrayer}
+            onShowAddMany={() => {
+              setPrayerManyWhich('dhuhr');
+              setShowPrayerMany(true);
+            }}
           />
           <PrayerItem
             prayer='Asr'
@@ -167,6 +252,10 @@ const PrayersCounter = props => {
             onMakeup={addPrayer}
             onMakeupMany={addPrayerMany}
             onMiss={subtractPrayer}
+            onShowAddMany={() => {
+              setPrayerManyWhich('asr');
+              setShowPrayerMany(true);
+            }}
           />
           <PrayerItem
             prayer='Maghrib'
@@ -174,6 +263,10 @@ const PrayersCounter = props => {
             onMakeup={addPrayer}
             onMakeupMany={addPrayerMany}
             onMiss={subtractPrayer}
+            onShowAddMany={() => {
+              setPrayerManyWhich('maghrib');
+              setShowPrayerMany(true);
+            }}
           />
           <PrayerItem
             prayer='Isha'
@@ -181,23 +274,24 @@ const PrayersCounter = props => {
             onMakeup={addPrayer}
             onMakeupMany={addPrayerMany}
             onMiss={subtractPrayer}
+            onShowAddMany={() => {
+              setPrayerManyWhich('isha');
+              setShowPrayerMany(true);
+            }}
           />
         </ListGroup>
         <div className='add-day-container'>
-          <Button
-            type='button'
-            variant='primary'
-            title='made up a day'
-            className='btn-add-many h-100 py-3 px-3 align-items-center'
-            onClick={addDayPrayers}>
-            <ion-icon name='duplicate-outline'></ion-icon>
-            {/* <img
-                    src={`${process.env.PUBLIC_URL}/addMany-lt.svg`}
-                    width='16'
-                    height='16'
-                    alt=''
-                  /> */}
-          </Button>
+          <LongPressable
+            onShortPress={addDayPrayers}
+            onLongPress={onLongPress}
+            longPressTime={700}>
+            <Button
+              variant='primary'
+              title='made up a day'
+              className='btn-add-many h-100 py-3 px-3 align-items-center addDay'>
+              <ion-icon name='duplicate-outline'></ion-icon>
+            </Button>
+          </LongPressable>
         </div>
       </div>
       <Row className='mt-3'>
@@ -217,7 +311,9 @@ const PrayersCounter = props => {
             variant='light'
             title='made up a day'
             className='w-100 h-100 align-items-center'
-            onClick={() => {props.onCancel()}}>
+            onClick={() => {
+              props.onCancel();
+            }}>
             Cancel
           </Button>
         </Col>
