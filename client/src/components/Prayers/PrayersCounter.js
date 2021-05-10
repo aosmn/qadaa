@@ -10,7 +10,7 @@ import {
   getLogs,
   updateDayLogs,
   getPrayerTotals,
-  getDayLogs,
+  getDayLogs
 } from '../../redux/actions/prayerActions.js';
 
 import { getOfflineTotals } from '../../services/DBHelper';
@@ -77,7 +77,10 @@ class PrayersCounter extends Component {
 
   componentDidUpdate(prevProps) {
     // Typical usage (don't forget to compare props):
-    if (this.props.updateError !== prevProps.updateError || this.props.prayerTotals.loading !== prevProps.prayerTotals.loading ) {
+    if (
+      this.props.updateError !== prevProps.updateError ||
+      this.props.prayerTotals.loading !== prevProps.prayerTotals.loading
+    ) {
       if (this.props.updateError) {
         // getOfflineDayLogs().then(logs => console.log(logs));
         setTimeout(() => {
@@ -134,7 +137,9 @@ class PrayersCounter extends Component {
 
   onMakeupOneDay = e => {
     setTimeout(() => {
-      this.props.joyride && this.props.joyride.next();
+      this.props.joyride &&
+        this.props.joyride.next &&
+        this.props.joyride.next();
     }, 200);
     this.startTimer();
     if (this.state.timerRunning) {
@@ -179,7 +184,9 @@ class PrayersCounter extends Component {
 
   setShowPrayerMany = prayer => {
     setTimeout(() => {
-      this.props.joyride && this.props.joyride.next();
+      this.props.joyride &&
+        this.props.joyride.next &&
+        this.props.joyride.next();
     }, 200);
     this.setState({
       showPrayerMany: true,
@@ -225,7 +232,9 @@ class PrayersCounter extends Component {
 
   onLongPress = e => {
     setTimeout(() => {
-      this.props.joyride && this.props.joyride.next();
+      this.props.joyride &&
+        this.props.joyride.next &&
+        this.props.joyride.next();
     }, 200);
     this.setState({
       showManyDays: true,
@@ -250,7 +259,9 @@ class PrayersCounter extends Component {
                 title='make up many'
                 className='close-button closeOverlay'
                 onClick={() => {
-                  this.props.joyride && this.props.joyride.next();
+                  this.props.joyride &&
+                    this.props.joyride.next &&
+                    this.props.joyride.next();
                   this.hidePrayerMany();
                 }}>
                 <ion-icon name='close'></ion-icon>
