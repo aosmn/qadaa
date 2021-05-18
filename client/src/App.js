@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { setAxiosAuth } from './api/axiosRequest';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { Container, Alert } from 'react-bootstrap';
+// import withRouter from 'react-router';
+import { Container } from 'react-bootstrap';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ProtectedRoute from './ProtectedRoute';
@@ -17,6 +18,7 @@ import day from 'dayjs';
 // import PrayerLogs from './screens/PrayerLogs/PrayerLogs';
 // import Calculator from './screens/Preferences/Calculator';
 import Joyride, { STATUS } from 'react-joyride';
+import Offline from './components/OfflineAlert';
 import {
   updateUserPreferences,
   setJoyrideNext,
@@ -44,11 +46,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const App = props => {
-  const [offline, setOffline] = useState(false);
-  // console.log(window.navigator.isOnline);
-  useEffect(() => {
-    setOffline(window.navigator.isOnline);
-  }, []);
   const counterSteps = [
     {
       target: '.addPrayer',
@@ -163,12 +160,7 @@ const App = props => {
       props.getMe();
     }
 
-    window.addEventListener('offline', function (e) {
-      setOffline(true);
-    });
-
     window.addEventListener('online', function (e) {
-      setOffline(false);
       getOfflineDayLogs().then(res => {
         console.log(res);
         res.forEach(offlineDay => {
@@ -211,14 +203,8 @@ const App = props => {
     <div className='h-100 d-flex flex-column'>
       <Router>
         <Header />
-        {offline && (
-          <Container fluid className='p-0'>
-            <Alert variant='secondary' className='w-100 offline-alert py-1'>
-              You are offline, changes you make will be added when you go
-              online.
-            </Alert>
-          </Container>
-        )}
+        <Offline />
+
         <main className='flex-grow-1 d-flex align-items-center'>
           <Container className='h-100 pt-5 p-3'>
             {props.userInfo?.user &&

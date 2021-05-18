@@ -9,6 +9,7 @@
     "axios": "^0.21.1",
     "bootstrap": "^4.5.3",
     "idb": "^6.0.0",
+    "is-online": "^9.0.0",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",
     "react-calendar": "^3.3.1",
