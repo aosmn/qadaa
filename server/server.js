@@ -11,7 +11,7 @@ import { notFound, errorHandler } from './middleware/error.middleware.js';
 dotenv.config({path: `.env${process.env.NODE_ENV === 'production' ? '' : '.development'}`});
 
 var corsOptions = {
-  origin: [process.env.CLIENT_URL],
+  origin: [process.env.CLIENT_URL, process.env.CLIENT],
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 

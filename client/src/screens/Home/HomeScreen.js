@@ -108,6 +108,7 @@ const HomeScreen = props => {
                       </Button>
                     </div>
                   )}
+      {localStorage.getItem('totals')}
 
                   {!showSettings && props.userInfo?.user?.preferences.start && (
                     <>
