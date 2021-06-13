@@ -108,7 +108,7 @@ const HomeScreen = props => {
                       </Button>
                     </div>
                   )}
-      {localStorage.getItem('totals')}
+                  {/* {localStorage.getItem('totals')} */}
 
                   {!showSettings && props.userInfo?.user?.preferences.start && (
                     <>
@@ -153,7 +153,8 @@ const HomeScreen = props => {
                             {props.prayerTotals &&
                               props.prayerTotals.totals &&
                               round2(
-                                (((props.prayerTotals.totals[0]?.total || 0) + offlineTotal) *
+                                (((props.prayerTotals.totals[0]?.total || 0) +
+                                  offlineTotal) *
                                   100) /
                                   (total || 1)
                               )}
@@ -167,7 +168,8 @@ const HomeScreen = props => {
                             props.prayerTotals &&
                             props.prayerTotals.totals &&
                             round2(
-                              (((props.prayerTotals.totals[0]?.total || 0) + offlineTotal) *
+                              (((props.prayerTotals.totals[0]?.total || 0) +
+                                offlineTotal) *
                                 100) /
                                 total
                             )
@@ -293,7 +295,7 @@ const HomeScreen = props => {
                     <h5 className='font-weight-bold mb-0'>
                       {((props.prayerTotals.totals &&
                         props.prayerTotals.totals[0]?.total) ||
-                        0)+ offlineTotal}
+                        0) + offlineTotal}
                     </h5>
                     <div>
                       <small>Total done</small>
