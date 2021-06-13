@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../redux/actions/userActions';
 import { setAxiosAuth } from '../api/axiosRequest';
 import { useHistory } from 'react-router-dom';
-import logo from '../assets/logo-grad.svg';
+import logo from '../assets/logo-grad-n.svg';
 
 const Header = () => {
   const userInfo = useSelector(state => state.userInfo);
@@ -23,7 +23,7 @@ const Header = () => {
   };
   return (
     <header>
-      <Navbar bg='dark' variant='dark' collapseOnSelect>
+      <Navbar bg='light' variant='light' collapseOnSelect>
         <Container>
           <LinkContainer to='/'>
             <Navbar.Brand>

@@ -53,7 +53,7 @@ $web-font-path: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;50
 }
 a.text-secondary {
   &:hover {
-    color: $salmon-lt !important;
+    color: $orange-dk !important;
   }
 }
 // Tables ======================================================================
@@ -380,6 +380,10 @@ select:-webkit-autofill:focus {
   }
 }
 
+.card{
+  border: 1px solid #00000008;
+  box-shadow: 0px 0px 5px #00000010;
+}
 .card,
 .list-group-item {
   h1,

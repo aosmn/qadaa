@@ -312,7 +312,7 @@ class PrayersCounter extends Component {
             </>
           )}
         </div>
-        <ListGroup className='prayers col px-1 py-2'>
+        <ListGroup className='prayers col px-1 py-3'>
           <PrayerItem
             prayer='Fajr'
             dbTotal={prayers && prayers.fajr + this.state.offlineTotals.fajr}

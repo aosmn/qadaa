@@ -26,7 +26,9 @@
 .prayers-content {
   display: flex;
   flex-direction: row;
-  color: white;
+  // color: white;
+  color: $teal-text;
+
   .prayer-counts {
     background-color: white;
     padding: 20px;
@@ -46,6 +48,7 @@
 
     .react-calendar__month-view__weekdays__weekday {
       font-weight: 500;
+      font-size: 0.7rem !important;
       abbr {
         text-decoration: none !important;
         color: $gray-600;
@@ -57,7 +60,9 @@
     }
     .react-calendar__navigation {
       button {
-        color: white !important;
+        color: $teal-text;
+
+        // color: white !important;
         transition: all 0.2s ease-in-out;
         &:hover,
         &:focus {
@@ -72,14 +77,16 @@
     }
     .tile {
       border-radius: 5px;
-      color: white !important;
+      color: $teal-text !important;
       &.react-calendar__month-view__days__day--neighboringMonth {
         color: $gray-600 !important;
       }
       &.react-calendar__tile--active {
-        transition: all .1s ease-in-out;
+        transition: all 0.1s ease-in-out;
+        background-color: $teal !important;
+        color: white;
         &:hover {
-          background-color: #1c7fe2 !important;
+          background-color: $teal !important;
         }
       }
       &.react-calendar__tile--now {
@@ -100,13 +107,14 @@
         // background-color: $gray-600;
       }
       &:hover {
-        background-color: $gray-900;
+        background-color: $secondary;
+        color: white !important;
       }
 
       &:disabled {
         border-radius: 0;
         background: none !important;
-        color: rgba(16, 16, 16, 0.3);
+        color: $gray-500 !important;
       }
     }
   }

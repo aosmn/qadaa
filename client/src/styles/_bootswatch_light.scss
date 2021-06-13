@@ -1,0 +1,194 @@
+// Litera 5.0.1
+// Bootswatch
+
+// Navbar
+
+.navbar {
+  font-size: $font-size-sm;
+
+  &.bg-dark {
+    background-color: $success !important;
+  }
+
+  &.bg-light {
+    background-color: $white !important;
+    border: 1px solid rgba(0, 0, 0, .1);
+
+    &.navbar-fixed-top {
+      border-width: 0 0 1px;
+    }
+
+    &.navbar-fixed-bottom {
+      border-width: 1px 0 0;
+    }
+  }
+}
+
+// Typography
+
+p {
+  font-family: $font-family-serif;
+}
+
+blockquote {
+  font-style: italic;
+}
+
+footer {
+  font-size: $font-size-sm;
+}
+
+.lead {
+  color: $gray-600;
+  font-family: $font-family-sans-serif;
+}
+
+// Tables
+
+table,
+.table {
+  font-size: $font-size-sm;
+}
+
+// Navs
+
+.nav,
+.breadcrumb,
+.pagination {
+  font-size: $font-size-sm;
+}
+
+.dropdown-menu {
+  font-size: $font-size-sm;
+}
+
+// Indicators
+
+.alert {
+  color: $white;
+  font-size: $font-size-sm;
+
+  &,
+  p {
+    font-family: $font-family-sans-serif;
+  }
+
+  a,
+  .alert-link {
+    color: $white;
+    font-weight: 400;
+    text-decoration: underline;
+  }
+
+  @each $color, $value in $theme-colors {
+    &-#{$color} {
+      @if $enable-gradients {
+        background: $value linear-gradient($value, mix($body-bg, $value, 15%)) repeat-x;
+      } @else {
+        background-color: $value;
+      }
+    }
+  }
+
+  &-light {
+    &,
+    a,
+    .alert-link {
+      color: $body-color;
+    }
+  }
+}
+
+.badge {
+  &.bg-light {
+    color: $dark;
+  }
+}
+
+// Containers
+
+.list-group {
+  font-size: $font-size-sm;
+}
+
+.btn {
+  &-light {
+    color: #fff;
+    background-color: $orange;
+  }
+}
+
+.card {
+  // border: 1px solid #0000000e;
+  border: none;
+  box-shadow: 1px 1px 3px  #0000001f;
+}
+
+.form-control {
+  background-clip: border-box;
+
+  &:disabled,
+  &[readonly] {
+    border-color: transparent;
+  }
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  // border: 0;
+  background-color: #fff !important;
+  background-image: none !important;
+  -webkit-text-fill-color: $gray-500;
+  // box-shadow: 0 0 0px 1000px #000 inset;
+  // -webkit-box-shadow: 0 0 0px 1000px #000 inset;
+  transition: background-color 5000s ease-in-out 0s;
+  // font-size: 1rem !important;
+  // font: 400 13.3333px Arial !important;
+  // font-family: 19px $font-family-sans-serif !important;
+}
+
+.form-group {
+  position: relative;
+  input:not(:placeholder-shown) + .form-label,
+  input:-webkit-autofill + .form-label,
+  input:-webkit-autofill:hover + .form-label,
+  input:-webkit-autofill:focus + .form-label,
+  textarea:-webkit-autofill + .form-label,
+  textarea:-webkit-autofill:hover + .form-label,
+  textarea:-webkit-autofill:focus + .form-label,
+  select:-webkit-autofill + .form-label,
+  select:-webkit-autofill:hover + .form-label,
+  select:-webkit-autofill:focus + .form-label {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    font-size: 0.7rem !important;
+  }
+  input + .form-label {
+    transition: all .2s;
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $gray-500 !important;
+    // font-size: 1rem !important;
+  }
+  input::placeholder {
+    color: rgba(0, 0, 0, 0) !important;
+  }
+  .invalid-feedback {
+    position: absolute;
+  }
+  .input-action {
+    position: absolute !important;
+    right: 0px;
+    // right: 10px;
+    // top: calc(100% - 1.5rem);
+  }
+}

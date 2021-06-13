@@ -9,6 +9,7 @@ $white: #fff !default;
 $gray-100: #f8f9fa !default;
 $gray-200: #e9ecef !default;
 $gray-300: #dee2e6 !default;
+$gray-300-trans: #dee2e660 !default;
 $gray-400: #adafae !default;
 $gray-500: #888 !default;
 $gray-600: #555 !default;
@@ -18,23 +19,29 @@ $gray-800-trans: #19181ad0 !default;
 $gray-900: #1a1a1a !default;
 $black: #000 !default;
 
-$magenta: #750D47 !default;
-$salmon: #F78084 !default;
-$salmon-lt: #eca4a7 !default;
+
+$grey: #dddddd !default;
+$orange: #f5a962 !default;
+$orange-dk: #da8f4a !default;
+$teal-dk: #125d98 !default;
+$teal-lt: #3c8dad !default;
+// $magenta: #750D47 !default;
+// $salmon: #F78084 !default;
+// $salmon-lt: #eca4a7 !default;
 $blue: #2a9fd6 !default;
 $indigo: #6610f2 !default;
 $purple: #6f42c1 !default;
 $pink: #e83e8c !default;
 $red: #c00 !default;
-$orange: #fd7e14 !default;
+// $orange: #fd7e14 !default;
 $yellow: #f80 !default;
 $green: #77b300 !default;
 $teal: #20c997 !default;
 $cyan: #93c !default;
 
 // $primary: $blue !default;
-$primary: $magenta !default;
-$secondary: $salmon !default;
+$primary: $teal-dk !default;
+$secondary: $orange !default;
 // $secondary: $gray-600 !default;
 $success: $green !default;
 $info: $cyan !default;
@@ -134,7 +141,7 @@ $jumbotron-bg: $gray-700 !default;
 
 // Cards
 
-$card-bg: $gray-800-trans !default;
+$card-bg: $gray-300-trans !default;
 
 // Tooltips
 

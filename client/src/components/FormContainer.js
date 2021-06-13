@@ -3,6 +3,7 @@ import { Form, Container, Row, Col, Card, Button } from 'react-bootstrap';
 import Message from '../components/Message';
 import { LoadingOverlay } from '../components/Loader';
 import { Link } from 'react-router-dom';
+import logo from '../assets/logo-grad-n.svg';
 
 const FormContainer = ({
   children,
@@ -27,7 +28,7 @@ const FormContainer = ({
                   {!hideLogo && (
                     <div className='logo-container-vertical'>
                       <img
-                        src={`${process.env.PUBLIC_URL}/logo-grad.svg`}
+                        src={logo}
                         alt='logo'
                       />
                       <div className='logo-text'>Qadaa</div>

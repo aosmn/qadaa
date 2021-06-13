@@ -50,7 +50,7 @@ export default class PrayerItem extends Component {
     const width = this.getWidth();
     const percent = Math.round(parseFloat(width) * 100) / 100;
     return (
-      <ListGroup.Item as='li' key={prayer} className='d-flex flex-row border-0 py-1 justify-content-center'>
+      <ListGroup.Item as='li' key={prayer} className='d-flex flex-row border-0 py-2 justify-content-center'>
         {this.state.showMany && this.state.prayer === prayer ? (
           <>
             <Button

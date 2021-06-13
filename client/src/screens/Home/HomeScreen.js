@@ -219,7 +219,7 @@ const HomeScreen = props => {
           <Row>
             <Col sm={12} md={8}>
               <Card className='counter'>
-                <Card.Body>
+                <Card.Body className='p-0'>
                   <Prayers joyrideNext={props.joyrideNext} />
                 </Card.Body>
               </Card>
