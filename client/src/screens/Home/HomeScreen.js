@@ -71,7 +71,7 @@ const HomeScreen = props => {
                   {props.userInfo.loading && <LoadingOverlay />}
 
                   <h6 className='font-weight-bold mb-0 d-flex align-items-center'>
-                    Salam {props.userInfo.user?.name?.split(' ')[0]}
+                    Hello {props.userInfo.user?.name?.split(' ')[0]}
                     {showSettings ? (
                       <Button
                         variant='link'
@@ -109,97 +109,101 @@ const HomeScreen = props => {
                     </div>
                   )}
                   {/* {localStorage.getItem('totals')} */}
-
-                  {!showSettings && props.userInfo?.user?.preferences.start && (
-                    <>
-                      <div className='progress-container'>
-                        <div>
-                          <h6 className='font-weight-bold mb-0'>
-                            Today's progress
-                          </h6>
-                        </div>
-                        <div className='label'>
-                          <b>{props.today}</b> prayers out of{' '}
-                          <b>{dailyTarget * 5}</b>{' '}
-                          <small>
-                            (
-                            {round2(
-                              ((props.today || 0) * 100) / (dailyTarget * 5)
+                  <div>
+                    {!showSettings && props.userInfo?.user?.preferences.start && (
+                      <>
+                        <div className='progress-container'>
+                          <div>
+                            <h6 className='font-weight-bold mb-0'>
+                              Today's progress
+                            </h6>
+                          </div>
+                          <div className='label'>
+                            <b>{props.today}</b> prayers out of{' '}
+                            <b>{dailyTarget * 5}</b>{' '}
+                            <small>
+                              (
+                              {round2(
+                                ((props.today || 0) * 100) / (dailyTarget * 5)
+                              )}
+                              %)
+                            </small>
+                          </div>
+                          <ProgressBar
+                            className='mt-3'
+                            aria-label={`today's progress`}
+                            now={round2(
+                              (props.today * 100) / (dailyTarget * 5)
                             )}
-                            %)
-                          </small>
+                            // label={`${(props.today * 100) / 10}%`}
+                          />
                         </div>
-                        <ProgressBar
-                          className='mt-3'
-                          aria-label={`today's progress`}
-                          now={round2((props.today * 100) / (dailyTarget * 5))}
-                          // label={`${(props.today * 100) / 10}%`}
-                        />
-                      </div>
-                      <div className='progress-container'>
-                        <h6 className='font-weight-bold mb-0'>
-                          Overall progress
-                        </h6>
-                        <div className='label'>
-                          <b>
-                            {((props.prayerTotals &&
-                              props.prayerTotals.totals &&
-                              props.prayerTotals.totals[0]?.total) ||
-                              0) + offlineTotal}
-                          </b>{' '}
-                          prayers out of <b>{total || 0}</b>{' '}
-                          <small>
-                            (
-                            {props.prayerTotals &&
+                        <div className='progress-container'>
+                          <h6 className='font-weight-bold mb-0'>
+                            Overall progress
+                          </h6>
+                          <div className='label'>
+                            <b>
+                              {((props.prayerTotals &&
+                                props.prayerTotals.totals &&
+                                props.prayerTotals.totals[0]?.total) ||
+                                0) + offlineTotal}
+                            </b>{' '}
+                            prayers out of <b>{total || 0}</b>{' '}
+                            <small>
+                              (
+                              {props.prayerTotals &&
+                                props.prayerTotals.totals &&
+                                round2(
+                                  (((props.prayerTotals.totals[0]?.total || 0) +
+                                    offlineTotal) *
+                                    100) /
+                                    (total || 1)
+                                )}
+                              %)
+                            </small>
+                          </div>
+                          <ProgressBar
+                            aria-label='overall progress'
+                            className='mt-3'
+                            now={
+                              props.prayerTotals &&
                               props.prayerTotals.totals &&
                               round2(
                                 (((props.prayerTotals.totals[0]?.total || 0) +
                                   offlineTotal) *
                                   100) /
-                                  (total || 1)
-                              )}
-                            %)
-                          </small>
+                                  total
+                              )
+                            }
+                            // label={`${
+                            //   props.prayerTotals &&
+                            //   props.prayerTotals.totals &&
+                            //   ((props.prayerTotals.totals[0]?.total || 0) * 100) /
+                            //     total
+                            // }%`}
+                          />
                         </div>
-                        <ProgressBar
-                          aria-label='overall progress'
-                          className='mt-3'
-                          now={
-                            props.prayerTotals &&
-                            props.prayerTotals.totals &&
-                            round2(
-                              (((props.prayerTotals.totals[0]?.total || 0) +
-                                offlineTotal) *
-                                100) /
-                                total
-                            )
-                          }
-                          // label={`${
-                          //   props.prayerTotals &&
-                          //   props.prayerTotals.totals &&
-                          //   ((props.prayerTotals.totals[0]?.total || 0) * 100) /
-                          //     total
-                          // }%`}
-                        />
-                      </div>
-                    </>
-                  )}
-                  <div
-                    className={`progress-container settings mb-0${
-                      showSettings || !props.userInfo?.user?.preferences.start
-                        ? 'd-block'
-                        : ' d-none d-lg-block'
-                    }`}>
-                    {/* {objectEmpty(props.userInfo?.user?.preferences) ? ( */}
-                    <Settings
-                      show={
+                      </>
+                    )}
+                    <div
+                      className={`progress-container settings pb-0 mb-0${
                         showSettings || !props.userInfo?.user?.preferences.start
-                      }
-                      hide={() => setShowSettings(false)}
-                    />
-                    {/* ) : (
+                          ? ' d-block'
+                          : ' d-none d-lg-block'
+                      }`}>
+                      {/* {objectEmpty(props.userInfo?.user?.preferences) ? ( */}
+                      <Settings
+                        show={
+                          showSettings ||
+                          !props.userInfo?.user?.preferences.start
+                        }
+                        hide={() => setShowSettings(false)}
+                      />
+                      {/* ) : (
                       <p>setup your account</p>
                     )} */}
+                    </div>
                   </div>
                 </Card.Body>
               </Card>

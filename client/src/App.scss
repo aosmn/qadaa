@@ -405,9 +405,9 @@ input.small:not(:placeholder-shown) + label {
   padding: 20px;
   margin: 10px 0;
   // border-radius: 16px;
-  border-bottom: 1px solid #ececec;
-  &:last-child {
-    border-bottom: none;
+  border-top: 1px solid #ececec;
+  &:first-child {
+    border-top: none;
   }
   .label {
     font-size: 0.7rem;
