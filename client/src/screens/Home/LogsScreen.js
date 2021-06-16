@@ -24,7 +24,7 @@ const LogsScreen = props => {
                 </LinkContainer>
                 Your Calendar
               </h5>
-              <Card className='h-100' style={{ minHeight: '317px' }}>
+              <Card className='h-100 mt-4' style={{ minHeight: '317px' }}>
                 <Card.Body>
                   <div className='h-100 progress-container'>
                     <Calendar onSelect={selectDate} />
@@ -32,7 +32,7 @@ const LogsScreen = props => {
                 </Card.Body>
               </Card>
             </Col>
-            <Col className='h-100' sm={12} md={6} lg={7}>
+            <Col className='h-100 mt-4' sm={12} md={6} lg={7}>
               {!selectedDate ? (
                 <Card className='h-100'>
                   <Card.Body className='h-100 d-flex align-items-center justify-content-center'>
