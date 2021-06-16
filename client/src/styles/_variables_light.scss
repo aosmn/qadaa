@@ -63,7 +63,8 @@ $font-family-serif:           Georgia, Cambria, "Times New Roman", Times, serif 
 
 // stylelint-enable
 
-$font-size-base:              1.1rem !default;
+$font-size-base: 0.875rem !default;
+// $font-size-base:              1rem !default;
 $headings-font-weight:        700 !default;
 
 // Tables
@@ -88,7 +89,7 @@ $input-btn-padding-x: 1rem !default;
 $btn-border-radius: 16px !default;
 $btn-padding-y: 16px !default;
 $btn-font-weight: 500 !default;
-
+$btn-border: none !default;
 // Forms
 
 $input-border-color:                    rgba(0, 0, 0, .1) !default;

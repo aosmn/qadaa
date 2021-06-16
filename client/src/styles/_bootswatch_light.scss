@@ -115,13 +115,18 @@ table,
   &-light {
     color: #fff;
     background-color: $orange;
+    border: 1px solid orange !important;
+    &:hover {
+    border: 1px solid $gray-300 !important;
+    // background-color: $gray-300;
+    }
   }
 }
 
 .card {
   // border: 1px solid #0000000e;
   border: none;
-  box-shadow: 1px 1px 3px  #0000001f;
+  box-shadow: 1px 1px 6px  #0000001f;
 }
 
 .form-control {
