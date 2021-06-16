@@ -64,7 +64,7 @@ const HomeScreen = props => {
     <Container className='h-100 home'>
       <Row className='h-100'>
         <Col sm={12} lg={3}>
-          <Row className='mb-md-4 h-100'>
+          <Row className='mb-4 h-100'>
             <Col>
               <Card className='personal'>
                 <Card.Body>
@@ -278,7 +278,7 @@ const HomeScreen = props => {
           <Row className='d-flex d-md-none align-items-center mt-4'>
             <Col className='h-100' xs={6} md={6} lg={5}>
               <Card className='h-100 logs'>
-                <Card.Body className='h-100'>
+                <Card.Body className='h-100 p-0'>
                   <Link
                     to='/logs'
                     className='btn btn-primary h-100 d-flex justify-content-center align-items-center font-weight-bold'>
