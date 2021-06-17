@@ -8,7 +8,9 @@ import prayerRouter from './routes/prayer.routes.js';
 import path from 'path';
 import { notFound, errorHandler } from './middleware/error.middleware.js';
 
-dotenv.config({path: `.env${process.env.NODE_ENV === 'production' ? '' : '.development'}`});
+dotenv.config({
+  path: `.env${process.env.NODE_ENV === 'production' ? '' : '.development'}`
+});
 
 var corsOptions = {
   origin: [process.env.CLIENT_URL, process.env.CLIENT],
@@ -28,6 +30,10 @@ const __dirname = path.resolve();
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '/client/build')));
+  app.use(express.static(path.join(__dirname, '/server/public')));
+  app.get('/.well-known/acme-challenge/T4Ho2OuT53Vi2X9fCWGJEU4t7SN1vyik90usZPiJYro', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'server', 'public', 'T4Ho2OuT53Vi2X9fCWGJEU4t7SN1vyik90usZPiJYro'));
+  });
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   });
