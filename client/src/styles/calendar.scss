@@ -83,10 +83,10 @@
       }
       &.react-calendar__tile--active {
         transition: all 0.1s ease-in-out;
-        background-color: $teal !important;
+        background-color: $orange !important;
         color: white;
         &:hover {
-          background-color: $teal !important;
+          background-color: $orange !important;
         }
       }
       &.react-calendar__tile--now {
