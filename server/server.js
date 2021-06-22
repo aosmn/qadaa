@@ -6,6 +6,9 @@ import connectDB from './config/db.config.js';
 import userRouter from './routes/user.routes.js';
 import prayerRouter from './routes/prayer.routes.js';
 import path from 'path';
+import fs from 'fs';
+import https from 'https';
+
 import { notFound, errorHandler } from './middleware/error.middleware.js';
 
 dotenv.config({
@@ -31,9 +34,9 @@ const __dirname = path.resolve();
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '/client/build')));
   app.use(express.static(path.join(__dirname, '/server/public')));
-  app.get('/.well-known/acme-challenge/T4Ho2OuT53Vi2X9fCWGJEU4t7SN1vyik90usZPiJYro', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'server', 'public', 'T4Ho2OuT53Vi2X9fCWGJEU4t7SN1vyik90usZPiJYro'));
-  });
+  // app.get('/.well-known/acme-challenge/T4Ho2OuT53Vi2X9fCWGJEU4t7SN1vyik90usZPiJYro', (req, res) => {
+  //   res.sendFile(path.resolve(__dirname, 'server', 'public', 'T4Ho2OuT53Vi2X9fCWGJEU4t7SN1vyik90usZPiJYro'));
+  // });
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   });
@@ -47,6 +50,7 @@ app.use(notFound);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
+const httpsPort = parseInt(PORT, 10) + 443;
 
 app.listen(
   PORT,
@@ -54,3 +58,20 @@ app.listen(
     `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold
   )
 );
+const httpsOptions = {
+  cert: fs.readFileSync(
+    path.join(__dirname, 'server', 'bin', 'qadaa.aosmn.com.pem')
+  ),
+  key: fs.readFileSync(
+    path.join(__dirname, 'server', 'bin', 'qadaa.aosmn.com.key')
+  )
+};
+https
+  .createServer(httpsOptions, app)
+  .listen(
+    httpsPort,
+    console.log(
+      `HTTPS Server running in ${process.env.NODE_ENV} mode on port ${httpsPort}`
+        .blue.bold
+    )
+  );
