@@ -170,21 +170,35 @@ const passwordReset = asyncHandler(async (req, res) => {
     user.resetPasswordExpires = undefined;
     const savedUser = await user.save();
 
-    const text = `Hello ${user.name.split(' ')[0]} \n\n
-    This is a confirmation that the password for your account ${
-      savedUser.email
-    } was changed.`;
-    const subject = 'Your password was changed';
+    // const text = `Hello ${user.name.split(' ')[0]} \n\n
+    // This is a confirmation that the password for your account ${
+    //   savedUser.email
+    // } was changed.`;
+    // const subject = 'Your password was changed';
     const to = savedUser.email;
-    sendMessage({ to, text, subject }, (error, info) => {
-      if (error) {
+    const templateId = process.env.PASSWORD_RESET_CONFIRM_TEMPLATE;
+    const data = {
+      user_name: user.name.split(' ')[0]
+    };
+    sendMessage({ to, templateId, data })
+      .then(() => {
+        res.status(200).json({
+          message: `Success! A confirmation email was sent to ${savedUser.email}`
+        });
+      })
+      .catch(err => {
         res.status(500);
-        throw new Error(error);
-      }
-      res.status(200).json({
-        message: `A confirmation email was sent to ${savedUser.email}`
+        throw new Error(err);
       });
-    });
+    // , (error, info) => {
+    //   if (error) {
+    //     res.status(500);
+    //     throw new Error(error);
+    //   }
+    //   res.status(200).json({
+    //     message: `Success! A confirmation email was sent to ${savedUser.email}`
+    //   });
+    // });
   } else {
     res.status(401);
     throw new Error('Password reset token is invalid or has expired');
