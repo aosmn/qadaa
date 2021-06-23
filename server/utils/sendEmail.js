@@ -3,7 +3,6 @@ import colors from 'colors';
 import dotenv from 'dotenv';
 import sgMail from '@sendgrid/mail';
 dotenv.config();
-console.log(process.env.SENDGRID_API_KEY);
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const sendMessage = ({ to, text, subject, templateId, data }, callback) => {

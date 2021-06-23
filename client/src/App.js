@@ -144,7 +144,7 @@ const App = props => {
     ...settingsSteps,
     {
       target: '.personal',
-      content: `This is your profile, you can see our daily progress, overall progress and your settings here`
+      content: `This is your profile, you can see your daily progress, overall progress and your settings here`
     },
     {
       target: '.counter',
@@ -159,36 +159,33 @@ const App = props => {
       setAxiosAuth('Bearer ' + JSON.parse(localStorage.getItem('user')).token);
       props.getMe();
     }
-console.log('lalaa');
-window.addEventListener('load', function () {
-  window.addEventListener('online', function (e) {
-    console.log('henaaa');
-    getOfflineDayLogs().then(res => {
-      console.log(res);
-      res.forEach(offlineDay => {
-        props
-          .saveOfflineLogs({
-            day: day(offlineDay.day),
-            prayers: {
-              fajr: offlineDay.fajr || 0,
-              dhuhr: offlineDay.dhuhr || 0,
-              asr: offlineDay.asr || 0,
-              maghrib: offlineDay.maghrib || 0,
-              isha: offlineDay.isha || 0
-            }
-          })
-          .then(res => {
-            if (res) {
-              deleteDayLogsByDay(offlineDay.id);
-            } else {
-              // TODO: Alert
-              console.log('error uploading offline logs');
-            }
+    window.addEventListener('load', function () {
+      window.addEventListener('online', function (e) {
+        getOfflineDayLogs().then(res => {
+          res.forEach(offlineDay => {
+            props
+              .saveOfflineLogs({
+                day: day(offlineDay.day),
+                prayers: {
+                  fajr: offlineDay.fajr || 0,
+                  dhuhr: offlineDay.dhuhr || 0,
+                  asr: offlineDay.asr || 0,
+                  maghrib: offlineDay.maghrib || 0,
+                  isha: offlineDay.isha || 0
+                }
+              })
+              .then(res => {
+                if (res) {
+                  deleteDayLogsByDay(offlineDay.id);
+                } else {
+                  // TODO: Alert
+                  console.log('error uploading offline logs');
+                }
+              });
           });
+        });
       });
     });
-  });
-});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
