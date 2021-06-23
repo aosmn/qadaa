@@ -121,15 +121,32 @@ const sendPasswordReset = asyncHandler(async (req, res) => {
     If you did not request this, please ignor this email and your password will remain unchanged`;
     const subject = 'Password reset link';
     const to = savedUser.email;
-    sendMessage({ to, text, subject }, (error, info) => {
-      if (error) {
+
+    const templateId = process.env.PASSWORD_RESET_TEMPLATE;
+    const data = {
+      user_name: savedUser.name.split(' ')[0],
+      reset_url: link
+    };
+
+    sendMessage({ to, subject, templateId, data })
+      .then(() => {
+        res.status(200).json({
+          message: `A reset email was sent to ${savedUser.email}`
+        });
+      })
+      .catch(error => {
         res.status(500);
         throw new Error(error);
-      }
-      res.status(200).json({
-        message: `A reset email was sent to ${savedUser.email}`
       });
-    });
+    // (error, info) => {
+    //   if (error) {
+    //     res.status(500);
+    //     throw new Error(error);
+    //   }
+    //   res.status(200).json({
+    //     message: `A reset email was sent to ${savedUser.email}`
+    //   });
+    // });
   } else {
     res.status(404);
     throw new Error(
@@ -189,7 +206,11 @@ const updatePreferences = asyncHandler(async (req, res) => {
       }
     }
 
-    const updatedUser = await User.findByIdAndUpdate(req.user._id, {$set: set}, {new: true});
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user._id,
+      { $set: set },
+      { new: true }
+    );
 
     res.json({
       preferences: updatedUser.preferences
