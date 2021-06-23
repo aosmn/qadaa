@@ -51,7 +51,13 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 const httpsPort = parseInt(PORT, 10) + 443;
-
+// app.all('*', (req, res, next) => {
+//   if (req.secure) {
+//     req.next();
+//   } else {
+//     res.redirect(307, 'https://' + req.hostname +':' + httpsPort + req.url);
+//   }
+// })
 app.listen(
   PORT,
   console.log(
@@ -66,12 +72,12 @@ const httpsOptions = {
     path.join(__dirname, 'server', 'bin', 'qadaa.aosmn.com.key')
   )
 };
-https
-  .createServer(httpsOptions, app)
-  .listen(
-    httpsPort,
-    console.log(
-      `HTTPS Server running in ${process.env.NODE_ENV} mode on port ${httpsPort}`
-        .blue.bold
-    )
-  );
+// https
+//   .createServer(httpsOptions, app)
+//   .listen(
+//     httpsPort,
+//     console.log(
+//       `HTTPS Server running in ${process.env.NODE_ENV} mode on port ${httpsPort}`
+//         .blue.bold
+//     )
+//   );
