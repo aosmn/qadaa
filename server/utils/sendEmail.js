@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 
 const sendMessage = ({ to, text, subject }, callback) => {
   let transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
+    host: 'smtp.sendgrid.net',
     port: 465,
     secure: true, // use TLS
     auth: {
