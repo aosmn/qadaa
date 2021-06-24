@@ -6,10 +6,11 @@ import {
   sendRecoverEmail,
   clearPasswordState
 } from '../../redux/actions/userActions';
+import { toast } from 'react-toastify';
 
 const ForgotPasswordScreen = ({ location, history }) => {
   const [email, setEmail] = useState('');
-
+  const [submitted, setSubmitted] = useState(false);
   const dispatch = useDispatch();
   const passwordReset = useSelector(state => state.passwordReset);
 
@@ -24,15 +25,33 @@ const ForgotPasswordScreen = ({ location, history }) => {
 
   const submitHandler = e => {
     e.preventDefault();
-    dispatch(sendRecoverEmail(email));
+    dispatch(sendRecoverEmail(email)).then(() => {
+      setSubmitted(true);
+    });
   };
+
+  useEffect(() => {
+    if (submitted && message) {
+      toast.success(message, {
+        position: 'bottom-center',
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined
+      });
+      history.push('/');
+    }
+  }, [submitted, message, history]);
 
   return (
     <FormContainer
       title='Forgot Password'
+      hasSeparator
       loading={loading}
-      error={error}
-      message={message}
+      error={submitted && error}
+      message={submitted && message}
       submit={submitHandler}
       submitButtonText='Reset Password'
       linkButton={{

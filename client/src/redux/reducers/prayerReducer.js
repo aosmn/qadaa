@@ -16,20 +16,22 @@ import {
   GET_DAY_LOGS_FAIL
 } from '../actionTypes/prayerActionTypes.js';
 
-export const prayersReducer = (
-  state = {
-    prayers: [],
-    error: '',
-    loading: false,
-    updateError: '',
-    updateLoading: false,
-    today: {},
-    loadingToday: false,
-    todayError: ''
-  },
-  action
-) => {
+import { USER_LOGOUT } from '../actionTypes/userActionTypes';
+
+const initialState = {
+  prayers: [],
+  error: '',
+  loading: false,
+  updateError: '',
+  updateLoading: false,
+  today: {},
+  loadingToday: false,
+  todayError: ''
+};
+export const prayersReducer = (state = initialState, action) => {
   switch (action.type) {
+    case USER_LOGOUT:
+      return initialState;
     case GET_LOGS_REQUEST:
       return { ...state, loading: true };
     case GET_LOGS_SUCCESS:
@@ -87,13 +89,20 @@ export const prayersReducer = (
 
 export const prayerTotalsReducer = (state = {}, action) => {
   switch (action.type) {
+    case USER_LOGOUT:
+      return {};
     case GET_PRAYER_TOTALS_REQUEST:
       return { ...state, loading: true };
     case GET_PRAYER_TOTALS_SUCCESS:
       return { ...state, loading: false, totals: action.payload };
     case GET_PRAYER_TOTALS_FAIL:
-    console.log('data', JSON.parse(localStorage.getItem('totals')));
-      return { ...state, loading: false, error: action.payload,  totals: JSON.parse(localStorage.getItem('totals'))};
+      console.log('data', JSON.parse(localStorage.getItem('totals')));
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+        totals: JSON.parse(localStorage.getItem('totals'))
+      };
     default:
       return state;
   }

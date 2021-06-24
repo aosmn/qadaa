@@ -28,7 +28,8 @@ import {
 import { getOfflineDayLogs, deleteDayLogsByDay } from './services/DBHelper';
 
 import { saveOfflineLogs } from './redux/actions/prayerActions.js';
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './App.scss';
 
 const mapStateToProps = state => ({
@@ -159,9 +160,10 @@ const App = props => {
       setAxiosAuth('Bearer ' + JSON.parse(localStorage.getItem('user')).token);
       props.getMe();
     }
-    window.addEventListener('load', function () {
-      window.addEventListener('online', function (e) {
-        getOfflineDayLogs().then(res => {
+    const user = props.userInfo?.user?._id;
+    window.addEventListener('load', () => {
+      window.addEventListener('online', e => {
+        getOfflineDayLogs(user).then(res => {
           res.forEach(offlineDay => {
             props
               .saveOfflineLogs({
@@ -189,6 +191,33 @@ const App = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (props.userInfo?.user?._id) {
+      getOfflineDayLogs(props.userInfo?.user?._id).then(res => {
+        res.forEach(offlineDay => {
+          props
+            .saveOfflineLogs({
+              day: day(offlineDay.day),
+              prayers: {
+                fajr: offlineDay.fajr || 0,
+                dhuhr: offlineDay.dhuhr || 0,
+                asr: offlineDay.asr || 0,
+                maghrib: offlineDay.maghrib || 0,
+                isha: offlineDay.isha || 0
+              }
+            })
+            .then(res => {
+              if (res) {
+                deleteDayLogsByDay(offlineDay.id);
+              } else {
+                // TODO: Alert
+                console.log('error uploading offline logs');
+              }
+            });
+        });
+      });
+    }
+  }, [props.userInfo?.user, props]);
   const handleJoyrideCallback = data => {
     const { status } = data;
 
@@ -201,6 +230,7 @@ const App = props => {
   };
   return (
     <div className='h-100 d-flex flex-column'>
+      <ToastContainer />
       <Router>
         <Header />
         <Offline />

@@ -48,27 +48,25 @@ const LoginScreen = ({ location, history }) => {
           {...register('email', { required: 'Email required' })}
           type='email'
           placeholder='Enter Email'
-          isInvalid={errors.email}
-        ></Form.Control>
+          isInvalid={errors.email}></Form.Control>
         <Form.Label>Email</Form.Label>
         <Form.Control.Feedback type='invalid'>
           {errors.email && errors.email.message}
         </Form.Control.Feedback>
       </Form.Group>
-      <div className='d-flex flex-column mb-4'>
+      <div className='d-flex flex-column mb-4 password-container'>
         <Form.Group controlId='password' className='mb-4'>
           <Form.Control
             {...register('password', { required: 'Password required' })}
             type='password'
             placeholder='Enter Password'
-            isInvalid={errors.password}
-          ></Form.Control>
+            isInvalid={errors.password}></Form.Control>
           <Form.Label>Password</Form.Label>
 
           <Form.Control.Feedback type='invalid'>
             {errors.password && errors.password.message}
           </Form.Control.Feedback>
-          <small className='input-action ml-auto mt-1 mr-0 mb-2'>
+          <small className='input-action ml-auto mt-1 mr-0 mb-2 password-reset-link'>
             <Link to='/forgot-password' className='text-secondary'>
               Forgot your password?
             </Link>

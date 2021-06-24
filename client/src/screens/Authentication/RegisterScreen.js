@@ -45,6 +45,8 @@ const RegisterScreen = ({ location, history }) => {
       loading={loading}
       error={error}
       submit={submitHandler}
+      // title='Create an Account'
+      // hasSeparator
       submitButtonText='Register'
       linkButton={{
         to: redirect ? `/login?redirect=${redirect}` : '/login',

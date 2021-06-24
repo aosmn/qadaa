@@ -118,9 +118,10 @@ nav,
   padding: 10px 0 !important;
 }
 
-hr {
-  border-top: 1px solid rgba(255, 255, 255, 0.3) !important;
-}
+// hr {
+//   border-top: 1px solid rgba(0, 0, 0, 0.1) !important;
+//   box-shadow: 1px 1px 11px rgba(0, 0, 0, 0.1);
+// }
 
 .very-small-text {
   font-size: 0.6rem !important;
@@ -451,4 +452,11 @@ input.small:not(:placeholder-shown) + label {
 .navbar-brand {
   color: $primary !important;
   font-weight: 900;
+}
+
+.password-container {
+  .input-action {
+    bottom: -3px;
+    right: 10px;
+  }
 }

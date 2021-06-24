@@ -62,13 +62,12 @@ class PrayersCounter extends Component {
   }
 
   componentDidMount() {
-    // getOfflineDayLogs().then(logs => console.log(logs));
-    getOfflineTotals().then(totals => {
-      this.setState({
-        offlineTotals: totals
-      });
-    });
     if (this.props.userInfo && this.props.userInfo.user) {
+      getOfflineTotals(this.props.userInfo.user._id).then(totals => {
+        this.setState({
+          offlineTotals: totals
+        });
+      });
       this.props.getPrayerTotals(this.props.userInfo.user._id);
       this.props.getLogs(this.props.userInfo.user._id);
       this.props.getTodayLogs();
@@ -82,9 +81,8 @@ class PrayersCounter extends Component {
       this.props.prayerTotals.loading !== prevProps.prayerTotals.loading
     ) {
       if (this.props.updateError) {
-        // getOfflineDayLogs().then(logs => console.log(logs));
         setTimeout(() => {
-          getOfflineTotals().then(totals => {
+          getOfflineTotals(this.props.userInfo.user._id).then(totals => {
             this.setState({
               offlineTotals: totals
             });

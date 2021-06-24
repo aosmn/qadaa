@@ -14,7 +14,8 @@ const FormContainer = ({
   message,
   submit,
   submitButtonText,
-  linkButton
+  linkButton,
+  hasSeparator
 }) => {
   return (
     <Container className='h-100'>
@@ -23,16 +24,20 @@ const FormContainer = ({
           <Card className='h-100 w-100' style={{ maxWidth: '600px' }}>
             {loading && <LoadingOverlay />}
             <Card.Body>
-              <Col xs={{ span: 10, offset: 1 }} className='h-100'>
+              <Col className='h-100'>
                 <div className='d-flex flex-column h-100 mx-4'>
                   {!hideLogo && (
-                    <div className='logo-container-vertical'>
-                      <img
-                        src={logo}
-                        alt='logo'
-                      />
-                      <div className='logo-text'>Qadaa</div>
-                    </div>
+                    <>
+                      <div className='logo-container-vertical mb-4'>
+                        <img src={logo} alt='logo' />
+                        <div className='logo-text'>Qadaa</div>
+                      </div>
+                      {hasSeparator && (
+                        <div className='w-100 mb-4'>
+                          <hr />
+                        </div>
+                      )}
+                    </>
                   )}
                   {title && (
                     <h5 className='text-center text-secondary mb-4'>{title}</h5>
@@ -55,7 +60,9 @@ const FormContainer = ({
                       <Form.Group
                         controlId='forgot'
                         className='w-100 d-flex justify-content-center'>
-                        <Link className='text-secondary' to={linkButton.to}>
+                        <Link
+                          className='text-secondary text-center'
+                          to={linkButton.to}>
                           {linkButton.text}
                         </Link>
                       </Form.Group>

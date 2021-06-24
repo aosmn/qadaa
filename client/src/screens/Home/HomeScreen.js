@@ -49,7 +49,7 @@ const HomeScreen = props => {
   // let dailyTarget = props.userInfo?.user?.preferences.dailyTarget * 5 || 10;
   useEffect(() => {
     props.getDayLogs();
-    getOfflineTotals().then(totals => {
+    getOfflineTotals(props.userInfo?.user?._id).then(totals => {
       setOfflineTotal(totals.total);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps

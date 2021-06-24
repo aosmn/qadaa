@@ -56,27 +56,29 @@ export const getLogs = id => async dispatch => {
   }
 };
 
-export const getDayLogs = (day = new Date()) => async dispatch => {
-  try {
-    dispatch({
-      type: GET_DAY_LOGS_REQUEST
-    });
+export const getDayLogs =
+  (day = new Date()) =>
+  async dispatch => {
+    try {
+      dispatch({
+        type: GET_DAY_LOGS_REQUEST
+      });
 
-    const data = await fetchDayLogs(day);
-    dispatch({
-      type: GET_DAY_LOGS_SUCCESS,
-      payload: data
-    });
-  } catch (error) {
-    dispatch({
-      type: GET_DAY_LOGS_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
-    });
-  }
-};
+      const data = await fetchDayLogs(day);
+      dispatch({
+        type: GET_DAY_LOGS_SUCCESS,
+        payload: data
+      });
+    } catch (error) {
+      dispatch({
+        type: GET_DAY_LOGS_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message
+      });
+    }
+  };
 
 export const getPrayerTotals = id => async dispatch => {
   try {
@@ -101,92 +103,95 @@ export const getPrayerTotals = id => async dispatch => {
   }
 };
 
-export const updateDayLogs = ({ day, prayer, count }) => async (
-  dispatch,
-  getState
-) => {
-  try {
-    dispatch({
-      type: DAY_UPDATE_REQUEST
-    });
-
+export const updateDayLogs =
+  ({ day, prayer, count }) =>
+  async (dispatch, getState) => {
     const {
       userInfo: { user }
     } = getState();
-    let data;
-    if (prayer === 'all') {
-      data = await updateLogsAllDay(day, count);
-    } else {
-      data = await updateLogs(day, prayer, count);
+    try {
+      dispatch({
+        type: DAY_UPDATE_REQUEST
+      });
+
+      let data;
+      if (prayer === 'all') {
+        data = await updateLogsAllDay(day, count);
+      } else {
+        data = await updateLogs(day, prayer, count);
+      }
+      dispatch(getDayLogs());
+      dispatch({
+        type: DAY_UPDATE_SUCCESS,
+        payload: data
+      });
+      const totals = await fetchTotals(user._id);
+      // console.log('totals',totals);
+      dispatch({
+        type: GET_PRAYER_TOTALS_SUCCESS,
+        payload: totals
+      });
+    } catch (error) {
+      logPrayersOffline({ prayer, count, day, user: user._id });
+      dispatch({
+        type: DAY_UPDATE_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message
+      });
     }
-    dispatch(getDayLogs());
-    dispatch({
-      type: DAY_UPDATE_SUCCESS,
-      payload: data
-    });
-    const totals = await fetchTotals(user._id);
-    // console.log('totals',totals);
-    dispatch({
-      type: GET_PRAYER_TOTALS_SUCCESS,
-      payload: totals
-    });
-  } catch (error) {
-    logPrayersOffline({ prayer, count, day });
-    dispatch({
-      type: DAY_UPDATE_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
-    });
-  }
-};
+  };
 
-export const setLogs = ({ day, prayers }) => async (dispatch, getState) => {
-  try {
-    dispatch({
-      type: DAY_SET_REQUEST
-    });
+export const setLogs =
+  ({ day, prayers }) =>
+  async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: DAY_SET_REQUEST
+      });
 
-    let data;
-    data = await setDayLogs(day, prayers);
-    dispatch(getPrayerTotals());
-    dispatch({
-      type: DAY_SET_SUCCESS,
-      payload: data
-    });
-  } catch (error) {
-    dispatch({
-      type: DAY_SET_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
-    });
-  }
-};
+      let data;
+      data = await setDayLogs(day, prayers);
+      dispatch(getPrayerTotals());
+      dispatch({
+        type: DAY_SET_SUCCESS,
+        payload: data
+      });
+    } catch (error) {
+      dispatch({
+        type: DAY_SET_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message
+      });
+    }
+  };
 
-export const saveOfflineLogs = ({ day, prayers }) => async (dispatch, getState) => {
-  try {
-    dispatch({
-      type: DAY_SET_REQUEST
-    });
+export const saveOfflineLogs =
+  ({ day, prayers }) =>
+  async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: DAY_SET_REQUEST
+      });
 
-    let data;
-    data = await postOfflinePrayers(day, prayers);
-    dispatch(getPrayerTotals());
-    dispatch({
-      type: DAY_SET_SUCCESS,
-      payload: data
-    });
-    return data
-  } catch (error) {
-    dispatch({
-      type: DAY_SET_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
-    });
-  }
-};
+      let data;
+      data = await postOfflinePrayers(day, prayers);
+      dispatch(getPrayerTotals());
+      dispatch({
+        type: DAY_SET_SUCCESS,
+        payload: data
+      });
+      return data;
+    } catch (error) {
+      dispatch({
+        type: DAY_SET_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message
+      });
+    }
+  };
