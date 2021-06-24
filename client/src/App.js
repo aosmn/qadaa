@@ -191,33 +191,33 @@ const App = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    if (props.userInfo?.user?._id) {
-      getOfflineDayLogs(props.userInfo?.user?._id).then(res => {
-        res.forEach(offlineDay => {
-          props
-            .saveOfflineLogs({
-              day: day(offlineDay.day),
-              prayers: {
-                fajr: offlineDay.fajr || 0,
-                dhuhr: offlineDay.dhuhr || 0,
-                asr: offlineDay.asr || 0,
-                maghrib: offlineDay.maghrib || 0,
-                isha: offlineDay.isha || 0
-              }
-            })
-            .then(res => {
-              if (res) {
-                deleteDayLogsByDay(offlineDay.id);
-              } else {
-                // TODO: Alert
-                console.log('error uploading offline logs');
-              }
-            });
-        });
-      });
-    }
-  }, [props.userInfo?.user, props]);
+  // useEffect(() => {
+  //   if (props.userInfo?.user?._id) {
+  //     getOfflineDayLogs(props.userInfo?.user?._id).then(res => {
+  //       res.forEach(offlineDay => {
+  //         props
+  //           .saveOfflineLogs({
+  //             day: day(offlineDay.day),
+  //             prayers: {
+  //               fajr: offlineDay.fajr || 0,
+  //               dhuhr: offlineDay.dhuhr || 0,
+  //               asr: offlineDay.asr || 0,
+  //               maghrib: offlineDay.maghrib || 0,
+  //               isha: offlineDay.isha || 0
+  //             }
+  //           })
+  //           .then(res => {
+  //             if (res) {
+  //               deleteDayLogsByDay(offlineDay.id);
+  //             } else {
+  //               // TODO: Alert
+  //               console.log('error uploading offline logs');
+  //             }
+  //           });
+  //       });
+  //     });
+  //   }
+  // }, [props.userInfo?.user, props]);
   const handleJoyrideCallback = data => {
     const { status } = data;
 
