@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { setAxiosAuth } from './api/axiosRequest';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 // import withRouter from 'react-router';
@@ -35,6 +35,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.scss';
 
+import * as STEPS from './utils/tutorialSteps';
+
 const mapStateToProps = state => ({
   prayerTotals: state.prayerTotals,
   today: state.prayerLogs.today?.total || 0,
@@ -51,114 +53,14 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const App = props => {
-  const counterSteps = [
-    {
-      target: '.addPrayer',
-      content: `Let's try and add a prayer here`
-    },
-    {
-      target: '.addManyPrayers',
-      content: `You can also add many prayers, Let's try`
-    },
-    {
-      target: '.manyPrayersCount',
-      content: `Enter how many prayers did you make up`
-    },
-    {
-      target: '.saveManyPrayers',
-      content: `Let's add them`
-    },
-    {
-      target: '.prayersCount',
-      content: `They will be added here`
-    },
-    {
-      target: '.addDay',
-      content: `You can add the five prayers for one day, Let's try`
-    },
-    {
-      target: '.counter',
-      content: `This will add 1 to every prayer's counter`
-    },
-    {
-      target: '.addDay',
-      content: `You can also add the five prayers for many days, Please press and hold the button`
-    },
-    {
-      target: '.counter',
-      content: `This will add to every prayer's counter`
-    }
-    // {
-    //   target: '.closeOverlay',
-    //   content: `You can cancel here`
-    // }
-  ];
-  const calendarSteps = [
-    { target: '.logs', content: `You can see your logs here` },
-    { target: '.calendar', content: `You can see your logs here` },
-    {
-      target: '.count',
-      content: `This  is the number of prayers you made up that day, Click to see details`
-    },
-    {
-      target: '.dayDetails',
-      content: `You can view and edit the day prayers here`
-    }
-  ];
-  const settingsSteps = [
-    {
-      target: '.settings',
-      content: `Let's setup your profile to calculate the number of prayers you missed`
-    },
-    {
-      target: '.startDate',
-      content: `Start date is the start of the period you want to make up for. Select it now`
-    },
-    {
-      target: '.endDate',
-      content: `End date is the end of the period you want to make up for. Select it now`
-    },
-    {
-      target: '.isFemale',
-      content: `Please select your gender`
-    },
-    {
-      target: '.period',
-      content: `Your period days aren't added in the total days you need to make up for`
-    },
-    {
-      target: '.dailyTarget',
-      content: `Set a daily target to make up prayers every day`
-    },
-    {
-      target: '.saveSettings',
-      content: `Let's save your settings and start making up prayers`
-    }
-  ];
   const steps = [
-    {
-      target: '.logo',
-      content:
-        'Welcome to Qadaa! Your companion to make up and count the prayers you have missed. May Allah accept from us all!'
-    },
-    {
-      target: '.home',
-      content: 'This is your home page!',
-      placement: 'center'
-    },
-    ...settingsSteps,
-    {
-      target: '.personal',
-      content: `This is your profile, you can see your daily progress, overall progress and your settings here`
-    },
-    {
-      target: '.counter',
-      content: `This is your counter, you can add or subtract prayers you make up here`
-    },
-    ...counterSteps,
-    ...calendarSteps
+    ...STEPS.introSteps,
+    ...STEPS.settingsSteps,
+    ...STEPS.counterSteps,
+    ...STEPS.calendarSteps
   ];
-  const onClickUpload = user => {
+
+  const onClickSync = user => {
     getOfflineDayLogs(user).then(res => {
       res.forEach(offlineDay => {
         props
@@ -176,7 +78,7 @@ const App = props => {
             if (res) {
               deleteDayLogsByDay(offlineDay.id);
             } else {
-              toast.error('error uploading offline logs', {
+              toast.error('error syncing offline logs', {
                 position: 'top-right',
                 autoClose: true,
                 hideProgressBar: false,
@@ -213,16 +115,16 @@ const App = props => {
             const nDays = res.length;
             const Msg = ({ closeToast, toastProps }) => (
               <div>
-                You have offline entries for {nDays} days, do you want to upload
+                You have offline entries for {nDays} days, do you want to sync
                 them online, or just delete them?
                 <div className='mt-3'>
                   <button
                     className='btn btn-success py-2'
                     onClick={() => {
-                      onClickUpload(user);
+                      onClickSync(user);
                       closeToast();
                     }}>
-                    Upload
+                    Sync
                   </button>
                   <button
                     className='btn btn-danger py-2 mx-2'
@@ -286,7 +188,7 @@ const App = props => {
                 <button
                   className='btn btn-success py-2'
                   onClick={() => {
-                    onClickUpload(user);
+                    onClickSync(user);
                     closeToast();
                   }}>
                   Upload
