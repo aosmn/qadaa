@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { setAxiosAuth } from './api/axiosRequest';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 // import withRouter from 'react-router';
@@ -27,8 +27,11 @@ import {
 
 import { getOfflineDayLogs, deleteDayLogsByDay } from './services/DBHelper';
 
-import { saveOfflineLogs } from './redux/actions/prayerActions.js';
-import { ToastContainer } from 'react-toastify';
+import {
+  saveOfflineLogs,
+  getPrayerTotals
+} from './redux/actions/prayerActions.js';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.scss';
 
@@ -43,7 +46,8 @@ const mapDispatchToProps = dispatch => ({
   updatePreferences: prefs => dispatch(updateUserPreferences(prefs)),
   setJoyrideNext: next => dispatch(setJoyrideNext(next)),
   getMe: () => dispatch(getMe()),
-  saveOfflineLogs: log => dispatch(saveOfflineLogs(log))
+  saveOfflineLogs: log => dispatch(saveOfflineLogs(log)),
+  getPrayerTotals: id => dispatch(getPrayerTotals(id))
 });
 
 const App = props => {
@@ -154,6 +158,46 @@ const App = props => {
     ...counterSteps,
     ...calendarSteps
   ];
+  const onClickUpload = (user) => {
+      getOfflineDayLogs(user).then(res => {
+        res.forEach(offlineDay => {
+          props
+            .saveOfflineLogs({
+              day: day(offlineDay.day),
+              prayers: {
+                fajr: offlineDay.fajr || 0,
+                dhuhr: offlineDay.dhuhr || 0,
+                asr: offlineDay.asr || 0,
+                maghrib: offlineDay.maghrib || 0,
+                isha: offlineDay.isha || 0
+              }
+            })
+            .then(res => {
+              if (res) {
+                deleteDayLogsByDay(offlineDay.id);
+              } else {
+                toast.error('error uploading offline logs', {
+                  position: 'top-right',
+                  autoClose: true,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined
+                });
+              }
+            });
+        });
+      });
+    };
+    const onClickDelete = (user) => {
+      getOfflineDayLogs(user).then(res => {
+        res.forEach(offlineDay => {
+          deleteDayLogsByDay(offlineDay.id);
+          props.getPrayerTotals(user);
+        });
+      });
+    };
   useEffect(() => {
     if (localStorage.getItem('user')) {
       // console.log('henaaa');
@@ -161,63 +205,113 @@ const App = props => {
       props.getMe();
     }
     const user = props.userInfo?.user?._id;
+
     window.addEventListener('load', () => {
       window.addEventListener('online', e => {
         getOfflineDayLogs(user).then(res => {
-          res.forEach(offlineDay => {
-            props
-              .saveOfflineLogs({
-                day: day(offlineDay.day),
-                prayers: {
-                  fajr: offlineDay.fajr || 0,
-                  dhuhr: offlineDay.dhuhr || 0,
-                  asr: offlineDay.asr || 0,
-                  maghrib: offlineDay.maghrib || 0,
-                  isha: offlineDay.isha || 0
-                }
-              })
-              .then(res => {
-                if (res) {
-                  deleteDayLogsByDay(offlineDay.id);
-                } else {
-                  // TODO: Alert
-                  console.log('error uploading offline logs');
-                }
-              });
-          });
+          if (res.length > 0) {
+            const nDays = res.length;
+            const Msg = ({ closeToast, toastProps }) => (
+              <div>
+                You have offline entries for {nDays} days, do you want to upload
+                them online, or just delete them?
+                <div className='mt-3'>
+                  <button
+                    className='btn btn-success py-2'
+                    onClick={() => {
+                      onClickUpload(user);
+                      closeToast();
+                    }}>
+                    Upload
+                  </button>
+                  <button
+                    className='btn btn-danger py-2 mx-2'
+                    onClick={() => {
+                      onClickDelete(user);
+                      closeToast();
+                    }}>
+                    Delete
+                  </button>
+                </div>
+              </div>
+            );
+            toast.info(Msg, {
+              position: 'top-right',
+              autoClose: false,
+              hideProgressBar: false,
+              closeOnClick: false,
+              draggable: false,
+              progress: undefined
+            });
+          }
         });
+        // getOfflineDayLogs(user).then(res => {
+        //   res.forEach(offlineDay => {
+        //     props
+        //       .saveOfflineLogs({
+        //         day: day(offlineDay.day),
+        //         prayers: {
+        //           fajr: offlineDay.fajr || 0,
+        //           dhuhr: offlineDay.dhuhr || 0,
+        //           asr: offlineDay.asr || 0,
+        //           maghrib: offlineDay.maghrib || 0,
+        //           isha: offlineDay.isha || 0
+        //         }
+        //       })
+        //       .then(res => {
+        //         if (res) {
+        //           deleteDayLogsByDay(offlineDay.id);
+        //         } else {
+        //           // TODO: Alert
+        //           console.log('error uploading offline logs');
+        //         }
+        //       });
+        //   });
+        // });
       });
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // useEffect(() => {
-  //   if (props.userInfo?.user?._id) {
-  //     getOfflineDayLogs(props.userInfo?.user?._id).then(res => {
-  //       res.forEach(offlineDay => {
-  //         props
-  //           .saveOfflineLogs({
-  //             day: day(offlineDay.day),
-  //             prayers: {
-  //               fajr: offlineDay.fajr || 0,
-  //               dhuhr: offlineDay.dhuhr || 0,
-  //               asr: offlineDay.asr || 0,
-  //               maghrib: offlineDay.maghrib || 0,
-  //               isha: offlineDay.isha || 0
-  //             }
-  //           })
-  //           .then(res => {
-  //             if (res) {
-  //               deleteDayLogsByDay(offlineDay.id);
-  //             } else {
-  //               // TODO: Alert
-  //               console.log('error uploading offline logs');
-  //             }
-  //           });
-  //       });
-  //     });
-  //   }
-  // }, [props.userInfo?.user, props]);
+  useEffect(() => {
+    const user = props.userInfo?.user?._id;
+    getOfflineDayLogs(user).then(res => {
+      if (res.length > 0) {
+        const nDays = res.length;
+        const Msg = ({ closeToast, toastProps }) => (
+          <div>
+            You have offline entries for {nDays} days, do you want to upload
+            them online, or just delete them?
+            <div className='mt-3'>
+              <button
+                className='btn btn-success py-2'
+                onClick={() => {
+                  onClickUpload(user);
+                  closeToast();
+                }}>
+                Upload
+              </button>
+              <button
+                className='btn btn-danger py-2 mx-2'
+                onClick={() => {
+                  onClickDelete(user);
+                  closeToast();
+                }}>
+                Delete
+              </button>
+            </div>
+          </div>
+        );
+        toast.info(Msg, {
+          position: 'top-right',
+          autoClose: false,
+          hideProgressBar: false,
+          closeOnClick: false,
+          draggable: false,
+          progress: undefined
+        });
+      }
+    });
+  }, [props.userInfo?.user?._id]);
   const handleJoyrideCallback = data => {
     const { status } = data;
 

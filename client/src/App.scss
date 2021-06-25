@@ -395,11 +395,13 @@ input.small:not(:placeholder-shown) + label {
   .btn.btn-round {
     height: 24px;
     width: 24px;
-    padding: 0;
+    padding: 0 !important;
     font-size: 0.8rem;
   }
 }
-
+.btn.btn-round {
+  padding: 0 !important;
+}
 .progress-container {
   // color: #fff;
   // background-color: #000;
@@ -459,4 +461,8 @@ input.small:not(:placeholder-shown) + label {
     bottom: -3px;
     right: 10px;
   }
+}
+
+.Toastify__toast.Toastify__toast--info {
+background-color: $teal-dk;
 }

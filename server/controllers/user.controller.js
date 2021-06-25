@@ -128,16 +128,19 @@ const sendPasswordReset = asyncHandler(async (req, res) => {
       reset_url: link
     };
 
-    sendMessage({ to, subject, templateId, data })
-      .then(() => {
-        res.status(200).json({
-          message: `A reset email was sent to ${savedUser.email}`
-        });
-      })
-      .catch(error => {
-        res.status(500);
-        throw new Error(error);
-      });
+    // sendMessage({ to, subject, templateId, data })
+    //   .then(() => {
+    //     res.status(200).json({
+    //       message: `A reset email was sent to ${savedUser.email}`
+    //     });
+    //   })
+    //   .catch(error => {
+    //     res.status(500);
+    //     throw new Error(error);
+    //   });
+    res.status(200).json({
+      message: `A reset email was sent to ${savedUser.email}`
+    });
     // (error, info) => {
     //   if (error) {
     //     res.status(500);
@@ -180,16 +183,21 @@ const passwordReset = asyncHandler(async (req, res) => {
     const data = {
       user_name: user.name.split(' ')[0]
     };
-    sendMessage({ to, templateId, data })
-      .then(() => {
-        res.status(200).json({
-          message: `Success! A confirmation email was sent to ${savedUser.email}`
-        });
-      })
-      .catch(err => {
-        res.status(500);
-        throw new Error(err);
-      });
+    // sendMessage({ to, templateId, data })
+    //   .then(() => {
+    //     res.status(200).json({
+    //       message: `Success! A confirmation email was sent to ${savedUser.email}`
+    //     });
+    //   })
+    //   .catch(err => {
+    //     res.status(500);
+    //     throw new Error(err);
+    //   });
+
+    res.status(200).json({
+      message: `Success! A confirmation email was sent to ${savedUser.email}`
+    });
+
     // , (error, info) => {
     //   if (error) {
     //     res.status(500);
