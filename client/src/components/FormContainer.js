@@ -4,7 +4,7 @@ import Message from '../components/Message';
 import { LoadingOverlay } from '../components/Loader';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo-grad-n.svg';
-
+import { useTranslation } from 'react-i18next';
 const FormContainer = ({
   children,
   hideLogo,
@@ -17,6 +17,7 @@ const FormContainer = ({
   linkButton,
   hasSeparator
 }) => {
+  const { t } = useTranslation(['auth']);
   return (
     <Container className='h-100'>
       <Row className='justify-content-md-center h-100'>
@@ -30,7 +31,7 @@ const FormContainer = ({
                     <>
                       <div className='logo-container-vertical mb-4'>
                         <img src={logo} alt='logo' />
-                        <div className='logo-text'>Qadaa</div>
+                        <div className='logo-text'>{t('qadaa')}</div>
                       </div>
                       {hasSeparator && (
                         <div className='w-100 mb-4'>

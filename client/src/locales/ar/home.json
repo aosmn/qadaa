@@ -1,0 +1,81 @@
+{
+  "language": "ع",
+  "copyright": "جميع الحقوق محفوظة",
+  "?": "؟",
+  "calendar": "التقويم",
+  "offline": "لست متصلاً بالانترنت، سيتم رفع تغييراتك عندما تتم استعادة الاتصال",
+  "loading": "جاري التحميل",
+  "qadaa": "قضاء",
+  "hello": "أهلاً",
+  "setupTarget": "أهلاً، قم بتحديد هدفك",
+  "todayProgress": "إنجاز اليوم",
+  "overallProgress": "الإنجاز الكلي",
+  "out of": "من",
+  "prayers": "صلوات",
+  "prayer": "صلاة",
+  "day": "يوم",
+  "days": "أيام",
+  "aldays": "الأيام",
+  "alprayers": "الصلوات",
+  "yourSettings": "إعداداتك الشخصية",
+  "date": "تاريخ",
+  "total": "مجموع الصلوات",
+  "fajr": "الفجر",
+  "dhuhr": "الظهر",
+  "asr": "العصر",
+  "maghrib": "المغرب",
+  "isha": "العشاء",
+  "madeUp": "تم قضاء",
+  "selectDate": "اختر التاريخ ﻹظهار صلوات اليوم",
+  "totalDone": "مجموع ما قضيت",
+  "settings": "اﻹعدادات",
+  "close": "إغلاق",
+  "makeUpDay": "قضاء صلاة يوم كامل",
+  "makeUpPrayer": "قضاء صلاة",
+  "undoPrayer": "إلغاء صلاة",
+  "makeUpMany": "قضاء عدد من الصلوات",
+  "enterManually": "أدخل عدد اﻷيام بنفسك",
+  "male": "ذكر",
+  "female": "أنثى",
+  "save": "حفظ",
+  "cancel": "إلغاء",
+  "addManyDaysTitle": "إضافة صلاة أيامٍ عدة",
+  "addManyTitle": "إضافة عدة صلوات",
+  "howManyDays": "كم عدد اﻷيام؟",
+  "howMany": "كم عدد",
+  "logs": "السجلات",
+  "offlineLogs": "السجلات غير متوفرة بدون الاتصال بالانترنت",
+  "inputFields": {
+    "durationError": "يجب ألا يكون تاريخ البدء نفس تاريخ الانتهاء",
+    "start": {
+      "label": "تاريخ البدء",
+      "required": "برجاء إدخال تاريخ الانتهاء",
+      "invalid": "يجب أن يكون تاريخ البدء قبل تاريخ الانتهاء",
+      "placeholder": ""
+    },
+    "end": {
+      "label": "تاريخ الانتهاء",
+      "required": "برجاء إدخال تاريخ الانتهاء",
+      "invalid": "يجب أن يكون تاريخ الانتهاء بعد تاريخ البدء",
+      "placeholder": ""
+    },
+    "dailyTarget": {
+      "label": "الهدف اليومي",
+      "required": "برجاء إدخال الهدف اليومي",
+      "invalid": "",
+      "placeholder": ""
+    },
+    "periodDays": {
+      "label": "عدد أيام الدورة الشهرية",
+      "required": "برجاء إدخال عدد اﻷيام",
+      "invalid": "",
+      "placeholder": ""
+    },
+    "numberOfDays": {
+      "label": "عدد اﻷيام",
+      "required": "برجاء إدخال عدد اﻷيام",
+      "invalid": "يجب أن يكون عدد اﻷيام أكبر من 1",
+      "placeholder": ""
+    }
+  }
+}

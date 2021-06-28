@@ -464,5 +464,51 @@ input.small:not(:placeholder-shown) + label {
 }
 
 .Toastify__toast.Toastify__toast--info {
-background-color: $teal-dk;
+  background-color: $teal-dk;
+}
+
+.ar {
+  font-family: 'Tajawal', sans-serif;
+  direction: rtl;
+  *:not(.Toastify) {
+    text-align: right;
+    // align-content: flex-start;
+  }
+  .text-center {
+    text-align: center !important;
+    * {
+      text-align: center !important;
+    }
+  }
+
+  .btn-add-many {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-top-left-radius: $border-radius !important;
+    border-bottom-left-radius: $border-radius !important;
+  }
+  .btn {
+    text-align: center !important;
+  }
+  label {
+    left: unset !important;
+    right: 1rem;
+  }
+  .password-container {
+    .input-action {
+      left: 10px !important;
+      right: unset !important;
+    }
+  }
+  .show-pass {
+    right: unset !important;
+    left: 0 !important
+  }
+
+  .react-calendar__month-view__weekdays__weekday {
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }

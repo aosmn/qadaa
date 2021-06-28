@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { setAxiosAuth } from './api/axiosRequest';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 // import withRouter from 'react-router';
@@ -14,9 +14,6 @@ import ForgotPassword from './screens/Authentication/ForgotPasswordScreen';
 import Register from './screens/Authentication/RegisterScreen';
 import { connect } from 'react-redux';
 import day from 'dayjs';
-// import LogPrayers from './screens/Prayers/PrayersCounter';
-// import PrayerLogs from './screens/PrayerLogs/PrayerLogs';
-// import Calculator from './screens/Preferences/Calculator';
 import Joyride, { STATUS } from 'react-joyride';
 import Offline from './components/OfflineAlert';
 import {
@@ -35,6 +32,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.scss';
 
+import './locales/i18n';
+import { useTranslation } from 'react-i18next';
 import * as STEPS from './utils/tutorialSteps';
 
 const mapStateToProps = state => ({
@@ -53,6 +52,8 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const App = props => {
+  const { t, i18n } = useTranslation(['tutorial']);
+  const [language, setLanguage] = useState(i18n.language);
   const steps = [
     ...STEPS.introSteps,
     ...STEPS.settingsSteps,
@@ -110,6 +111,7 @@ const App = props => {
 
     window.addEventListener('load', () => {
       window.addEventListener('online', e => {
+        // console.log(getOfflineDayLogs(user));
         getOfflineDayLogs(user).then(res => {
           if (res.length > 0) {
             const nDays = res.length;
@@ -226,11 +228,17 @@ const App = props => {
       props.updatePreferences({ tutorialDone: true });
     }
   };
+  const changeLanguage = code => {
+    setLanguage(code);
+  };
   return (
-    <div className='h-100 d-flex flex-column'>
+    <div
+      className={`h-100 d-flex flex-column${
+        language.indexOf('ar') > -1 ? ' ar' : ''
+      }`}>
       <ToastContainer />
       <Router>
-        <Header />
+        <Header changeLanguage={changeLanguage}/>
         <Offline />
 
         <main className='flex-grow-1 d-flex align-items-center'>
@@ -248,6 +256,13 @@ const App = props => {
                   showProgress={false}
                   getHelpers={({ next }) => {
                     props.setJoyrideNext(next);
+                  }}
+                  locale={{
+                    back: t('back'),
+                    close: t('close'),
+                    last: t('last'),
+                    next: t('next'),
+                    skip: t('skip')
                   }}
                 />
               )}

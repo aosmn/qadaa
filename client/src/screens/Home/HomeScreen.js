@@ -19,7 +19,7 @@ import { Link } from 'react-router-dom';
 import Settings from '../../components/Settings';
 
 import { getOfflineTotals } from '../../services/DBHelper';
-
+import { useTranslation } from 'react-i18next';
 const mapStateToProps = state => ({
   prayerTotals: state.prayerTotals,
   today: state.prayerLogs.today?.total || 0,
@@ -34,6 +34,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const HomeScreen = props => {
+  const { t } = useTranslation(['home']);
   const [selectedDate, setSelectedDate] = useState(null);
   const [showSettings, setShowSettings] = useState(false);
   const [offlineTotal, setOfflineTotal] = useState(0);
@@ -71,7 +72,7 @@ const HomeScreen = props => {
                   {props.userInfo.loading && <LoadingOverlay />}
 
                   <h6 className='font-weight-bold mb-0 d-flex align-items-center'>
-                    Hello {props.userInfo.user?.name?.split(' ')[0]}
+                    {t('hello')} {props.userInfo.user?.name?.split(' ')[0]}
                     {showSettings ? (
                       <Button
                         variant='link'
@@ -97,7 +98,7 @@ const HomeScreen = props => {
 
                   {!props.userInfo?.user?.preferences?.start && (
                     <div className='d-flex mt-2'>
-                      <small>Welcome! Set up your target</small>
+                      <small>{t('setupTarget')}</small>
                       <Button
                         variant='link'
                         className='btn text-dark p-0 mx-2'
@@ -115,11 +116,11 @@ const HomeScreen = props => {
                         <div className='progress-container'>
                           <div>
                             <h6 className='font-weight-bold mb-0'>
-                              Today's progress
+                              {t('todayProgress')}
                             </h6>
                           </div>
                           <div className='label'>
-                            <b>{props.today}</b> prayers out of{' '}
+                            <b>{props.today}</b> {t('prayers')} {t('out of')}{' '}
                             <b>{dailyTarget * 5}</b>{' '}
                             <small>
                               (
@@ -131,7 +132,7 @@ const HomeScreen = props => {
                           </div>
                           <ProgressBar
                             className='mt-3'
-                            aria-label={`today's progress`}
+                            aria-label={t('todayProgress')}
                             now={round2(
                               (props.today * 100) / (dailyTarget * 5)
                             )}
@@ -140,7 +141,7 @@ const HomeScreen = props => {
                         </div>
                         <div className='progress-container'>
                           <h6 className='font-weight-bold mb-0'>
-                            Overall progress
+                            {t('overallProgress')}
                           </h6>
                           <div className='label'>
                             <b>
@@ -149,7 +150,7 @@ const HomeScreen = props => {
                                 props.prayerTotals.totals[0]?.total) ||
                                 0) + offlineTotal}
                             </b>{' '}
-                            prayers out of <b>{total || 0}</b>{' '}
+                            {t('prayers')} {t('out of')} <b>{total || 0}</b>{' '}
                             <small>
                               (
                               {props.prayerTotals &&
@@ -164,7 +165,7 @@ const HomeScreen = props => {
                             </small>
                           </div>
                           <ProgressBar
-                            aria-label='overall progress'
+                            aria-label={t('overallProgress')}
                             className='mt-3'
                             now={
                               props.prayerTotals &&
@@ -239,7 +240,7 @@ const HomeScreen = props => {
                         0) + offlineTotal}
                     </h5>
                     <div>
-                      <small>Total done</small>
+                      <small>{t('totalDone')}</small>
                     </div>
                   </>
                 </Card.Body>
@@ -260,9 +261,7 @@ const HomeScreen = props => {
               {!selectedDate ? (
                 <Card className='h-100'>
                   <Card.Body className='h-100 d-flex align-items-center justify-content-center'>
-                    <div className='text-center'>
-                      Select a date to show prayer details
-                    </div>
+                    <div className='text-center'>{t('selectDate')}</div>
                   </Card.Body>
                 </Card>
               ) : (
@@ -286,7 +285,7 @@ const HomeScreen = props => {
                   <Link
                     to='/logs'
                     className='btn btn-primary h-100 d-flex justify-content-center align-items-center font-weight-bold'>
-                    Logs
+                    {t('logs')}
                   </Link>
                 </Card.Body>
               </Card>
@@ -302,7 +301,7 @@ const HomeScreen = props => {
                         0) + offlineTotal}
                     </h5>
                     <div>
-                      <small>Total done</small>
+                      <small>{t('totalDone')}</small>
                     </div>
                   </div>
                 </Card.Body>

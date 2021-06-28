@@ -1,0 +1,82 @@
+{
+  "language": "en",
+  "copyright": "Copyright",
+  "?": "?",
+  "calendar": "Your Calendar",
+  "offline": "You are offline, changes you make will be added when you go online.",
+  "loading":"Loading",
+  "qadaa": "Qadaa'",
+  "hello": "Hello",
+  "setupTarget": "Welcome! Set up your target",
+  "todayProgress": "Today's Progress",
+  "overallProgress": "Overall Progress",
+  "out of": "out of",
+  "prayers": "prayers",
+  "alprayers": "prayers",
+  "prayer": "prayer",
+  "day": "day",
+  "days": "days",
+  "aldays": "days",
+  "yourSettings": "Your Settings",
+  "date": "Date",
+  "total": "Total Prayers",
+  "fajr": "Fajr",
+  "dhuhr": "Dhuhr",
+  "asr": "Asr",
+  "maghrib": "Maghrib",
+  "isha": "Isha",
+  "madeUp": "Made Up",
+  "selectDate": "Select a date to show prayer details",
+  "totalDone": "Total Done",
+  "settings": "Settings",
+  "close": "Close",
+  "makeUpDay": "Make up a day",
+  "makeUpPrayer": "Make up a prayer",
+  "undoPrayer": "Undo prayer",
+  "makeUpMany": "Make up many",
+  "enterManually": "Enter manually",
+  "numberOfDays": "Number of days",
+  "male": "Male",
+  "female": "Female",
+  "save": "Save",
+  "cancel": "Cancel",
+  "addManyDaysTitle": "Add prayers for many days",
+  "addManyTitle": "Add many prayers",
+  "howManyDays": "How many days?",
+  "howMany": "How many",
+  "logs": "Logs",
+  "offlineLogs": "Logs not available offline",
+  "inputFields": {
+    "durationError": "Start date and End date can't be the same",
+    "start": {
+      "label": "Start Date",
+      "required": "Please enter your start date",
+      "invalid": "Start Date should be before End Date",
+      "placeholder": ""
+    },
+    "end": {
+      "label": "End Date",
+      "required": "Please enter your end date",
+      "invalid": "Start Date should be before End Date",
+      "placeholder": ""
+    },
+    "dailyTarget": {
+      "label": "Daily Target",
+      "required": "Please enter your daily target",
+      "invalid": "",
+      "placeholder": ""
+    },
+    "periodDays": {
+      "label": "Period Days",
+      "required": "Please enter your period length",
+      "invalid": "Period length must be between 3 and 15",
+      "placeholder": ""
+    },
+    "numberOfDays": {
+      "label": "Number of days",
+      "required": "Please enter the number of days",
+      "invalid": "Must be > 1",
+      "placeholder": ""
+    }
+  }
+}

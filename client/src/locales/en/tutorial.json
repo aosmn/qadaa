@@ -1,0 +1,38 @@
+{
+  "intro": {
+    "1": "Welcome to Qadaa! Your companion to make up and count the prayers you have missed. May Allah accept from us all!",
+    "2": "This is your home page!"
+  },
+  "counter": {
+    "1": "This is your counter, you can add or subtract prayers you make up here",
+    "2": "Let's try and add a prayer here",
+    "3": "You can also add many prayers, Let's try",
+    "4": "Enter the number of prayers you made up",
+    "5": "Let's add them",
+    "6": "They will be added here",
+    "7": "You can add the five prayers for one day, Let's try",
+    "8": "This will add 1 to every prayer's counter",
+    "9": "You can also add the five prayers for many days, Please press and hold the button",
+    "10": "This will add to every prayer's counter"
+  },
+  "calendar": {
+    "1": "You can see your logs here",
+    "2": "This  is the number of prayers you made up that day, Click to see details",
+    "3": "You can view and edit the day prayers here"
+  },
+  "settings": {
+    "1": "Let's setup your profile to calculate the number of prayers you missed",
+    "2": "Start date is the start of the period you want to make up for. Select it now",
+    "3": "End date is the end of the period you want to make up for. Select it now",
+    "4": "Please select your gender",
+    "5": "Your period days aren't added in the total days you need to make up for",
+    "6": "Set a daily target to make up prayers every day",
+    "7": "Let's save your settings and start making up prayers",
+    "8": "This is your profile, you can see your daily progress, overall progress and your settings here"
+  },
+  "back": "Back",
+  "close": "Close",
+  "last": "Last",
+  "next": "Next",
+  "skip": "Skip"
+}

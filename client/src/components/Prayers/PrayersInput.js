@@ -8,6 +8,7 @@ import LongPressable from 'react-longpressable';
 import PrayerItem from './PrayerItem';
 
 import { setLogs } from '../../redux/actions/prayerActions.js';
+import { useTranslation } from 'react-i18next';
 
 const mapStateToProps = state => ({
   userInfo: state.userInfo,
@@ -20,6 +21,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const PrayersCounter = props => {
+  const { t } = useTranslation('home');
   let prayers = props.selectedDate.prayers;
 
   const [fajr, setFajr] = useState(0);
@@ -162,6 +164,7 @@ const PrayersCounter = props => {
     setPrayerManyWhich('');
     setAddPrayersCount(2);
   };
+
   return (
     <>
       <h6>
@@ -176,7 +179,7 @@ const PrayersCounter = props => {
             <>
               <Button
                 variant='link-light'
-                title='make up many'
+                title={t('makeUpMany')}
                 className='close-button closeOverlay'
                 onClick={() => {
                   hidePrayerMany();
@@ -185,29 +188,34 @@ const PrayersCounter = props => {
               </Button>
               <div className='content'>
                 <h6 className='title text-center'>
-                  Add many{' '}
                   {showManyDays ? (
-                    <span>days' </span>
+                    t('addManyDaysTitle')
                   ) : (
-                    <span className='capitalize'>{prayerManyWhich} </span>
+                    <>
+                      <span>{t('addManyTitle')}</span>
+                      <span className='capitalize px-2'>
+                        ({t(prayerManyWhich.toLowerCase())})
+                      </span>
+                    </>
                   )}
-                  prayers
                 </h6>
                 <Form.Group controlId='prayerCount'>
                   <Form.Control
                     required
                     type='number'
                     min={2}
-                    placeholder={`How many ${
-                      showManyDays ? 'days' : 'prayers'
-                    }?`}
+                    placeholder={`${t('howMany')} ${
+                      showManyDays ? t('aldays') : t('alprayers')
+                    }${t('?')}`}
                     value={addPrayersCount}
                     onChange={e => setAddPrayersCount(e.target.value)}
                     className={`small ${
                       showManyDays ? 'manyDaysCount' : 'manyPrayersCount'
                     }`}></Form.Control>
                   <Form.Label>
-                    How many {showManyDays ? 'days' : 'prayers'}?
+                    {t('howMany')}{' '}
+                    {showManyDays ? t('aldays') : t('alprayers')}
+                    {t('?')}
                   </Form.Label>
                 </Form.Group>
                 <Form.Group controlId='save' className='w-100'>
@@ -216,7 +224,7 @@ const PrayersCounter = props => {
                     type='button'
                     variant='light'
                     onClick={submitManyForm}>
-                    Add
+                    {t('save')}
                   </Button>
                 </Form.Group>
               </div>
@@ -287,7 +295,7 @@ const PrayersCounter = props => {
             longPressTime={700}>
             <Button
               variant='primary'
-              title='made up a day'
+              title={t('makeUpDay')}
               className='btn-add-many h-100 py-3 px-3 align-items-center addDay'>
               <ion-icon name='duplicate-outline'></ion-icon>
             </Button>
@@ -299,22 +307,22 @@ const PrayersCounter = props => {
           <Button
             type='button'
             variant='primary'
-            title='made up a day'
+            title={t('makeUpDay')}
             className='w-100 h-100 align-items-center'
             onClick={setPrayers}>
-            Save
+            {t('save')}
           </Button>
         </Col>
         <Col>
           <Button
             type='button'
             variant='light'
-            title='made up a day'
+            title={t('makeUpDay')}
             className='w-100 h-100 align-items-center'
             onClick={() => {
               props.onCancel();
             }}>
-            Cancel
+            {t('cancel')}
           </Button>
         </Col>
       </Row>

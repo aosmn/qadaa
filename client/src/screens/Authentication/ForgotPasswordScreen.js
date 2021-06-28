@@ -7,8 +7,10 @@ import {
   clearPasswordState
 } from '../../redux/actions/userActions';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 const ForgotPasswordScreen = ({ location, history }) => {
+  const { t } = useTranslation(['auth']);
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const dispatch = useDispatch();
@@ -32,7 +34,7 @@ const ForgotPasswordScreen = ({ location, history }) => {
 
   useEffect(() => {
     if (submitted && message) {
-      toast.success(message, {
+      toast.success(t('forgotPassword.confirm'), {
         position: 'bottom-center',
         autoClose: 5000,
         hideProgressBar: true,
@@ -47,24 +49,24 @@ const ForgotPasswordScreen = ({ location, history }) => {
 
   return (
     <FormContainer
-      title='Forgot Password'
+      title={t('forgotPassword.title')}
       hasSeparator
       loading={loading}
       error={submitted && error}
       message={submitted && message}
       submit={submitHandler}
-      submitButtonText='Reset Password'
+      submitButtonText={t('forgotPassword.resetPassword')}
       linkButton={{
         to: redirect ? `/login?redirect=${redirect}` : '/login',
-        text: 'Cancel'
+        text: t('cancel')
       }}>
       <Form.Group controlId='email'>
         <Form.Control
           type='email'
-          placeholder='Enter Email'
+          placeholder={t('inputFields.email.placeholder')}
           value={email}
           onChange={e => setEmail(e.target.value)}></Form.Control>
-        <Form.Label>Email</Form.Label>
+        <Form.Label>{t('inputFields.email.label')}</Form.Label>
       </Form.Group>
     </FormContainer>
   );

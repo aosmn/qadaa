@@ -1,6 +1,12 @@
 // Litera 5.0.1
 // Bootswatch
 
+.btn-link,
+.btn-link:hover,
+.btn-link:focus {
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
 // Navbar
 
 .navbar {
@@ -12,7 +18,7 @@
 
   &.bg-light {
     background-color: $white !important;
-    border: 1px solid rgba(0, 0, 0, .1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
 
     &.navbar-fixed-top {
       border-width: 0 0 1px;
@@ -83,7 +89,9 @@ table,
   @each $color, $value in $theme-colors {
     &-#{$color} {
       @if $enable-gradients {
-        background: $value linear-gradient($value, mix($body-bg, $value, 15%)) repeat-x;
+        background: $value
+          linear-gradient($value, mix($body-bg, $value, 15%))
+          repeat-x;
       } @else {
         background-color: $value;
       }
@@ -118,8 +126,8 @@ table,
     background-color: $orange;
     border: 1px solid orange !important;
     &:hover {
-    border: 1px solid $gray-300 !important;
-    // background-color: $gray-300;
+      border: 1px solid $gray-300 !important;
+      // background-color: $gray-300;
     }
   }
 }
@@ -127,7 +135,7 @@ table,
 .card {
   // border: 1px solid #0000000e;
   border: none;
-  box-shadow: 1px 1px 6px  #0000001f;
+  box-shadow: 1px 1px 6px #0000001f;
 }
 
 .form-control {
@@ -177,7 +185,7 @@ select:-webkit-autofill:focus {
     font-size: 0.7rem !important;
   }
   input + .form-label {
-    transition: all .2s;
+    transition: all 0.2s;
     position: absolute;
     left: 1rem;
     top: 50%;

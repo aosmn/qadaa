@@ -1,102 +1,103 @@
+import i18next from 'i18next';
+
 export const introSteps = [
   {
     target: '.logo',
-    content:
-      'Welcome to Qadaa! Your companion to make up and count the prayers you have missed. May Allah accept from us all!'
+    content: i18next.t('tutorial:intro.1')
   },
   {
     target: '.home',
-    content: 'This is your home page!',
+    content: i18next.t('tutorial:intro.2'),
     placement: 'center'
   }
 ];
 export const counterSteps = [
   {
     target: '.counter',
-    content: `This is your counter, you can add or subtract prayers you make up here`
+    content: i18next.t('tutorial:counter.1')
   },
   {
     target: '.addPrayer',
-    content: `Let's try and add a prayer here`
+    content: i18next.t('tutorial:counter.2')
   },
   {
     target: '.addManyPrayers',
-    content: `You can also add many prayers, Let's try`
+    content: i18next.t('tutorial:counter.3')
   },
   {
     target: '.manyPrayersCount',
-    content: `Enter how many prayers did you make up`
+    content: i18next.t('tutorial:counter.4')
   },
   {
     target: '.saveManyPrayers',
-    content: `Let's add them`
+    content: i18next.t('tutorial:counter.5')
   },
   {
     target: '.prayersCount',
-    content: `They will be added here`
+    content: i18next.t('tutorial:counter.6')
   },
   {
     target: '.addDay',
-    content: `You can add the five prayers for one day, Let's try`
+    content: i18next.t('tutorial:counter.7')
   },
   {
     target: '.counter',
-    content: `This will add 1 to every prayer's counter`
+    content: i18next.t('tutorial:counter.8')
   },
   {
     target: '.addDay',
-    content: `You can also add the five prayers for many days, Please press and hold the button`
+    content: i18next.t('tutorial:counter.9')
   },
   {
     target: '.counter',
-    content: `This will add to every prayer's counter`
+    content: i18next.t('tutorial:counter.10')
   }
 ];
 
 export const calendarSteps = [
-  { target: '.logs', content: `You can see your logs here` },
-  { target: '.calendar', content: `You can see your logs here` },
+  { target: '.logs', content: i18next.t('tutorial:calendar.1') },
+  { target: '.calendar', content: i18next.t('tutorial:calendar.1') },
   {
     target: '.count',
-    content: `This  is the number of prayers you made up that day, Click to see details`
+    content: i18next.t('tutorial:counter.2')
   },
   {
     target: '.dayDetails',
-    content: `You can view and edit the day prayers here`
+    content: i18next.t('tutorial:counter.3')
   }
 ];
 
 export const settingsSteps = [
   {
     target: '.settings',
-    content: `Let's setup your profile to calculate the number of prayers you missed`
-  },
+    content: i18next.t('tutorial:settings.1')
+    },
   {
     target: '.startDate',
-    content: `Start date is the start of the period you want to make up for. Select it now`
-  },
+    content: i18next.t('tutorial:settings.2')
+    },
   {
     target: '.endDate',
-    content: `End date is the end of the period you want to make up for. Select it now`
-  },
+    content: i18next.t('tutorial:settings.3')
+    },
   {
     target: '.isFemale',
-    content: `Please select your gender`
-  },
+    content: i18next.t('tutorial:settings.4')
+    },
   {
     target: '.period',
-    content: `Your period days aren't added in the total days you need to make up for`
-  },
+    content: i18next.t('tutorial:settings.5')
+    },
   {
     target: '.dailyTarget',
-    content: `Set a daily target to make up prayers every day`
-  },
+    content: i18next.t('tutorial:settings.6')
+    },
   {
     target: '.saveSettings',
-    content: `Let's save your settings and start making up prayers`
-  },
+    content: i18next.t('tutorial:settings.7')
+    },
   {
     target: '.personal',
-    content: `This is your profile, you can see your daily progress, overall progress and your settings here`
-  }
+    content: i18next.t('tutorial:settings.8')
+     }
 ];

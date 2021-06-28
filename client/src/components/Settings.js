@@ -8,6 +8,7 @@ import { updateUserPreferences } from '../redux/actions/userActions';
 import { setLogs, getDayLogs } from '../redux/actions/prayerActions.js';
 import { objectEmpty } from '../utils/utils';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 day.extend(duration);
 
 const mapStateToProps = state => ({
@@ -25,6 +26,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const Settings = props => {
+  const { t } = useTranslation(['home']);
   const [isFemale, setIsFemale] = useState(false);
   const [enterManually, setEnterManually] = useState(false);
   const {
@@ -81,7 +83,6 @@ const Settings = props => {
   };
 
   const onSaveSettings = data => {
-    console.log('henaaaa');
     if (enterManually) {
       // console.log({
       //   start: day().subtract(data.days, 'days'),
@@ -117,7 +118,7 @@ const Settings = props => {
       );
       const numberOfDays = isFemale ? totalDays : Math.ceil(duration.asDays());
       if (duration.asDays() === 0) {
-        alert("Start date and End date can't be the same");
+        alert(t('inputFields.durationError'));
       } else {
         props
           .updatePreferences(
@@ -142,12 +143,14 @@ const Settings = props => {
   return (
     <>
       <h6 className='font-weight-bold mb-3 d-flex align-items-center'>
-        Your Settings
+        {t('yourSettings')}
       </h6>
       {!props.show ? (
         <div className='info mt-3'>
           <div>
-            <small className='font-weight-bold'>Start Date</small>
+            <small className='font-weight-bold'>
+              {t('inputFields.start.label')}
+            </small>
             <p className='mb-2'>
               {day(props.userInfo?.user?.preferences.start).format(
                 'DD/MM/YYYY'
@@ -155,27 +158,36 @@ const Settings = props => {
             </p>
           </div>
           <div>
-            <small className='font-weight-bold'>End Date</small>
+            <small className='font-weight-bold'>
+              {t('inputFields.end.label')}
+            </small>
             <p className='mb-2'>
               {day(props.userInfo?.user?.preferences.end).format('DD/MM/YYYY')}
             </p>
           </div>
           <div>
-            <small className='font-weight-bold'>Total Prayers</small>
+            <small className='font-weight-bold'>
+              {t('inputFields.numberOfDays.label')}
+            </small>
             <p className='mb-2'>
               {props.userInfo?.user?.preferences.days * 5} (
-              {props.userInfo?.user?.preferences.days} days)
+              {props.userInfo?.user?.preferences.days} {t('days')})
             </p>
           </div>
           <div>
-            <small className='font-weight-bold'>Daily Target</small>
+            <small className='font-weight-bold'>
+              {t('inputFields.dailyTarget.label')}
+            </small>
             <p className='mb-2'>
-              {(props.userInfo?.user?.preferences.dailyTarget || 0) * 5} prayers
+              {(props.userInfo?.user?.preferences.dailyTarget || 0) * 5}{' '}
+              {t('prayers')}
             </p>
           </div>
           {props.userInfo?.user?.preferences.isFemale && (
             <div>
-              <small className='font-weight-bold'>Period Days</small>
+              <small className='font-weight-bold'>
+                {t('inputFields.periodDays.label')}
+              </small>
               <p className='mb-2'>
                 {props.userInfo?.user?.preferences.period || 4}
               </p>
@@ -187,7 +199,7 @@ const Settings = props => {
           <Form.Group controlId='set-manually'>
             <Form.Check
               type='checkbox'
-              label='Enter manually'
+              label={t('enterManually')}
               onChange={e => setEnterManually(e.target.checked)}
             />
           </Form.Group>
@@ -195,9 +207,9 @@ const Settings = props => {
             <Form.Group controlId='days' className='mb-4'>
               <Form.Control
                 {...register('days', {
-                  required: 'Number of days is required',
+                  required: t('inputFields.numberOfDays.required'),
                   validate: val => {
-                    return val > 1 || 'Must be > 1';
+                    return val > 1 || t('inputFields.numberOfDays.invalid');
                   }
                 })}
                 min={1}
@@ -205,7 +217,7 @@ const Settings = props => {
                 className='small days'
                 isInvalid={errors.days}
               />
-              <Form.Label>Number of days</Form.Label>
+              <Form.Label>{t('inputFields.numberOfDays.label')}</Form.Label>
               <Form.Control.Feedback type='invalid'>
                 {errors.days && errors.days.message}
               </Form.Control.Feedback>
@@ -215,11 +227,11 @@ const Settings = props => {
               <Form.Group controlId='start' className='mb-4'>
                 <Form.Control
                   {...register('start', {
-                    required: 'Start date required',
+                    required: t('inputFields.start.required'),
                     validate: val => {
                       return (
                         day(val).isBefore(day(getValues().end)) ||
-                        'Start Date should be before End Date'
+                        t('inputFields.start.invalid')
                       );
                     }
                   })}
@@ -228,7 +240,7 @@ const Settings = props => {
                   className='small startDate'
                   isInvalid={errors.start}
                 />
-                <Form.Label>Start Date</Form.Label>
+                <Form.Label>{t('inputFields.start.label')}</Form.Label>
                 <Form.Control.Feedback type='invalid'>
                   {errors.start && errors.start.message}
                 </Form.Control.Feedback>
@@ -236,11 +248,11 @@ const Settings = props => {
               <Form.Group controlId='end' className='mb-4'>
                 <Form.Control
                   {...register('end', {
-                    required: 'End date required',
+                    required: t('inputFields.end.required'),
                     validate: val => {
                       return (
                         day(val).isAfter(day(getValues().start)) ||
-                        'Start Date should be before End Date'
+                        t('inputFields.end.invalid')
                       );
                     }
                   })}
@@ -248,15 +260,15 @@ const Settings = props => {
                   className='small endDate'
                   isInvalid={errors.end}
                 />
-                <Form.Label>End Date</Form.Label>
+                <Form.Label>{t('inputFields.end.label')}</Form.Label>
                 <Form.Control.Feedback type='invalid'>
                   {errors.end && errors.end.message}
                 </Form.Control.Feedback>
               </Form.Group>
               <Swipe
                 small
-                checkedText='Female'
-                unCheckedText='Male'
+                checkedText={t('female')}
+                unCheckedText={t('male')}
                 value={isFemale}
                 className='isFemale'
                 onChange={v => setIsFemale(v)}
@@ -265,11 +277,11 @@ const Settings = props => {
                 <Form.Group controlId='period' className='mb-4'>
                   <Form.Control
                     {...register('period', {
-                      required: 'Period length required',
+                      required: t('inputFields.periodDays.required'),
                       validate: val => {
                         return (
                           (val < 16 && val > 3) ||
-                          'Period length must be between 3 and 15'
+                          t('inputFields.periodDays.invalid')
                         );
                       }
                     })}
@@ -278,7 +290,7 @@ const Settings = props => {
                     max={15}
                     className='small period'
                     isInvalid={errors.period}></Form.Control>
-                  <Form.Label>Period Length</Form.Label>
+                  <Form.Label>{t('inputFields.periodDays.label')}</Form.Label>
                   <Form.Control.Feedback type='invalid'>
                     {errors.period && errors.period.message}
                   </Form.Control.Feedback>
@@ -291,7 +303,9 @@ const Settings = props => {
               {...register('dailyTarget')}
               type='number'
               className='small dailyTarget'></Form.Control>
-            <Form.Label>Daily Target (days)</Form.Label>
+            <Form.Label>
+              {t('inputFields.dailyTarget.label')} ({t('days')})
+            </Form.Label>
           </Form.Group>
           <Form.Group controlId='save' className='w-100'>
             <Button
@@ -299,7 +313,7 @@ const Settings = props => {
               type='button'
               variant='primary'
               onClick={submitHandler}>
-              Save
+              {t('save')}
             </Button>
           </Form.Group>
           {props.userInfo.user?.preferences.start && (
@@ -309,7 +323,7 @@ const Settings = props => {
                 type='button'
                 variant='link-secondary'
                 onClick={() => props.hide()}>
-                Cancel
+                {t('cancel')}
               </Button>
             </Form.Group>
           )}

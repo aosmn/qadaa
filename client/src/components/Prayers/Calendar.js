@@ -29,11 +29,11 @@ export class PrayerLogs extends Component {
     };
   }
   componentDidMount() {
-    window.addEventListener('offline', (e) => {
+    window.addEventListener('offline', e => {
       this.setState({ offline: true });
     });
 
-    window.addEventListener('online', (e) => {
+    window.addEventListener('online', e => {
       this.setState({ offline: false });
     });
     this.props.getLogs();
@@ -112,6 +112,7 @@ export class PrayerLogs extends Component {
   };
 
   render() {
+    const lang = localStorage.getItem('i18nextLng') || 'ar';
     return (
       <>
         <div className='h-100 prayers-content d-flex justify-content-center'>
@@ -123,6 +124,8 @@ export class PrayerLogs extends Component {
             <LoadingOverlay />
           ) : (
             <Calendar
+              calendarType='Arabic'
+              locale={lang}
               tileClassName={this.tileClassName}
               tileContent={this.tileContent}
               onChange={this.onChange}

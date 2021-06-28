@@ -6,8 +6,10 @@ import { logout } from '../redux/actions/userActions';
 import { setAxiosAuth } from '../api/axiosRequest';
 import { useHistory } from 'react-router-dom';
 import logo from '../assets/logo-grad-n.svg';
-
-const Header = () => {
+import { useTranslation } from 'react-i18next';
+import Language from './ChangeLanguage';
+const Header = ({changeLanguage}) => {
+  const { t } = useTranslation(['auth']);
   const userInfo = useSelector(state => state.userInfo);
   const { user } = userInfo;
   const dispatch = useDispatch();
@@ -32,23 +34,24 @@ const Header = () => {
                 width='30'
                 height='36.25'
                 alt=''
-                className='mr-4 logo'
+                className='mx-4 logo'
               />
-              Qadaa'
+              {t('qadaa')}
             </Navbar.Brand>
           </LinkContainer>
-          <Navbar.Toggle aria-controls='basic-navbar-nav' />
-          <Navbar.Collapse id='basic-navbar-nav'>
-            <Nav className='ml-auto'>
-              {user ? (
-                <Nav.Link onClick={logoutHandler}>Logout</Nav.Link>
-              ) : (
-                <LinkContainer to='/login'>
-                  <Nav.Link>Sign In</Nav.Link>
-                </LinkContainer>
-              )}
-            </Nav>
-          </Navbar.Collapse>
+          {/* <Navbar.Toggle aria-controls='basic-navbar-nav' /> */}
+          {/* <Navbar.Collapse id='basic-navbar-nav'> */}
+          <Nav>
+            <Language changeLanguage={changeLanguage}/>
+            {user ? (
+              <Nav.Link onClick={logoutHandler}>{t('logout')}</Nav.Link>
+            ) : (
+              <LinkContainer to='/login'>
+                <Nav.Link>{t('loginBtn')}</Nav.Link>
+              </LinkContainer>
+            )}
+          </Nav>
+          {/* </Navbar.Collapse> */}
         </Container>
       </Navbar>
     </header>

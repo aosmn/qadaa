@@ -10,8 +10,10 @@ import { validPassword } from '../../utils/utils';
 import { useForm } from 'react-hook-form';
 import PasswordInput from '../../components/PasswordInput';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 const ResetPasswordScreen = ({ location, history }) => {
+  const { t } = useTranslation(['auth']);
   const {
     register,
     handleSubmit,
@@ -40,7 +42,7 @@ const ResetPasswordScreen = ({ location, history }) => {
 
   useEffect(() => {
     if (submitted && message) {
-      toast.success(message, {
+      toast.success(t('resetPassword.confirm'), {
         position: 'bottom-center',
         autoClose: 5000,
         hideProgressBar: true,
@@ -57,7 +59,7 @@ const ResetPasswordScreen = ({ location, history }) => {
     const { password } = data;
     // dispatch(registerUser(name, email, password, isFemale));
     dispatch(resetPassword(token, email, password)).then(() => {
-      setSubmitted(true)
+      setSubmitted(true);
     });
   };
 
@@ -73,16 +75,16 @@ const ResetPasswordScreen = ({ location, history }) => {
 
   return (
     <FormContainer
-      title='Reset Password'
+      title={t('resetPassword.title')}
       loading={loading}
       hasSeparator
       error={submitted && error}
       message={submitted && message}
       submit={submitHandler}
-      submitButtonText='Reset Password'
+      submitButtonText={t('resetPassword.resetPassword')}
       linkButton={{
         to: '/login',
-        text: 'Cancel'
+        text: t('cancel')
       }}>
       <PasswordInput
         {...register('password', {

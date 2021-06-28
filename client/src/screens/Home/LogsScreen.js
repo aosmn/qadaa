@@ -3,8 +3,10 @@ import Calendar from '../../components/Prayers/Calendar';
 import PrayersInput from '../../components/Prayers/PrayersInput';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import { useTranslation } from 'react-i18next';
 
 const LogsScreen = props => {
+  const { t } = useTranslation(['home']);
   const [selectedDate, setSelectedDate] = useState(null);
 
   const selectDate = selected => {
@@ -22,7 +24,7 @@ const LogsScreen = props => {
                     <ion-icon name='chevron-back-outline'></ion-icon>
                   </Button>
                 </LinkContainer>
-                Your Calendar
+                {t('calendar')}
               </h5>
               <Card className='h-100 mt-4' style={{ minHeight: '317px' }}>
                 <Card.Body>
@@ -37,7 +39,7 @@ const LogsScreen = props => {
                 <Card className='h-100'>
                   <Card.Body className='h-100 d-flex align-items-center justify-content-center'>
                     <div className='h-100 progress-container text-center'>
-                      Select a date to show prayer details
+                      {t('selectDate')}
                     </div>
                   </Card.Body>
                 </Card>

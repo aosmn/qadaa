@@ -5,6 +5,7 @@ import LongPressable from 'react-longpressable';
 import { LoadingOverlay } from '../Loader';
 
 import PrayerItem from './PrayerItem';
+import { withTranslation } from 'react-i18next';
 
 import {
   getLogs,
@@ -240,6 +241,7 @@ class PrayersCounter extends Component {
     });
   };
   render() {
+    const { t } = this.props;
     let prayers =
       this.props.prayerTotals.totals && this.props.prayerTotals.totals[0];
     return (
@@ -254,7 +256,7 @@ class PrayersCounter extends Component {
             <>
               <Button
                 variant='link-light'
-                title='make up many'
+                title={t('makeUpMany')}
                 className='close-button closeOverlay'
                 onClick={() => {
                   this.props.joyride &&
@@ -266,24 +268,27 @@ class PrayersCounter extends Component {
               </Button>
               <div className='content'>
                 <h6 className='title text-center'>
-                  Add many{' '}
                   {this.state.showManyDays ? (
-                    <span>days' </span>
+                    t('addManyDaysTitle')
                   ) : (
-                    <span className='capitalize'>
-                      {this.state.prayerManyWhich}{' '}
+                    <>
+                    <span>
+                    {t('addManyTitle')}
                     </span>
+                    <span className='capitalize px-2'>
+                      ({t(this.state.prayerManyWhich.toLowerCase())})
+                    </span>
+                    </>
                   )}
-                  prayers
                 </h6>
                 <Form.Group controlId='prayerCount'>
                   <Form.Control
                     required
                     type='number'
                     min={2}
-                    placeholder={`How many ${
-                      this.state.showManyDays ? 'days' : 'prayers'
-                    }?`}
+                    placeholder={`${t('howMany')} ${
+                      this.state.showManyDays ? t('aldays') : t('alprayers')
+                    }${t('?')}`}
                     value={this.state.addOnePrayerCount}
                     onChange={e =>
                       this.setState({ addOnePrayerCount: e.target.value })
@@ -294,7 +299,7 @@ class PrayersCounter extends Component {
                         : 'manyPrayersCount'
                     }`}></Form.Control>
                   <Form.Label>
-                    How many {this.state.showManyDays ? 'days' : 'prayers'}?
+                    {t('howMany')} {this.state.showManyDays ? t('aldays') : t('alprayers')}{t('?')}
                   </Form.Label>
                 </Form.Group>
                 <Form.Group controlId='save' className='w-100'>
@@ -303,7 +308,7 @@ class PrayersCounter extends Component {
                     type='button'
                     variant='light'
                     onClick={this.onMakeupPrayerMany}>
-                    Save
+                    {t('save')}
                   </Button>
                 </Form.Group>
               </div>
@@ -371,7 +376,7 @@ class PrayersCounter extends Component {
             longPressTime={700}>
             <Button
               variant='primary'
-              title='made up a day'
+              title={t('makeUpDay')}
               className='btn-add-many h-100 py-3 px-3 align-items-center addDay'>
               <ion-icon name='duplicate-outline'></ion-icon>
             </Button>
@@ -382,4 +387,7 @@ class PrayersCounter extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PrayersCounter);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withTranslation('home')(PrayersCounter));

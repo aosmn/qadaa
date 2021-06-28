@@ -128,27 +128,18 @@ const sendPasswordReset = asyncHandler(async (req, res) => {
       reset_url: link
     };
 
-    // sendMessage({ to, subject, templateId, data })
-    //   .then(() => {
-    //     res.status(200).json({
-    //       message: `A reset email was sent to ${savedUser.email}`
-    //     });
-    //   })
-    //   .catch(error => {
-    //     res.status(500);
-    //     throw new Error(error);
-    //   });
-    res.status(200).json({
-      message: `A reset email was sent to ${savedUser.email}`
-    });
-    // (error, info) => {
-    //   if (error) {
-    //     res.status(500);
-    //     throw new Error(error);
-    //   }
-    //   res.status(200).json({
-    //     message: `A reset email was sent to ${savedUser.email}`
-    //   });
+    sendMessage({ to, subject, templateId, data })
+      .then(() => {
+        res.status(200).json({
+          message: `A reset email was sent to ${savedUser.email}`
+        });
+      })
+      .catch(error => {
+        res.status(500);
+        throw new Error(error);
+      });
+    // res.status(200).json({
+    //   message: `A reset email was sent to ${savedUser.email}`
     // });
   } else {
     res.status(404);

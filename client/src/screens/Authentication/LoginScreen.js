@@ -5,8 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import FormContainer from '../../components/FormContainer';
 import { login } from '../../redux/actions/userActions';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 const LoginScreen = ({ location, history }) => {
+  const { t } = useTranslation(['auth']);
   const {
     register,
     handleSubmit,
@@ -38,18 +40,18 @@ const LoginScreen = ({ location, history }) => {
       loading={loading}
       error={error}
       submit={submitHandler}
-      submitButtonText='Sign In'
+      submitButtonText={t('login.login')}
       linkButton={{
         to: redirect ? `/register?redirect=${redirect}` : '/register',
-        text: 'Register'
+        text: t('login.register')
       }}>
       <Form.Group controlId='email' className='mb-4'>
         <Form.Control
-          {...register('email', { required: 'Email required' })}
+          {...register('email', { required: t('inputFields.email.required') })}
           type='email'
-          placeholder='Enter Email'
+          placeholder={t('inputFields.email.placeholder')}
           isInvalid={errors.email}></Form.Control>
-        <Form.Label>Email</Form.Label>
+        <Form.Label>{t('inputFields.email.label')}</Form.Label>
         <Form.Control.Feedback type='invalid'>
           {errors.email && errors.email.message}
         </Form.Control.Feedback>
@@ -57,18 +59,18 @@ const LoginScreen = ({ location, history }) => {
       <div className='d-flex flex-column mb-4 password-container'>
         <Form.Group controlId='password' className='mb-4'>
           <Form.Control
-            {...register('password', { required: 'Password required' })}
+            {...register('password', { required:  t('inputFields.password.required') })}
             type='password'
-            placeholder='Enter Password'
+            placeholder={t('inputFields.password.placeholder')}
             isInvalid={errors.password}></Form.Control>
-          <Form.Label>Password</Form.Label>
+          <Form.Label>{t('inputFields.password.label')}</Form.Label>
 
           <Form.Control.Feedback type='invalid'>
             {errors.password && errors.password.message}
           </Form.Control.Feedback>
           <small className='input-action ml-auto mt-1 mr-0 mb-2 password-reset-link'>
             <Link to='/forgot-password' className='text-secondary'>
-              Forgot your password?
+              {t('login.forgot')}
             </Link>
           </small>
         </Form.Group>

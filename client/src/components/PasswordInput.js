@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Form } from 'react-bootstrap';
-
+import { useTranslation } from 'react-i18next';
 const PasswordInput = (props) => {
+  const { t } = useTranslation(['auth']);
   const [showPass, setShowPass] = useState(false);
   const onClick = () => {
     setShowPass(!showPass);
@@ -12,11 +13,11 @@ const PasswordInput = (props) => {
         {...props}
         // required={required}
         type={showPass ? 'text' : 'password'}
-        placeholder='Enter Password'
+        placeholder={t('inputFields.password.placeholder')}
         // value={value}
         // onChange={e => onChange(e)}
         />
-      <Form.Label>Password</Form.Label>
+      <Form.Label>{t('inputFields.password.label')}</Form.Label>
       <button type='button' onClick={onClick} className={`btn btn-link text-dark show-pass ${props.isInvalid ? 'mr-4': ''}`}>
         {showPass ? (
           <svg
