@@ -4,16 +4,17 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../redux/actions/userActions';
 import { setAxiosAuth } from '../api/axiosRequest';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import logo from '../assets/logo-grad-n.svg';
 import { useTranslation } from 'react-i18next';
 import Language from './ChangeLanguage';
-const Header = ({changeLanguage}) => {
+const Header = ({ changeLanguage }) => {
   const { t } = useTranslation(['auth']);
   const userInfo = useSelector(state => state.userInfo);
   const { user } = userInfo;
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
   useEffect(() => {
     if (localStorage.getItem('user')) {
       setAxiosAuth('Bearer ' + JSON.parse(localStorage.getItem('user')).token);
@@ -23,9 +24,16 @@ const Header = ({changeLanguage}) => {
     dispatch(logout());
     history.push('/login');
   };
+  const isLandingPage = () => {
+    return location.pathname === '/landing';
+  };
   return (
     <header>
-      <Navbar bg='light' variant='light' collapseOnSelect>
+      <Navbar
+        bg='light'
+        variant='light'
+        collapseOnSelect
+        className={isLandingPage() ? 'landing-header' : ''}>
         <Container>
           <LinkContainer to='/'>
             <Navbar.Brand>
@@ -42,7 +50,7 @@ const Header = ({changeLanguage}) => {
           {/* <Navbar.Toggle aria-controls='basic-navbar-nav' /> */}
           {/* <Navbar.Collapse id='basic-navbar-nav'> */}
           <Nav>
-            <Language changeLanguage={changeLanguage}/>
+            <Language changeLanguage={changeLanguage} />
             {user ? (
               <Nav.Link onClick={logoutHandler}>{t('logout')}</Nav.Link>
             ) : (

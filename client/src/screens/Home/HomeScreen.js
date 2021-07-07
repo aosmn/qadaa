@@ -20,6 +20,8 @@ import Settings from '../../components/Settings';
 
 import { getOfflineTotals } from '../../services/DBHelper';
 import { useTranslation } from 'react-i18next';
+import PageContainer from '../../components/PageContainer';
+
 const mapStateToProps = state => ({
   prayerTotals: state.prayerTotals,
   today: state.prayerLogs.today?.total || 0,
@@ -62,155 +64,161 @@ const HomeScreen = props => {
   };
   // console.log(props);
   return (
-    <Container className='h-100 home'>
-      <Row className='h-100'>
-        <Col sm={12} lg={3}>
-          <Row className='mb-4 h-100'>
-            <Col>
-              <Card className='personal'>
-                <Card.Body>
-                  {props.userInfo.loading && <LoadingOverlay />}
+    <PageContainer>
+      <Container className='h-100 home'>
+        <Row className='h-100'>
+          <Col sm={12} lg={3}>
+            <Row className='mb-4 h-100'>
+              <Col>
+                <Card className='personal'>
+                  <Card.Body>
+                    {props.userInfo.loading && <LoadingOverlay />}
 
-                  <h6 className='font-weight-bold mb-0 d-flex align-items-center'>
-                    {t('hello')} {props.userInfo.user?.name?.split(' ')[0]}
-                    {showSettings ? (
-                      <Button
-                        variant='link'
-                        className='btn text-dark p-0 ml-auto'
-                        onClick={() => {
-                          setShowSettings(false);
-                        }}>
-                        <ion-icon name='close'></ion-icon>
-                      </Button>
-                    ) : (
-                      props.userInfo?.user?.preferences?.start && (
+                    <h6 className='font-weight-bold mb-0 d-flex align-items-center'>
+                      {t('hello')} {props.userInfo.user?.name?.split(' ')[0]}
+                      {showSettings ? (
                         <Button
                           variant='link'
                           className='btn text-dark p-0 ml-auto'
+                          onClick={() => {
+                            setShowSettings(false);
+                          }}>
+                          <ion-icon name='close'></ion-icon>
+                        </Button>
+                      ) : (
+                        props.userInfo?.user?.preferences?.start && (
+                          <Button
+                            variant='link'
+                            className='btn text-dark p-0 ml-auto'
+                            onClick={() => {
+                              setShowSettings(true);
+                            }}>
+                            <ion-icon name='settings-outline'></ion-icon>
+                          </Button>
+                        )
+                      )}
+                    </h6>
+
+                    {!props.userInfo?.user?.preferences?.start && (
+                      <div className='d-flex mt-2'>
+                        <small>{t('setupTarget')}</small>
+                        <Button
+                          variant='link'
+                          className='btn text-dark p-0 mx-2'
                           onClick={() => {
                             setShowSettings(true);
                           }}>
                           <ion-icon name='settings-outline'></ion-icon>
                         </Button>
-                      )
+                      </div>
                     )}
-                  </h6>
-
-                  {!props.userInfo?.user?.preferences?.start && (
-                    <div className='d-flex mt-2'>
-                      <small>{t('setupTarget')}</small>
-                      <Button
-                        variant='link'
-                        className='btn text-dark p-0 mx-2'
-                        onClick={() => {
-                          setShowSettings(true);
-                        }}>
-                        <ion-icon name='settings-outline'></ion-icon>
-                      </Button>
-                    </div>
-                  )}
-                  {/* {localStorage.getItem('totals')} */}
-                  <div>
-                    {!showSettings && props.userInfo?.user?.preferences.start && (
-                      <>
-                        <div className='progress-container'>
-                          <div>
-                            <h6 className='font-weight-bold mb-0'>
-                              {t('todayProgress')}
-                            </h6>
-                          </div>
-                          <div className='label'>
-                            <b>{props.today}</b> {t('prayers')} {t('out of')}{' '}
-                            <b>{dailyTarget * 5}</b>{' '}
-                            <small>
-                              (
-                              {round2(
-                                ((props.today || 0) * 100) / (dailyTarget * 5)
-                              )}
-                              %)
-                            </small>
-                          </div>
-                          <ProgressBar
-                            className='mt-3'
-                            aria-label={t('todayProgress')}
-                            now={round2(
-                              (props.today * 100) / (dailyTarget * 5)
-                            )}
-                            // label={`${(props.today * 100) / 10}%`}
-                          />
-                        </div>
-                        <div className='progress-container'>
-                          <h6 className='font-weight-bold mb-0'>
-                            {t('overallProgress')}
-                          </h6>
-                          <div className='label'>
-                            <b>
-                              {((props.prayerTotals &&
-                                props.prayerTotals.totals &&
-                                props.prayerTotals.totals[0]?.total) ||
-                                0) + offlineTotal}
-                            </b>{' '}
-                            {t('prayers')} {t('out of')} <b>{total || 0}</b>{' '}
-                            <small>
-                              (
-                              {props.prayerTotals &&
-                                props.prayerTotals.totals &&
-                                round2(
-                                  (((props.prayerTotals.totals[0]?.total || 0) +
-                                    offlineTotal) *
-                                    100) /
-                                    (total || 1)
+                    {/* {localStorage.getItem('totals')} */}
+                    <div>
+                      {!showSettings &&
+                        props.userInfo?.user?.preferences.start && (
+                          <>
+                            <div className='progress-container'>
+                              <div>
+                                <h6 className='font-weight-bold mb-0'>
+                                  {t('todayProgress')}
+                                </h6>
+                              </div>
+                              <div className='label'>
+                                <b>{props.today}</b> {t('prayers')}{' '}
+                                {t('out of')} <b>{dailyTarget * 5}</b>{' '}
+                                <small>
+                                  (
+                                  {round2(
+                                    ((props.today || 0) * 100) /
+                                      (dailyTarget * 5)
+                                  )}
+                                  %)
+                                </small>
+                              </div>
+                              <ProgressBar
+                                className='mt-3'
+                                aria-label={t('todayProgress')}
+                                now={round2(
+                                  (props.today * 100) / (dailyTarget * 5)
                                 )}
-                              %)
-                            </small>
-                          </div>
-                          <ProgressBar
-                            aria-label={t('overallProgress')}
-                            className='mt-3'
-                            now={
-                              props.prayerTotals &&
-                              props.prayerTotals.totals &&
-                              round2(
-                                (((props.prayerTotals.totals[0]?.total || 0) +
-                                  offlineTotal) *
-                                  100) /
-                                  total
-                              )
-                            }
-                            // label={`${
-                            //   props.prayerTotals &&
-                            //   props.prayerTotals.totals &&
-                            //   ((props.prayerTotals.totals[0]?.total || 0) * 100) /
-                            //     total
-                            // }%`}
-                          />
-                        </div>
-                      </>
-                    )}
-                    <div
-                      className={`progress-container settings pb-0 mb-0${
-                        showSettings || !props.userInfo?.user?.preferences.start
-                          ? ' d-block'
-                          : ' d-none d-lg-block'
-                      }`}>
-                      {/* {objectEmpty(props.userInfo?.user?.preferences) ? ( */}
-                      <Settings
-                        show={
+                                // label={`${(props.today * 100) / 10}%`}
+                              />
+                            </div>
+                            <div className='progress-container'>
+                              <h6 className='font-weight-bold mb-0'>
+                                {t('overallProgress')}
+                              </h6>
+                              <div className='label'>
+                                <b>
+                                  {((props.prayerTotals &&
+                                    props.prayerTotals.totals &&
+                                    props.prayerTotals.totals[0]?.total) ||
+                                    0) + offlineTotal}
+                                </b>{' '}
+                                {t('prayers')} {t('out of')} <b>{total || 0}</b>{' '}
+                                <small>
+                                  (
+                                  {props.prayerTotals &&
+                                    props.prayerTotals.totals &&
+                                    round2(
+                                      (((props.prayerTotals.totals[0]?.total ||
+                                        0) +
+                                        offlineTotal) *
+                                        100) /
+                                        (total || 1)
+                                    )}
+                                  %)
+                                </small>
+                              </div>
+                              <ProgressBar
+                                aria-label={t('overallProgress')}
+                                className='mt-3'
+                                now={
+                                  props.prayerTotals &&
+                                  props.prayerTotals.totals &&
+                                  round2(
+                                    (((props.prayerTotals.totals[0]?.total ||
+                                      0) +
+                                      offlineTotal) *
+                                      100) /
+                                      total
+                                  )
+                                }
+                                // label={`${
+                                //   props.prayerTotals &&
+                                //   props.prayerTotals.totals &&
+                                //   ((props.prayerTotals.totals[0]?.total || 0) * 100) /
+                                //     total
+                                // }%`}
+                              />
+                            </div>
+                          </>
+                        )}
+                      <div
+                        className={`progress-container settings pb-0 mb-0${
                           showSettings ||
                           !props.userInfo?.user?.preferences.start
-                        }
-                        hide={() => setShowSettings(false)}
-                      />
-                      {/* ) : (
+                            ? ' d-block'
+                            : ' d-none d-lg-block'
+                        }`}>
+                        {/* {objectEmpty(props.userInfo?.user?.preferences) ? ( */}
+                        <Settings
+                          show={
+                            showSettings ||
+                            !props.userInfo?.user?.preferences.start
+                          }
+                          hide={() => setShowSettings(false)}
+                        />
+                        {/* ) : (
                       <p>setup your account</p>
                     )} */}
+                      </div>
                     </div>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-          {/* <Row>
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+            {/* <Row>
             <Col>
               <Card>
                 <Card.Body>
@@ -219,98 +227,99 @@ const HomeScreen = props => {
               </Card>
             </Col>
           </Row> */}
-        </Col>
-        <Col className='d-flex flex-column' sm={12} lg={9}>
-          <Row>
-            <Col sm={12} md={8}>
-              <Card className='counter'>
-                <Card.Body className='p-0'>
-                  <Prayers joyrideNext={props.joyrideNext} />
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col sm={12} md={4}>
-              <Card className='h-100'>
-                <Card.Body className='d-none d-md-flex flex-column align-items-center justify-content-center'>
-                  {props.prayerTotals.loading && <LoadingOverlay />}
-                  <>
-                    <h5 className='font-weight-bold'>
-                      {((props.prayerTotals.totals &&
-                        props.prayerTotals.totals[0]?.total) ||
-                        0) + offlineTotal}
-                    </h5>
-                    <div>
-                      <small>{t('totalDone')}</small>
-                    </div>
-                  </>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-          <Row className='d-none d-md-flex align-items-center mt-4'>
-            <Col className='h-100' sm={12} md={6} lg={5}>
-              <Card className='h-100' style={{ minHeight: '317px' }}>
-                <Card.Body>
-                  <div className='h-100 calendar'>
-                    <Calendar onSelect={selectDate} />
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col className='h-100 dayDetails' sm={12} md={6} lg={7}>
-              {!selectedDate ? (
-                <Card className='h-100'>
-                  <Card.Body className='h-100 d-flex align-items-center justify-content-center'>
-                    <div className='text-center'>{t('selectDate')}</div>
+          </Col>
+          <Col className='d-flex flex-column' sm={12} lg={9}>
+            <Row>
+              <Col sm={12} md={8}>
+                <Card className='counter'>
+                  <Card.Body className='p-0'>
+                    <Prayers joyrideNext={props.joyrideNext} />
                   </Card.Body>
                 </Card>
-              ) : (
+              </Col>
+              <Col sm={12} md={4}>
                 <Card className='h-100'>
-                  <Card.Body>
-                    <PrayersInput
-                      selectedDate={selectedDate}
-                      onCancel={() => {
-                        selectDate(null);
-                      }}
-                    />
-                  </Card.Body>
-                </Card>
-              )}
-            </Col>
-          </Row>
-          <Row className='d-flex d-md-none align-items-center mt-4'>
-            <Col className='h-100' xs={6} md={6} lg={5}>
-              <Card className='h-100 logs'>
-                <Card.Body className='h-100 p-0'>
-                  <Link
-                    to='/logs'
-                    className='btn btn-primary h-100 d-flex justify-content-center align-items-center font-weight-bold'>
-                    {t('logs')}
-                  </Link>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col className='h-100' xs={6} md={6} lg={7}>
-              <Card className='h-100 totalPrayers'>
-                <Card.Body className='h-100'>
-                  <div className='h-100 text-center progress-container my-0'>
+                  <Card.Body className='d-none d-md-flex flex-column align-items-center justify-content-center'>
                     {props.prayerTotals.loading && <LoadingOverlay />}
-                    <h5 className='font-weight-bold mb-0'>
-                      {((props.prayerTotals.totals &&
-                        props.prayerTotals.totals[0]?.total) ||
-                        0) + offlineTotal}
-                    </h5>
-                    <div>
-                      <small>{t('totalDone')}</small>
+                    <>
+                      <h5 className='font-weight-bold'>
+                        {((props.prayerTotals.totals &&
+                          props.prayerTotals.totals[0]?.total) ||
+                          0) + offlineTotal}
+                      </h5>
+                      <div>
+                        <small>{t('totalDone')}</small>
+                      </div>
+                    </>
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+            <Row className='d-none d-md-flex align-items-center mt-4'>
+              <Col className='h-100' sm={12} md={6} lg={5}>
+                <Card className='h-100' style={{ minHeight: '317px' }}>
+                  <Card.Body>
+                    <div className='h-100 calendar'>
+                      <Calendar onSelect={selectDate} />
                     </div>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
-    </Container>
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col className='h-100 dayDetails' sm={12} md={6} lg={7}>
+                {!selectedDate ? (
+                  <Card className='h-100'>
+                    <Card.Body className='h-100 d-flex align-items-center justify-content-center'>
+                      <div className='text-center'>{t('selectDate')}</div>
+                    </Card.Body>
+                  </Card>
+                ) : (
+                  <Card className='h-100'>
+                    <Card.Body>
+                      <PrayersInput
+                        selectedDate={selectedDate}
+                        onCancel={() => {
+                          selectDate(null);
+                        }}
+                      />
+                    </Card.Body>
+                  </Card>
+                )}
+              </Col>
+            </Row>
+            <Row className='d-flex d-md-none align-items-center mt-4'>
+              <Col className='h-100' xs={6} md={6} lg={5}>
+                <Card className='h-100 logs'>
+                  <Card.Body className='h-100 p-0'>
+                    <Link
+                      to='/logs'
+                      className='btn btn-primary h-100 d-flex justify-content-center align-items-center font-weight-bold'>
+                      {t('logs')}
+                    </Link>
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col className='h-100' xs={6} md={6} lg={7}>
+                <Card className='h-100 totalPrayers'>
+                  <Card.Body className='h-100'>
+                    <div className='h-100 text-center progress-container my-0'>
+                      {props.prayerTotals.loading && <LoadingOverlay />}
+                      <h5 className='font-weight-bold mb-0'>
+                        {((props.prayerTotals.totals &&
+                          props.prayerTotals.totals[0]?.total) ||
+                          0) + offlineTotal}
+                      </h5>
+                      <div>
+                        <small>{t('totalDone')}</small>
+                      </div>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </Container>
+    </PageContainer>
   );
 };
 

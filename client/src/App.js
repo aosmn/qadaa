@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { setAxiosAuth } from './api/axiosRequest';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 // import withRouter from 'react-router';
-import { Container } from 'react-bootstrap';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ProtectedRoute from './ProtectedRoute';
 import Home from './screens/Home';
+import LandingPage from './screens/LandingPage';
 import Logs from './screens/Home/LogsScreen';
 import Login from './screens/Authentication/LoginScreen';
 import ResetPassword from './screens/Authentication/ResetPasswordScreen';
@@ -242,7 +242,7 @@ const App = props => {
         <Offline />
 
         <main className='flex-grow-1 d-flex align-items-center'>
-          <Container className='h-100 pt-5 p-3'>
+
             {props.userInfo?.user &&
               !props.userInfo?.user?.preferences?.tutorialDone && (
                 <Joyride
@@ -273,7 +273,7 @@ const App = props => {
 
             <ProtectedRoute exact path='/logs' component={Logs} />
             <ProtectedRoute exact path='/' component={Home} />
-          </Container>
+            <Route exact path='/landing' component={LandingPage} />
         </main>
         <Footer />
       </Router>
