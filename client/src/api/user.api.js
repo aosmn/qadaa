@@ -35,7 +35,6 @@ export const getMe = async user => {
   const { data } = await axios.get('/api/users/me');
   if (data) localStorage.setItem('user', JSON.stringify(data));
   else {
-    console.log('henaaaaa');
     return JSON.parse(localStorage.getItem('user'));
   }
   // setAxiosAuth('Bearer ' + data.token)
@@ -52,7 +51,6 @@ export const updateUser = async user => {
   const { data } = await axios.put(`/api/users`, user, config);
   if (data) localStorage.setItem('user', JSON.stringify(data));
   else {
-    console.log('henaaaaa');
     return JSON.parse(localStorage.getItem('user'));
   }
   return data;
@@ -75,7 +73,6 @@ export const updatePrefs = async ({ token, preferences }) => {
       })
     );
   else {
-    console.log('henaaaaa');
     return JSON.parse(localStorage.getItem('user'));
   }
   return data;

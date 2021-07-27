@@ -26,6 +26,14 @@ const dbPromise = openDB('Qadaa', 5, {
         dayStore.createIndex('user-day', ['user', 'day']);
         dayStore.createIndex('user-prayer', ['user', 'prayer']);
 
+        const haderStore = db.createObjectStore('hader-logs', {
+          keyPath: 'id'
+        });
+        haderStore.createIndex('day', 'day');
+        haderStore.createIndex('user', 'user');
+        haderStore.createIndex('user-day', ['user', 'day']);
+        haderStore.createIndex('user-prayer', ['user', 'prayer']);
+
       // eslint-disable-next-line no-fallthrough
       default:
     }
@@ -65,7 +73,7 @@ export const deleteDayLogsByDay = id => {
     .then(async db => {
       // const index = db.transaction('day-logs').store.index('day');
       const index = db.transaction('day-logs', 'readwrite').store;
-      console.log(id);
+      // console.log(id);
       return index.delete(id);
     })
     .catch(error => {
@@ -201,3 +209,154 @@ export const updateTotalCount = (count, user) => {
     });
   }
 };
+
+
+
+// =================HADER
+export const getOfflineHaderLogs = user => {
+  let allLogs = [];
+  if (user) {
+    return dbPromise
+      .then(async db => {
+        const index = db.transaction('hader-logs').store.index('user');
+        for await (const cursor of index.iterate(user, 'prev')) {
+          allLogs.push(cursor.value);
+        }
+        return allLogs;
+      })
+      .catch(error => {
+        throw error;
+      });
+  }
+};
+
+export const deleteHaderLogsByDay = id => {
+  return dbPromise
+    .then(async db => {
+      // const index = db.transaction('day-logs').store.index('day');
+      const index = db.transaction('hader-logs', 'readwrite').store;
+      // console.log(id);
+      return index.delete(id);
+    })
+    .catch(error => {
+      throw error;
+    });
+};
+// logHaderPrayersOffline({ prayer, done, day, user: user._id });
+export const logHaderPrayersOffline = ({ prayer, done, date, user }) => {
+  // console.log(day(date).startOf('day').$d);
+  updateHaderDay(day(date).format('MM/DD/YYYY'), prayer, done, user);
+};
+
+export const updateHaderDay = (date, prayer, done, user) => {
+  return dbPromise
+    .then(async db => {
+      const index = db.transaction('hader-logs').store.index('user-day');
+      index.get([user, day(date).format('MM/DD/YYYY')]).then(d => {
+        const tx = db.transaction('hader-logs', 'readwrite');
+        if (prayer === 'all') {
+          if (!d) {
+            tx.store
+              .add({
+                id: uuidv4(),
+                user,
+                fajr: done,
+                dhuhr: done,
+                asr: done,
+                maghrib: done,
+                isha: done,
+                day: day().format('MM/DD/YYYY')
+              })
+              .then(id => {
+                // updateTotalCount(count * 5, user);
+                return tx.done;
+              });
+          } else {
+            // console.log(d);
+            d['fajr'] = done;
+            d['dhuhr'] = done;
+            d['asr'] = done;
+            d['maghrib'] = done;
+            d['isha'] = done;
+            tx.store.put(d).then(id => {
+              // updateTotalCount(count * 5, user);
+              return tx.done;
+            });
+          }
+        } else {
+          if (!d) {
+            tx.store
+              .add({
+                id: uuidv4(),
+                user,
+                [prayer]: done,
+                day: day().format('MM/DD/YYYY')
+              })
+              .then(id => {
+                updateTotalCount(done, user);
+                return tx.done;
+              });
+          } else {
+            // let newCount = (d[prayer] || 0) + done;
+            d[prayer] = done;
+            tx.store.put(d).then(id => {
+              // updateTotalCount(done, user);
+              return tx.done;
+            });
+          }
+        }
+      });
+    })
+    .catch(error => {
+      throw error;
+    });
+};
+// add user index
+// export const getOfflineHaderTotals = (user, prayer) => {
+//   let totals = {
+//     fajr: 0,
+//     dhuhr: 0,
+//     asr: 0,
+//     maghrib: 0,
+//     isha: 0,
+//     total: 0
+//   };
+//   return dbPromise
+//     .then(async db => {
+//       const index = db.transaction('hader-logs').store.index('user');
+//       // const index = db.transaction('hader-logs').store;
+//       for await (const cursor of index.iterate(user)) {
+//         let smallTotal = 0;
+//         prayers.forEach(prayer => {
+//           const prayerCount = cursor.value[prayer]
+//             ? parseInt(cursor.value[prayer], 10)
+//             : 0;
+//           // console.log(cursor.value);
+//           smallTotal += prayerCount;
+//           totals[prayer] += prayerCount;
+//         });
+//         totals.total += smallTotal;
+//       }
+//       // console.log(totals);
+//       return totals;
+//     })
+//     .catch(error => {
+//       throw error;
+//     });
+// };
+
+// export const updateTotalHaderCount = (count, user) => {
+//   let totalPrayers = window.localStorage.getItem('total-offline');
+//   if (totalPrayers) {
+//     totalPrayers = parseInt(totalPrayers, 10);
+//     totalPrayers += count;
+//     window.localStorage.setItem('total-offline', totalPrayers);
+//   } else {
+//     // const prayers = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
+//     totalPrayers = 0;
+//     getOfflineHaderTotals(user).then(totals => {
+//       if (totals.total) totalPrayers = totals.total;
+//       window.localStorage.setItem('total-offline', totalPrayers);
+//     });
+//   }
+// };

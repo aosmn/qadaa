@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Prayers from '../../components/Prayers/PrayersCounter';
 import PrayersInput from '../../components/Prayers/PrayersInput';
 import Calendar from '../../components/Prayers/Calendar';
+import PrayerTimes from '../../components/PrayerTimes';
+import PrayerTimesInput from '../../components/PrayerTimesInput';
 import {
   Container,
   Row,
@@ -38,6 +40,7 @@ const mapDispatchToProps = dispatch => ({
 const HomeScreen = props => {
   const { t } = useTranslation(['home']);
   const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedHaderDate, setSelectedHaderDate] = useState(null);
   const [showSettings, setShowSettings] = useState(false);
   const [offlineTotal, setOfflineTotal] = useState(0);
 
@@ -46,8 +49,18 @@ const HomeScreen = props => {
   );
 
   const selectDate = selected => {
+    setSelectedHaderDate(null);
     setSelectedDate(selected);
+    // console.log(selectedDate, selectedHaderDate);
   };
+
+  const selectHader = selected => {
+    setSelectedDate(null);
+    // console.log(selected);
+    setSelectedHaderDate(selected);
+    // console.log(selectedDate, selectedHaderDate);
+  };
+
   let total = props.userInfo?.user?.preferences?.days * 5;
   // let dailyTarget = props.userInfo?.user?.preferences.dailyTarget * 5 || 10;
   useEffect(() => {
@@ -240,7 +253,9 @@ const HomeScreen = props => {
               <Col sm={12} md={4}>
                 <Card className='h-100'>
                   <Card.Body className='d-none d-md-flex flex-column align-items-center justify-content-center'>
-                    {props.prayerTotals.loading && <LoadingOverlay />}
+                    <PrayerTimes />
+
+                    {/* {props.prayerTotals.loading && <LoadingOverlay />}
                     <>
                       <h5 className='font-weight-bold'>
                         {((props.prayerTotals.totals &&
@@ -250,7 +265,7 @@ const HomeScreen = props => {
                       <div>
                         <small>{t('totalDone')}</small>
                       </div>
-                    </>
+                    </> */}
                   </Card.Body>
                 </Card>
               </Col>
@@ -260,21 +275,24 @@ const HomeScreen = props => {
                 <Card className='h-100' style={{ minHeight: '317px' }}>
                   <Card.Body>
                     <div className='h-100 calendar'>
-                      <Calendar onSelect={selectDate} />
+                      <Calendar
+                        onSelect={selectDate}
+                        onSelectHader={selectHader}
+                      />
                     </div>
                   </Card.Body>
                 </Card>
               </Col>
               <Col className='h-100 dayDetails' sm={12} md={6} lg={7}>
-                {!selectedDate ? (
+                {!selectedDate && !selectedHaderDate ? (
                   <Card className='h-100'>
                     <Card.Body className='h-100 d-flex align-items-center justify-content-center'>
                       <div className='text-center'>{t('selectDate')}</div>
                     </Card.Body>
                   </Card>
-                ) : (
+                ) : (selectedDate && !selectedHaderDate ? (
                   <Card className='h-100'>
-                    <Card.Body>
+                    <Card.Body className='d-flex flex-column justify-content-between'>
                       <PrayersInput
                         selectedDate={selectedDate}
                         onCancel={() => {
@@ -283,25 +301,38 @@ const HomeScreen = props => {
                       />
                     </Card.Body>
                   </Card>
-                )}
+                ) : (
+                  <Card className='h-100'>
+                    <Card.Body className='d-flex flex-column justify-content-between'>
+                      <PrayerTimesInput
+                        selectedDate={selectedHaderDate.prayers.day}
+                        prayers={selectedHaderDate.prayers}
+                        onCancel={() => {
+                          setSelectedHaderDate(null);
+                        }}
+                      />
+                    </Card.Body>
+                  </Card>
+                ))}
               </Col>
             </Row>
             <Row className='d-flex d-md-none align-items-center mt-4'>
-              <Col className='h-100' xs={6} md={6} lg={5}>
-                <Card className='h-100 logs'>
-                  <Card.Body className='h-100 p-0'>
+              <Col className='mb-4' xs={12} md={6} lg={5}>
+                <Card className='logs'>
+                  <Card.Body className='p-0'>
                     <Link
                       to='/logs'
-                      className='btn btn-primary h-100 d-flex justify-content-center align-items-center font-weight-bold'>
+                      className='btn btn-primary d-flex justify-content-center align-items-center font-weight-bold'>
                       {t('logs')}
                     </Link>
                   </Card.Body>
                 </Card>
               </Col>
-              <Col className='h-100' xs={6} md={6} lg={7}>
-                <Card className='h-100 totalPrayers'>
-                  <Card.Body className='h-100'>
-                    <div className='h-100 text-center progress-container my-0'>
+              <Col className='' xs={12} md={6} lg={7}>
+                <Card className=' totalPrayers'>
+                  <Card.Body className=''>
+                    <PrayerTimes />
+                    {/* <div className='h-100 text-center progress-container my-0'>
                       {props.prayerTotals.loading && <LoadingOverlay />}
                       <h5 className='font-weight-bold mb-0'>
                         {((props.prayerTotals.totals &&
@@ -311,7 +342,7 @@ const HomeScreen = props => {
                       <div>
                         <small>{t('totalDone')}</small>
                       </div>
-                    </div>
+                    </div> */}
                   </Card.Body>
                 </Card>
               </Col>

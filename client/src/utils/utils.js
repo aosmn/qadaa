@@ -28,7 +28,7 @@ export const isOnline = function () {
     x.send();
     s = x.status;
     // Make sure the server is reachable
-    console.log('henaaa', (s >= 200 && s < 300) || s === 304);
+    // console.log('henaaa', (s >= 200 && s < 300) || s === 304);
     return (s >= 200 && s < 300) || s === 304;
     // catch network & other problems
   } catch (e) {

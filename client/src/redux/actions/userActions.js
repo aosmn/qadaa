@@ -87,6 +87,7 @@ export const getMe = () => async dispatch => {
 export const logout = () => dispatch => {
   localStorage.removeItem('user');
   localStorage.removeItem('today');
+  localStorage.removeItem('today-hader');
   localStorage.removeItem('totals');
   localStorage.removeItem('total-offline');
   dispatch({ type: USER_LOGOUT });

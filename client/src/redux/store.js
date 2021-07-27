@@ -8,11 +8,15 @@ import {
   prayerTotalsReducer,
   // updateLogsReducer
 } from './reducers/prayerReducer';
+import {
+  haderPrayersReducer
+} from './reducers/haderPrayerReducer';
 
 const reducer = combineReducers({
   userInfo: userReducer,
   passwordReset: passwordReducer,
   prayerLogs: prayersReducer,
+  haderPrayerLogs: haderPrayersReducer,
   prayerTotals: prayerTotalsReducer,
   joyride: joyrideReducer
   // updateLogs: updateLogsReducer

@@ -22,12 +22,22 @@ import {
   getMe
 } from './redux/actions/userActions';
 
-import { getOfflineDayLogs, deleteDayLogsByDay } from './services/DBHelper';
+import {
+  getOfflineDayLogs,
+  deleteDayLogsByDay,
+  getOfflineHaderLogs,
+  deleteHaderLogsByDay
+} from './services/DBHelper';
 
 import {
   saveOfflineLogs,
   getPrayerTotals
 } from './redux/actions/prayerActions.js';
+
+import {
+  saveHaderOfflineLogs,
+  // getPrayerTotals
+} from './redux/actions/haderPrayerActions.js';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.scss';
@@ -48,6 +58,7 @@ const mapDispatchToProps = dispatch => ({
   setJoyrideNext: next => dispatch(setJoyrideNext(next)),
   getMe: () => dispatch(getMe()),
   saveOfflineLogs: log => dispatch(saveOfflineLogs(log)),
+  saveHaderOfflineLogs: log => dispatch(saveHaderOfflineLogs(log)),
   getPrayerTotals: id => dispatch(getPrayerTotals(id))
 });
 
@@ -101,6 +112,7 @@ const App = props => {
       });
     });
   };
+
   useEffect(() => {
     if (localStorage.getItem('user')) {
       // console.log('henaaa');
@@ -146,6 +158,39 @@ const App = props => {
               closeOnClick: false,
               draggable: false,
               progress: undefined
+            });
+          }
+        });
+        getOfflineHaderLogs(user).then(res => {
+          if (res.length > 0) {
+            // const nDays = res.length;
+            res.forEach(offlineDay => {
+              props
+                .saveHaderOfflineLogs({
+                  day: day(offlineDay.day),
+                  prayers: {
+                    fajr: offlineDay.fajr,
+                    dhuhr: offlineDay.dhuhr,
+                    asr: offlineDay.asr,
+                    maghrib: offlineDay.maghrib,
+                    isha: offlineDay.isha
+                  }
+                })
+                .then(res => {
+                  if (res) {
+                    deleteHaderLogsByDay(offlineDay.id);
+                  } else {
+                    toast.error('error syncing offline logs', {
+                      position: 'top-right',
+                      autoClose: true,
+                      hideProgressBar: false,
+                      closeOnClick: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      progress: undefined
+                    });
+                  }
+                });
             });
           }
         });
@@ -216,6 +261,78 @@ const App = props => {
           });
         }
       });
+
+      getOfflineHaderLogs(user).then(res => {
+        if (res.length > 0) {
+          // const nDays = res.length;
+          res.forEach(offlineDay => {
+            props
+              .saveHaderOfflineLogs({
+                day: day(offlineDay.day),
+                prayers: {
+                  fajr: offlineDay.fajr,
+                  dhuhr: offlineDay.dhuhr,
+                  asr: offlineDay.asr,
+                  maghrib: offlineDay.maghrib,
+                  isha: offlineDay.isha
+                }
+              })
+              .then(res => {
+                if (res) {
+                  deleteHaderLogsByDay(offlineDay.id);
+                } else {
+                  toast.error('error syncing offline logs', {
+                    position: 'top-right',
+                    autoClose: true,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined
+                  });
+                }
+              });
+          });
+        }
+      });
+
+      // getOfflineHaderLogs(user).then(res => {
+      //   if (res.length > 0) {
+      //     const nDays = res.length;
+      //     const Msg = ({ closeToast, toastProps }) => (
+      //       <div>
+      //         You have offline entries for {nDays} days, do you want to sync
+      //         them online, or just delete them?
+      //         <div className='mt-3'>
+      //           <button
+      //             className='btn btn-success py-2'
+      //             onClick={() => {
+      //               onClickSyncHader(user);
+      //               closeToast();
+      //             }}>
+      //             Sync
+      //           </button>
+      //           <button
+      //             className='btn btn-danger py-2 mx-2'
+      //             onClick={() => {
+      //               onClickDeleteHader(user);
+      //               closeToast();
+      //             }}>
+      //             Delete
+      //           </button>
+      //         </div>
+      //       </div>
+      //     );
+      //     toast.info(Msg, {
+      //       position: 'top-right',
+      //       autoClose: false,
+      //       hideProgressBar: false,
+      //       closeOnClick: false,
+      //       draggable: false,
+      //       progress: undefined
+      //     });
+      //   }
+      // });
     }
   }, [props.userInfo?.user?._id]);
   const handleJoyrideCallback = data => {
@@ -238,42 +355,41 @@ const App = props => {
       }`}>
       <ToastContainer />
       <Router>
-        <Header changeLanguage={changeLanguage}/>
+        <Header changeLanguage={changeLanguage} />
         <Offline />
 
         <main className='flex-grow-1 d-flex align-items-center'>
+          {props.userInfo?.user &&
+            !props.userInfo?.user?.preferences?.tutorialDone && (
+              <Joyride
+                steps={steps}
+                continuous={true}
+                disableOverlayClose={true}
+                // showProgress={true}
+                showSkipButton={true}
+                callback={handleJoyrideCallback}
+                spotlightClicks={true}
+                showProgress={false}
+                getHelpers={({ next }) => {
+                  props.setJoyrideNext(next);
+                }}
+                locale={{
+                  back: t('back'),
+                  close: t('close'),
+                  last: t('last'),
+                  next: t('next'),
+                  skip: t('skip')
+                }}
+              />
+            )}
+          <Route exact path='/reset-password' component={ResetPassword} />
+          <Route exact path='/forgot-password' component={ForgotPassword} />
+          <Route exact path='/register' component={Register} />
+          <Route exact path='/login' component={Login} />
 
-            {props.userInfo?.user &&
-              !props.userInfo?.user?.preferences?.tutorialDone && (
-                <Joyride
-                  steps={steps}
-                  continuous={true}
-                  disableOverlayClose={true}
-                  // showProgress={true}
-                  showSkipButton={true}
-                  callback={handleJoyrideCallback}
-                  spotlightClicks={true}
-                  showProgress={false}
-                  getHelpers={({ next }) => {
-                    props.setJoyrideNext(next);
-                  }}
-                  locale={{
-                    back: t('back'),
-                    close: t('close'),
-                    last: t('last'),
-                    next: t('next'),
-                    skip: t('skip')
-                  }}
-                />
-              )}
-            <Route exact path='/reset-password' component={ResetPassword} />
-            <Route exact path='/forgot-password' component={ForgotPassword} />
-            <Route exact path='/register' component={Register} />
-            <Route exact path='/login' component={Login} />
-
-            <ProtectedRoute exact path='/logs' component={Logs} />
-            <ProtectedRoute exact path='/' component={Home} />
-            <Route exact path='/landing' component={LandingPage} />
+          <ProtectedRoute exact path='/logs' component={Logs} />
+          <ProtectedRoute exact path='/' component={Home} />
+          <Route exact path='/landing' component={LandingPage} />
         </main>
         <Footer />
       </Router>

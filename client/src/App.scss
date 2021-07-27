@@ -503,7 +503,7 @@ input.small:not(:placeholder-shown) + label {
   }
   .show-pass {
     right: unset !important;
-    left: 0 !important
+    left: 0 !important;
   }
 
   .react-calendar__month-view__weekdays__weekday {
@@ -512,4 +512,43 @@ input.small:not(:placeholder-shown) + label {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+}
+
+// .custom-select {
+
+// }
+.prayer-times {
+  border: 1px solid #efefef;
+  border-radius: $border-radius;
+  overflow: hidden;
+  .prayer-time-item {
+    padding: 7px 10px;
+    border-bottom: 1px solid #efefef;
+    justify-content: space-between;
+    &:last-child {
+      border-bottom: 0;
+    }
+    font-size: .75rem;
+  }
+}
+
+// .custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+//   border-color: #D7B1D7;
+//   background-color: #D7B1D7;
+// }
+.custom-checkbox .custom-control-input:checked~.custom-control-label::before{
+  background-color:$teal-dk;
+}
+
+.custom-control-input:disabled~.custom-control-label{
+  color: $body-color;
+  &::before{
+    border: none;
+    // background-color: #cecece;
+    // background-color:$teal-dk;
+  }
+}
+.current {
+  background-color: $orange;
+  color: white;
 }

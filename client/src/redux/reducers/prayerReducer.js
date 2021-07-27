@@ -96,7 +96,6 @@ export const prayerTotalsReducer = (state = {}, action) => {
     case GET_PRAYER_TOTALS_SUCCESS:
       return { ...state, loading: false, totals: action.payload };
     case GET_PRAYER_TOTALS_FAIL:
-      console.log('data', JSON.parse(localStorage.getItem('totals')));
       return {
         ...state,
         loading: false,

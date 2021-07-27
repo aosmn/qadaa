@@ -117,7 +117,7 @@ class PrayerItem extends Component {
             title={t('makeUpPrayer')}
             className={`btn-round addPrayer`}
             onClick={this.onMakeup}>
-            +
+            <ion-icon name="add-outline"></ion-icon>
           </Button>
           {/* </div> */}
         </Col>

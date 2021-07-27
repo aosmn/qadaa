@@ -170,6 +170,10 @@ const PrayersCounter = props => {
       <h6>
         <b>{day(props.selectedDate?.prayers?.day).format('ddd DD-MM-YYYY')}</b>
       </h6>
+
+      <h6>
+        <small>Your qadaa prayer logs</small>
+      </h6>
       <div className='prayers-container small d-flex flex-row'>
         <div
           className={`overlay ${

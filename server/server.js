@@ -5,6 +5,7 @@ import cors from 'cors';
 import connectDB from './config/db.config.js';
 import userRouter from './routes/user.routes.js';
 import prayerRouter from './routes/prayer.routes.js';
+import dayPrayerRouter from './routes/day.prayer.routes.js';
 import path from 'path';
 import fs from 'fs';
 import https from 'https';
@@ -29,6 +30,7 @@ app.options('*', cors(corsOptions));
 
 app.use('/api/users', userRouter);
 app.use('/api/prayers/', prayerRouter);
+app.use('/api/dayPrayers/', dayPrayerRouter);
 const __dirname = path.resolve();
 
 if (process.env.NODE_ENV === 'production') {

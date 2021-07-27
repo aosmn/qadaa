@@ -22,6 +22,58 @@
     top: 0;
   }
 }
+.has-hader {
+  // background-color: lightgray;
+  // border-radius: 5px;
+  position: relative;
+  overflow: visible;
+  // border: 1px solid darkred !important;
+  .hader-done {
+    border-radius: 50% !important;
+    // border-top-right-radius: 0px !important;
+    position: absolute;
+    background-color: $secondary;
+    font-weight: 600;
+    color: white;
+    // border-radius: 50%;
+    height: 1rem;
+    width: 1rem;
+    font-size: 0.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 0;
+    bottom: 0;
+
+    &.partial {
+      background-color: white !important;
+      color: $secondary;
+      border: 1px solid $secondary;
+    }
+  }
+}
+.show-hader {
+  position: relative;
+  overflow: visible;
+  .hader-empty {
+    border-radius: 50% !important;
+    // border-top-right-radius: 0px !important;
+    position: absolute;
+    border: 1px solid $secondary;
+    background-color: #fff;
+    font-weight: 600;
+    color: white;
+    // border-radius: 50%;
+    height: 0.8rem;
+    width: 0.8rem;
+    font-size: 0.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 2px;
+    bottom: 2px;
+  }
+}
 
 .prayers-content {
   display: flex;
@@ -66,7 +118,7 @@
         transition: all 0.2s ease-in-out;
         &:hover,
         &:focus {
-          background-color: $gray-900;
+          background-color: $secondary;
         }
       }
     }
@@ -88,6 +140,12 @@
         &:hover {
           background-color: $orange !important;
         }
+        .has-hader {
+          .hader-done {
+            color: $secondary;
+            background-color: #fff;
+          }
+        }
       }
       &.react-calendar__tile--now {
         background: none !important;
@@ -105,6 +163,9 @@
         }
         // border: 2px solid $gray-600;
         // background-color: $gray-600;
+        &:hover {
+          color: $gray-600 !important;
+        }
       }
       &:hover {
         background-color: $secondary;
