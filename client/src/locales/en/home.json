@@ -78,5 +78,8 @@
       "invalid": "Must be > 1",
       "placeholder": ""
     }
-  }
+  },
+  "prayerTimes": "Prayer Times",
+  "haderLogs": "Your hader prayer logs",
+  "qadaaLogs": "Your qadaa prayer logs"
 }

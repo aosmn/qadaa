@@ -1,10 +1,14 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { useTranslation } from 'react-i18next';
+import dayjs from 'dayjs';
 
 function ChangeLanguage({ changeLanguage, className = '' }) {
   const { t, i18n } = useTranslation(['home']);
   const lan = i18n.language;
 
+  useEffect(() => {
+    dayjs.locale(lan)
+  }, [lan])
   const setLanguage = code => {
     i18n.changeLanguage(code);
     changeLanguage(code);

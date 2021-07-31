@@ -3,7 +3,7 @@ import { Button, ListGroup, Row, Col, Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import day from 'dayjs';
 import LongPressable from 'react-longpressable';
-
+import 'dayjs/locale/ar';
 // import { Link } from 'react-router-dom';
 import PrayerItem from './PrayerItem';
 
@@ -21,7 +21,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const PrayersCounter = props => {
-  const { t } = useTranslation('home');
+  const { t, i18n } = useTranslation('home');
   let prayers = props.selectedDate.prayers;
 
   const [fajr, setFajr] = useState(0);
@@ -168,11 +168,15 @@ const PrayersCounter = props => {
   return (
     <>
       <h6>
-        <b>{day(props.selectedDate?.prayers?.day).format('ddd DD-MM-YYYY')}</b>
+        <b>
+          {day(props.selectedDate?.prayers?.day)
+            .locale(i18n.language)
+            .format('ddd DD-MM-YYYY')}
+        </b>
       </h6>
 
       <h6>
-        <small>Your qadaa prayer logs</small>
+        <small>{t('qadaaLogs')}</small>
       </h6>
       <div className='prayers-container small d-flex flex-row'>
         <div
@@ -217,8 +221,7 @@ const PrayersCounter = props => {
                       showManyDays ? 'manyDaysCount' : 'manyPrayersCount'
                     }`}></Form.Control>
                   <Form.Label>
-                    {t('howMany')}{' '}
-                    {showManyDays ? t('aldays') : t('alprayers')}
+                    {t('howMany')} {showManyDays ? t('aldays') : t('alprayers')}
                     {t('?')}
                   </Form.Label>
                 </Form.Group>
@@ -312,7 +315,7 @@ const PrayersCounter = props => {
             type='button'
             variant='primary'
             title={t('makeUpDay')}
-            className='w-100 h-100 align-items-center'
+            className='w-100 align-items-center btn-slim'
             onClick={setPrayers}>
             {t('save')}
           </Button>
@@ -322,7 +325,7 @@ const PrayersCounter = props => {
             type='button'
             variant='light'
             title={t('makeUpDay')}
-            className='w-100 h-100 align-items-center'
+            className='w-100 align-items-center btn-slim'
             onClick={() => {
               props.onCancel();
             }}>

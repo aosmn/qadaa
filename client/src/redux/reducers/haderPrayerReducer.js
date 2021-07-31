@@ -44,7 +44,6 @@ export const haderPrayersReducer = (state = initialState, action) => {
     case HADER_DAY_UPDATE_REQUEST:
       return { ...state, updateError: null, updateLoading: true };
     case HADER_DAY_UPDATE_SUCCESS:
-      console.log(action.payload);
       let nwPrayers = state.prayers;
       if (!state.prayers.find(d => d.day === action.payload.day)) {
         nwPrayers.push(action.payload);

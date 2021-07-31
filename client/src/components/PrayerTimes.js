@@ -10,6 +10,7 @@ import {
 } from '../redux/actions/haderPrayerActions.js';
 import { LoadingOverlay } from '..//components/Loader';
 import { connect } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 const mapStateToProps = state => ({
   userInfo: state.userInfo,
@@ -27,6 +28,7 @@ const isBetween = require('dayjs/plugin/isBetween');
 day.extend(isBetween);
 
 const PrayerTimes = props => {
+  const { t } = useTranslation(['home']);
   const [showSettings, setShowSettings] = useState(false);
   const [prayerTimes, setPrayerTimes] = useState([]);
   const isCurrentTime = (prayerTime, nextPrayer, index) => {
@@ -58,7 +60,7 @@ const PrayerTimes = props => {
     return (
       <PrayerItem
         key={key}
-        prayer={{ id: key, time: prayerTimes[key], status: prayerStatus }}
+        prayer={{ id: key.toLowerCase(), time: prayerTimes[key], status: prayerStatus }}
         onCheck={props.updateDayLogs}
         isDone={isDone}
       />
@@ -107,9 +109,9 @@ const PrayerTimes = props => {
 
   return (
     <div className='w-100'>
-      <h6 className='d-flex'>
-        Prayer Times
-        <div className=' ml-auto'>
+      <h6 className='d-flex justify-content-between'>
+        {t('prayerTimes')}
+        <div>
           <Button
             title='update location'
             variant='link'
@@ -150,11 +152,13 @@ export default connect(mapStateToProps, mapDispatchToProps)(PrayerTimes);
 
 const PrayerItem = ({ prayer, onCheck, isDone }) => {
   const [done, setDone] = useState(isDone);
+  const { t } = useTranslation(['home']);
+
   const onChange = e => {
     // console.log(e.target.checked);
     onCheck({
       day: new Date(),
-      prayer: prayer.id.toLowerCase(),
+      prayer: prayer.id,
       done: e.target.checked
     });
     setDone(e.target.checked);
@@ -163,10 +167,10 @@ const PrayerItem = ({ prayer, onCheck, isDone }) => {
     setDone(isDone);
   }, [isDone]);
   if (
-    prayer.id === 'Sunset' ||
-    prayer.id === 'Midnight' ||
-    prayer.id === 'Imsak' ||
-    prayer.id === 'Sunrise'
+    prayer.id === 'sunset' ||
+    prayer.id === 'midnight' ||
+    prayer.id === 'imsak' ||
+    prayer.id === 'sunrise'
   ) {
     return null;
   } else
@@ -185,7 +189,7 @@ const PrayerItem = ({ prayer, onCheck, isDone }) => {
           <label
             className='custom-control-label'
             htmlFor={`checkbox-${prayer.id}`}>
-            <div className='prayer-name'>{prayer.id}</div>
+            <div className='prayer-name'>{t(prayer.id)}</div>
           </label>
         </div>
         <div className='prayer-time'>{prayer.time}</div>

@@ -197,11 +197,22 @@ const Settings = props => {
       ) : (
         <div className='settings'>
           <Form.Group controlId='set-manually'>
-            <Form.Check
+            {/* <Form.Check
               type='checkbox'
               label={t('enterManually')}
               onChange={e => setEnterManually(e.target.checked)}
-            />
+            /> */}
+            <div className='custom-control custom-checkbox d-flex align-items-center'>
+              <input
+                type='checkbox'
+                className='custom-control-input'
+                id='enterManual'
+                onChange={e => setEnterManually(e.target.checked)}
+              />
+              <label className='custom-control-label' htmlFor='enterManual'>
+                <div>{t('enterManually')}</div>
+              </label>
+            </div>
           </Form.Group>
           {enterManually ? (
             <Form.Group controlId='days' className='mb-4'>
@@ -309,7 +320,7 @@ const Settings = props => {
           </Form.Group>
           <Form.Group controlId='save' className='w-100'>
             <Button
-              className='w-100 saveSettings'
+              className='w-100 saveSettings btn-slim'
               type='button'
               variant='primary'
               onClick={submitHandler}>
@@ -319,7 +330,7 @@ const Settings = props => {
           {props.userInfo.user?.preferences.start && (
             <Form.Group controlId='cancel' className='w-100'>
               <Button
-                className='w-100 py-3'
+                className='w-100 btn-slim'
                 type='button'
                 variant='link-secondary'
                 onClick={() => props.hide()}>

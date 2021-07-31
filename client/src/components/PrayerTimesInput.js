@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import day from 'dayjs';
-import Method from '../components/CalculationMethod';
+import 'dayjs/locale/ar';
+// import Method from '../components/CalculationMethod';
 import { Button, Col, Row } from 'react-bootstrap';
 import {
   getLogs,
@@ -10,6 +11,7 @@ import {
 } from '../redux/actions/haderPrayerActions.js';
 import { LoadingOverlay } from '..//components/Loader';
 import { connect } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 const mapStateToProps = state => ({
   userInfo: state.userInfo,
@@ -28,6 +30,7 @@ const isBetween = require('dayjs/plugin/isBetween');
 day.extend(isBetween);
 
 const PrayerTimes = props => {
+  const { t, i18n } = useTranslation(['home']);
   const [prayerTimes, setPrayerTimes] = useState([]);
   const prayers = Object.keys(prayerTimes);
   // console.log(props);
@@ -37,7 +40,11 @@ const PrayerTimes = props => {
     return (
       <PrayerItem
         key={key}
-        prayer={{ id: key, time: prayerTimes[key], status: prayerStatus }}
+        prayer={{
+          id: key.toLowerCase(),
+          time: prayerTimes[key],
+          status: prayerStatus
+        }}
         onCheck={props.updateDayLogs}
         isDone={isDone}
         date={props.selectedDate}
@@ -68,14 +75,17 @@ const PrayerTimes = props => {
     props.getDayLogs(props.selectedDate);
   }, [props.userInfo.user._id]);
 
-
   return (
     <div className='w-100'>
       <h6>
-        <b>{day(props.prayers.day).format('ddd DD-MM-YYYY')}</b>
+        <b>
+          {day(props.prayers.day)
+            .locale(i18n.language)
+            .format('ddd DD-MM-YYYY')}
+        </b>
       </h6>
       <h6>
-        <small>Your hader prayer logs</small>
+        <small>{t('haderLogs')}</small>
       </h6>
       {props.haderPrayers.loadingDay ||
         (props.haderPrayers.updateLoading && <LoadingOverlay />)}
@@ -86,11 +96,11 @@ const PrayerTimes = props => {
             type='button'
             variant='light'
             title='cancel'
-            className='w-100 h-100 align-items-center py-3 mt-3'
+            className='w-100 align-items-center py-3 mt-3 btn-slim'
             onClick={() => {
               props.onCancel();
             }}>
-            Cancel
+            {t('cancel')}
           </Button>
         </Col>
       </Row>
@@ -101,6 +111,7 @@ const PrayerTimes = props => {
 export default connect(mapStateToProps, mapDispatchToProps)(PrayerTimes);
 
 const PrayerItem = ({ prayer, onCheck, isDone, date }) => {
+  const { t } = useTranslation(['home']);
   const [done, setDone] = useState(isDone);
   const onChange = e => {
     // console.log('henaaaa');
@@ -116,10 +127,10 @@ const PrayerItem = ({ prayer, onCheck, isDone, date }) => {
     setDone(isDone);
   }, [isDone]);
   if (
-    prayer.id === 'Sunset' ||
-    prayer.id === 'Midnight' ||
-    prayer.id === 'Imsak' ||
-    prayer.id === 'Sunrise'
+    prayer.id === 'sunset' ||
+    prayer.id === 'midnight' ||
+    prayer.id === 'imsak' ||
+    prayer.id === 'sunrise'
   ) {
     return null;
   } else
@@ -138,7 +149,7 @@ const PrayerItem = ({ prayer, onCheck, isDone, date }) => {
           <label
             className='custom-control-label'
             htmlFor={`checkbox-${prayer.id}${date}`}>
-            <div className='prayer-name'>{prayer.id}</div>
+            <div className='prayer-name'>{t(prayer.id)}</div>
           </label>
         </div>
         <div className='prayer-time'>{prayer.time}</div>

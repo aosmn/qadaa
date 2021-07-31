@@ -87,12 +87,12 @@ const HomeScreen = props => {
                   <Card.Body>
                     {props.userInfo.loading && <LoadingOverlay />}
 
-                    <h6 className='font-weight-bold mb-0 d-flex align-items-center'>
+                    <h6 className='font-weight-bold mb-0 d-flex align-items-center justify-content-between'>
                       {t('hello')} {props.userInfo.user?.name?.split(' ')[0]}
                       {showSettings ? (
                         <Button
                           variant='link'
-                          className='btn text-dark p-0 ml-auto'
+                          className='btn text-dark p-0'
                           onClick={() => {
                             setShowSettings(false);
                           }}>
@@ -102,7 +102,7 @@ const HomeScreen = props => {
                         props.userInfo?.user?.preferences?.start && (
                           <Button
                             variant='link'
-                            className='btn text-dark p-0 ml-auto'
+                            className='btn text-dark p-0'
                             onClick={() => {
                               setShowSettings(true);
                             }}>
