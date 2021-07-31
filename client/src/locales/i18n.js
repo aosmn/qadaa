@@ -10,6 +10,8 @@ import home_en from './en/home.json';
 import home_ar from './ar/home.json';
 import tutorial_en from './en/tutorial.json';
 import tutorial_ar from './ar/tutorial.json';
+import landing_en from './en/landing.json';
+import landing_ar from './ar/landing.json';
 
 // don't want to use this?
 // have a look at the Quick start guide
@@ -36,12 +38,14 @@ i18n
       en: {
         auth: auth_en,
         home: home_en,
-        tutorial: tutorial_en
+        tutorial: tutorial_en,
+                landing: landing_en
       },
       ar: {
         auth: auth_ar,
         home: home_ar,
-        tutorial: tutorial_ar
+        tutorial: tutorial_ar,
+                landing: landing_ar
       }
     }
   });

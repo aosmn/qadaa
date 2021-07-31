@@ -469,7 +469,13 @@ input.small:not(:placeholder-shown) + label {
 }
 
 .ar {
-  font-family: 'Tajawal', sans-serif;
+  .react-calendar__tile {
+    text-align: center !important;
+  }
+  * {
+    font-family: 'Tajawal', sans-serif !important;
+  }
+  font-family: 'Tajawal', sans-serif !important;
   direction: rtl;
   *:not(.Toastify) {
     text-align: right;
@@ -528,7 +534,7 @@ input.small:not(:placeholder-shown) + label {
     &:last-child {
       border-bottom: 0;
     }
-    font-size: .75rem;
+    font-size: 0.75rem;
   }
 }
 
@@ -536,13 +542,13 @@ input.small:not(:placeholder-shown) + label {
 //   border-color: #D7B1D7;
 //   background-color: #D7B1D7;
 // }
-.custom-checkbox .custom-control-input:checked~.custom-control-label::before{
-  background-color:$teal-dk;
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+  background-color: $teal-dk;
 }
 
-.custom-control-input:disabled~.custom-control-label{
+.custom-control-input:disabled ~ .custom-control-label {
   color: $body-color;
-  &::before{
+  &::before {
     border: none;
     // background-color: #cecece;
     // background-color:$teal-dk;

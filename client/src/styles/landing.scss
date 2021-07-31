@@ -3,58 +3,104 @@
 .landing-header.navbar-light.bg-light.landing-header {
   background-color: #fff0 !important;
   border-bottom: none;
+  display: none;
 }
-
-.landing {
-  .title-container-background {
-    position: absolute;
-    height: 265px;
-    width: 100vw;
-    background-color: $orange;
-    background-image: linear-gradient($orange, $orange-dk);
-    right: 0;
-    // top: 65px;
-    top: 0;
-    overflow: hidden;
-    z-index: -1;
-    .pattern {
-      height: 100%;
-      position: absolute;
-      &.right {
-        // right: 32px;
-        transform: rotate(45deg) scale(1.3);
-        right: -25px;
-        top: 55px;
-      }
-      &.left {
-        // left: 32px;
-        transform: rotate(-45deg) scale(1.3);
-        left: -25px;
-        top: 55px;
+.ar {
+  .landing {
+    .cover {
+      .logo-text {
+        font-family: 'Tajawal', sans-serif !important;
+        &.large {
+          margin-top: 7px;
+        }
+        // font-family: 'Quicksand', sans-serif !important;
       }
     }
+    .quran {
+      * {
+        text-align: center !important;
+      }
+    }
+  }
+}
+.landing {
+  .cover {
+    &.collapsed {
+      // height: 65px;
+      top: -135px;
+      position: fixed;
+      width: 100%;
+      // overflow: hidden;
+      .cover-logo {
+        display: none !important;
+      }
+    }
+    .title-container-background {
+      position: absolute;
+      height: 200px;
+      width: 100vw;
+      background-color: $orange;
+      background-image: linear-gradient($orange, $orange-dk);
+      right: 0;
+      // top: 65px;
+      top: 0;
+      overflow: hidden;
+      z-index: -1;
+      .pattern {
+        height: 200px;
+        position: fixed;
+        &.right {
+          // right: 32px;
+          transform: rotate(45deg) scale(1.3);
+          right: -25px;
+          top: 55px;
+        }
+        &.left {
+          // left: 32px;
+          transform: rotate(-45deg) scale(1.3);
+          left: -25px;
+          top: 55px;
+        }
+      }
+    }
+    .title-container {
+      // padding-top: 65px;
+      // position: absolute;
+      // z-index: -1;
+      // right: 0;
+      // top: 65px;
+      // top: 0;
+      height: 200px;
+      width: 100vw;
+    }
+    .logo-text {
+      &.large {
+        font-size: 2rem;
+        margin: 0 20px;
+      }
+      font-weight: 700;
+      font-size: 1.5rem;
+      line-height: 1.5rem;
+      color: $orange;
+      font-family: 'Quicksand', sans-serif !important;
+    }
+    .l-header {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      background-color: #fff0 !important;
+      border-bottom: none;
+      a,
+      .btn {
+        color: white !important;
+      }
+    }
+  }
+
+  .content-collapsed-header {
+    margin-top: 200px;
   }
   // position: relative;
-  .title-container {
-    // padding-top: 65px;
-    // position: absolute;
-    // z-index: -1;
-    // right: 0;
-    // top: 65px;
-    // top: 0;
-    height: 200px;
-    width: 100vw;
-  }
-  .logo-text {
-    &.large {
-      font-size: 2rem;
-    }
-    font-weight: 700;
-    font-size: 1.5rem;
-    line-height: 1.5rem;
-    color: $orange;
-    font-family: 'Quicksand', sans-serif !important;
-  }
   .quran {
     // font-family: 'Quicksand', sans-serif !important;
     font-size: 1.2rem;
@@ -74,7 +120,7 @@
     align-items: center;
     justify-content: center;
     margin: 4rem 0;
-    &.left  {
+    &.left {
       flex-direction: row-reverse;
     }
     .text {

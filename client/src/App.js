@@ -389,7 +389,7 @@ const App = props => {
 
           <ProtectedRoute exact path='/logs' component={Logs} />
           <ProtectedRoute exact path='/' component={Home} />
-          <Route exact path='/landing' component={LandingPage} />
+          <Route exact path='/landing'  render={() => <LandingPage  changeLanguage={changeLanguage}/>} />
         </main>
         <Footer />
       </Router>

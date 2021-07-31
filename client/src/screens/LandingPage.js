@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/landing.scss';
 import pattern from '../assets/pattern.svg';
 import logo from '../assets/logo-white.svg';
@@ -6,28 +6,96 @@ import countImg from '../assets/screens/count.png';
 import calendarImg from '../assets/screens/calendar.png';
 import progressImg from '../assets/screens/progress.png';
 import settingsImg from '../assets/screens/settings_c.png';
-import { Button } from 'react-bootstrap';
+import prayerTimesImg from '../assets/screens/prayer_times.png';
 import { Link } from 'react-router-dom';
-const LandingPage = () => {
+import { Container, Navbar, Nav } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
+
+import { useSelector } from 'react-redux';
+// import { logout } from '../redux/actions/userActions';
+// import { setAxiosAuth } from '../api/axiosRequest';
+// import { useHistory, } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import Language from '../components/ChangeLanguage';
+
+const LandingPage = ({ changeLanguage }) => {
+  const { t } = useTranslation(['landing']);
+  const userInfo = useSelector(state => state.userInfo);
+  const { user } = userInfo;
+  // const dispatch = useDispatch();
+  // const history = useHistory();
+  // const logoutHandler = () => {
+  //   dispatch(logout());
+  //   history.push('/login');
+  // };
+  const [collapse, setCollapse] = useState(false);
+  useEffect(() => {
+    window.addEventListener('scroll', event => {
+      if (window.scrollY >= 135) {
+        setCollapse(true);
+      } else {
+        setCollapse(false);
+      }
+    });
+  }, []);
   return (
     <div className='landing h-100 w-100'>
-      <div className='title-container-background'>
-        <img src={pattern} alt='' className='pattern right' />
-        <img src={pattern} alt='' className='pattern left' />
-      </div>
-      <div className='title-container d-flex w-100 justify-content-center'>
-        <div className='d-flex flex-row align-items-center'>
-          <img
-            src={logo}
-            width='60'
-            height='72.5'
-            alt=''
-            className='mx-3 logo'
-          />
-          <div className='logo-text large text-light'>Qadaa</div>
+      <div className={`cover${collapse ? ' collapsed' : ''}`}>
+        <div className='title-container-background'>
+          <img src={pattern} alt='' className='pattern right' />
+          <img src={pattern} alt='' className='pattern left' />
         </div>
+        <div className='title-container d-flex w-100 justify-content-center'>
+          <div className='cover-logo d-flex flex-row align-items-center'>
+            <img
+              src={logo}
+              width='60'
+              height='72.5'
+              alt=''
+              className='mx-3 logo'
+            />
+            <div className='logo-text large text-light'>{t('qadaa')}</div>
+          </div>
+        </div>
+        <Navbar
+          bg='light'
+          variant='light'
+          collapseOnSelect
+          className={`l-header ${collapse ? '' : 'd-none'}`}>
+          <Container>
+            <LinkContainer to='/'>
+              <Navbar.Brand>
+                <img
+                  src={logo}
+                  width='30'
+                  height='36.25'
+                  alt=''
+                  className='mx-4 logo'
+                />
+                {t('qadaa')}
+              </Navbar.Brand>
+            </LinkContainer>
+            {/* <Navbar.Toggle aria-controls='basic-navbar-nav' /> */}
+            {/* <Navbar.Collapse id='basic-navbar-nav'> */}
+            <Nav>
+              <Language changeLanguage={changeLanguage} />
+              {user ? (
+                // <Nav.Link onClick={logoutHandler}>{t('logout')}</Nav.Link>
+                <LinkContainer to='/'>
+                  <Nav.Link>{t('goToApp')}</Nav.Link>
+                </LinkContainer>
+              ) : (
+                <LinkContainer to='/login'>
+                  <Nav.Link>{t('loginBtn')}</Nav.Link>
+                </LinkContainer>
+              )}
+            </Nav>
+            {/* </Navbar.Collapse> */}
+          </Container>
+        </Navbar>
       </div>
-      <div className='content'>
+
+      <div className={`content ${collapse ? 'content-collapsed-header' : ''}`}>
         <div className='section d-flex flex-column mt-2 align-items-center'>
           <div className='my-5'>
             <div className='quran d-flex flex-column mt-5 align-items-center text-secondary'>
@@ -45,39 +113,44 @@ const LandingPage = () => {
             <hr className='w-100' />
           </div>
           <div className='intro text-center m-5'>
-            <h2 className='title'>Make up your qadaa prayers</h2>
-            <h6>
-              If you have prayers that you want to make up for and fulfill your
-              debt to Allah, Qadaa is your companion to do just that.
-            </h6>
+            <h2 className='title'>{t('title1')}</h2>
+            <h6>{t('description1')}</h6>
             <div className='mt-5'>
               <div className='feature'>
                 <div className='text'>
-                  <span>1. Log </span>
-                  your qadaa prayers every day
+                  <span>1. {t('title2')} </span>
+                  {t('description2')}
                 </div>
                 <img src={countImg} alt='' />
               </div>
               <div className='feature left'>
                 <div className='text'>
-                  <span>2. Calculate </span>
-                  the prayers you missed over the years
+                  <span>2. {t('title3')} </span>
+                  {t('description4')}
                 </div>
                 <img src={settingsImg} alt='' />
               </div>
               <div className='feature'>
                 <div className='text'>
-                  <span>3. Set </span>a daily goal to do your qadaa prayers and
-                  see your progress
+                  <span>3. {t('title4')} </span>
+                  {t('description4')}
                 </div>
                 <img src={progressImg} alt='' />
               </div>
               <div className='feature left'>
                 <div className='text'>
-                  <span>4. View </span>
-                  your logs and total prayers you've made up for
+                  <span>4. {t('title5')} </span>
+                  {t('description5')}
                 </div>
                 <img src={calendarImg} alt='' />
+              </div>
+
+              <div className='feature'>
+                <div className='text'>
+                  <span>5. {t('title6')} </span>
+                  {t('description6')}
+                </div>
+                <img src={prayerTimesImg} alt='' />
               </div>
             </div>
           </div>
@@ -87,9 +160,9 @@ const LandingPage = () => {
           <hr className='w-100' />
         </div>
         <div className='text-center m-5'>
-        <Link className='btn btn-primary px-4' to='/register'>
-            Register Now !
-        </Link>
+          <Link className='btn btn-primary px-4' to='/register'>
+            {t('registerBtn')}
+          </Link>
           {/* <Button className='w-100' type='submit' variant='primary'>
           </Button> */}
         </div>
