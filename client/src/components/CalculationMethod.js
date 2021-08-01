@@ -2,18 +2,19 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Form, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { getCalculationMethods } from '../api/prayerTimes.api';
 
 const CalculationMethod = ({ onSubmit }) => {
   const { t } = useTranslation(['home']);
   const [methods, setMethods] = useState([]);
   const [method, setMethod] = useState(0);
   useEffect(() => {
-    setMethod(localStorage.getItem('calculationMethod'))
-    axios.get('http://api.aladhan.com/v1/methods').then(res => {
-      // console.log(res);
+    setMethod(localStorage.getItem('calculationMethod'));
+    getCalculationMethods().then(res => {
+      console.log(res);
       const methodsList = [];
-      Object.keys(res.data.data).forEach(r => {
-        let op = res.data.data[r];
+      Object.keys(res.methods).forEach(r => {
+        let op = res.methods[r];
         // console.log(op);
         let option = (
           <option key={op.id} value={op.id}>
@@ -25,6 +26,7 @@ const CalculationMethod = ({ onSubmit }) => {
       setMethods(methodsList);
       // console.log(methodsList);
     });
+    // axios.get('http://api.aladhan.com/v1/methods')
   }, []);
 
   // let methodList = (methods.length > 0 && methods.map(m => {

@@ -8,9 +8,10 @@ import {
   updateDayLogs,
   getDayLogs
 } from '../redux/actions/haderPrayerActions.js';
-import { LoadingOverlay } from '..//components/Loader';
+import { LoadingOverlay } from '../components/Loader';
 import { connect } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { getPrayerTimes } from '../api/prayerTimes.api';
 
 const mapStateToProps = state => ({
   userInfo: state.userInfo,
@@ -60,7 +61,11 @@ const PrayerTimes = props => {
     return (
       <PrayerItem
         key={key}
-        prayer={{ id: key.toLowerCase(), time: prayerTimes[key], status: prayerStatus }}
+        prayer={{
+          id: key.toLowerCase(),
+          time: prayerTimes[key],
+          status: prayerStatus
+        }}
         onCheck={props.updateDayLogs}
         isDone={isDone}
       />
@@ -70,15 +75,11 @@ const PrayerTimes = props => {
   useEffect(() => {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(function (position) {
-        axios
-          .get(
-            `http://api.aladhan.com/v1/timings/${day().unix()}?latitude=${
-              position.coords.latitude
-            }&longitude=${position.coords.longitude}&method=${
-              localStorage.getItem('calculationMethod') || 0
-            }`
-          )
-          .then(res => setPrayerTimes(res.data.data.timings));
+        getPrayerTimes(
+          position.coords.latitude,
+          position.coords.longitude,
+          localStorage.getItem('calculationMethod')
+        ).then(res => setPrayerTimes(res.prayerTimes));
       });
       console.log('Available');
     } else {
@@ -91,15 +92,11 @@ const PrayerTimes = props => {
   const updateLocation = () => {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(function (position) {
-        axios
-          .get(
-            `http://api.aladhan.com/v1/timings/${day().unix()}?latitude=${
-              position.coords.latitude
-            }&longitude=${position.coords.longitude}&method=${
-              localStorage.getItem('calculationMethod') || 0
-            }`
-          )
-          .then(res => setPrayerTimes(res.data.data.timings));
+        getPrayerTimes(
+          position.coords.latitude,
+          position.coords.longitude,
+          localStorage.getItem('calculationMethod')
+        ).then(res => setPrayerTimes(res.prayerTimes));
       });
       console.log('Available');
     } else {
