@@ -1,7 +1,8 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
-const preferencesSchema = new mongoose.Schema({ start: Date,
+const preferencesSchema = new mongoose.Schema({
+  start: Date,
   end: Date,
   days: Number,
   isFemale: Boolean,
@@ -13,7 +14,12 @@ const preferencesSchema = new mongoose.Schema({ start: Date,
   tutorialDone: {
     type: Boolean,
     default: false
-  } });
+  },
+  trackHader: {
+    type: Boolean,
+    default: true
+  }
+});
 
 const userSchema = mongoose.Schema(
   {

@@ -28,7 +28,8 @@ export class PrayerLogs extends Component {
       selectedDate: null,
       prayers: null,
       visible: false,
-      offline: !window.navigator.onLine
+      offline: !window.navigator.onLine,
+      trackHader: props.userInfo?.user?.preferences?.trackHader
     };
   }
   componentDidMount() {
@@ -59,14 +60,20 @@ export class PrayerLogs extends Component {
       // Check if a date React-Calendar wants to check is on the list of dates to add class to
       if (datesList.find(dDate => day(dDate).isSame(day(date), 'day'))) {
         if (haderDatesList.find(dDate => day(dDate).isSame(day(date), 'day'))) {
-          return 'tile has-prayers has-hader';
+          return `tile has-prayers has-hader ${
+            this.state.trackHader ? 'show-hader' : 'hide-hader'
+          }`;
         }
-        return 'tile has-prayers show-hader';
+        return `tile has-prayers ${
+          this.state.trackHader ? 'show-hader' : 'hide-hader'
+        }`;
       }
       if (haderDatesList.find(dDate => day(dDate).isSame(day(date), 'day'))) {
-        return 'tile has-hader show-hader';
+        return `tile has-hader ${
+          this.state.trackHader ? 'show-hader' : 'hide-hader'
+        }`;
       }
-      return 'tile show-hader';
+      return `tile ${this.state.trackHader ? 'show-hader' : 'hide-hader'}`;
     }
   };
   tileContent = ({ date, view }) => {

@@ -31,7 +31,14 @@ day.extend(isBetween);
 const PrayerTimes = props => {
   const { t } = useTranslation(['home']);
   const [showSettings, setShowSettings] = useState(false);
-  const [prayerTimes, setPrayerTimes] = useState([]);
+  const [prayerTimes, setPrayerTimes] = useState({
+    Fajr: 0,
+    Dhuhr: 0,
+    Asr: 0,
+    Maghrib: 0,
+    Isha: 0
+  });
+  const [loadingPrayerTimes, setLoadingPrayerTimes] = useState(false);
   const isCurrentTime = (prayerTime, nextPrayer, index) => {
     if (!!prayerTime && !!nextPrayer) {
       const prayer = day()
@@ -75,11 +82,15 @@ const PrayerTimes = props => {
   useEffect(() => {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(function (position) {
+        setLoadingPrayerTimes(true);
         getPrayerTimes(
           position.coords.latitude,
           position.coords.longitude,
           localStorage.getItem('calculationMethod')
-        ).then(res => setPrayerTimes(res.prayerTimes));
+        ).then(res => {
+          setPrayerTimes(res.prayerTimes);
+          setLoadingPrayerTimes(false);
+        });
       });
       console.log('Available');
     } else {
@@ -92,11 +103,15 @@ const PrayerTimes = props => {
   const updateLocation = () => {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(function (position) {
+        setLoadingPrayerTimes(true);
         getPrayerTimes(
           position.coords.latitude,
           position.coords.longitude,
           localStorage.getItem('calculationMethod')
-        ).then(res => setPrayerTimes(res.prayerTimes));
+        ).then(res => {
+          setPrayerTimes(res.prayerTimes);
+          setLoadingPrayerTimes(false);
+        });
       });
       console.log('Available');
     } else {
@@ -136,8 +151,9 @@ const PrayerTimes = props => {
         <Method onSubmit={() => setShowSettings(false)} />
       ) : (
         <>
-          {props.haderPrayers.loadingToday ||
-            (props.haderPrayers.updateLoading && <LoadingOverlay />)}
+          {(loadingPrayerTimes ||
+            props.haderPrayers.loadingToday ||
+            props.haderPrayers.updateLoading) && <LoadingOverlay />}
           <div className='prayer-times'>{prayertimes}</div>
         </>
       )}
@@ -189,7 +205,7 @@ const PrayerItem = ({ prayer, onCheck, isDone }) => {
             <div className='prayer-name'>{t(prayer.id)}</div>
           </label>
         </div>
-        <div className='prayer-time'>{prayer.time}</div>
+        <div className='prayer-time'>{prayer.time !== 0 && prayer.time}</div>
       </div>
     );
 };

@@ -22,6 +22,14 @@
     top: 0;
   }
 }
+.hide-hader {
+  .hader-done,
+  .hader-empty,
+  .has-hader,
+  .hader-done.partial {
+    display: none;
+  }
+}
 .has-hader {
   // background-color: lightgray;
   // border-radius: 5px;

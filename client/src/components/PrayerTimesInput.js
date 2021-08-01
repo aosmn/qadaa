@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import day from 'dayjs';
 import 'dayjs/locale/ar';
 // import Method from '../components/CalculationMethod';
@@ -32,9 +31,16 @@ day.extend(isBetween);
 
 const PrayerTimes = props => {
   const { t, i18n } = useTranslation(['home']);
-  const [prayerTimes, setPrayerTimes] = useState([]);
+  const [prayerTimes, setPrayerTimes] = useState({
+    Fajr: 0,
+    Dhuhr: 0,
+    Asr: 0,
+    Maghrib: 0,
+    Isha: 0
+  });
+  const [loadingPrayerTimes, setLoadingPrayerTimes] = useState(false);
   const prayers = Object.keys(prayerTimes);
-  // console.log(props);
+
   const prayertimes = prayers.map((key, index) => {
     const prayerStatus = false;
     const isDone = props.prayers?.[key.toLowerCase()];
@@ -56,21 +62,16 @@ const PrayerTimes = props => {
     // console.log(props.selectedDate);
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(function (position) {
+        setLoadingPrayerTimes(true);
         getPrayerTimes(
           position.coords.latitude,
           position.coords.longitude,
           localStorage.getItem('calculationMethod'),
           props.selectedDate
-        ).then(res => setPrayerTimes(res.prayerTimes));
-        // axios
-        //   .get(
-        //     `http://api.aladhan.com/v1/timings/${day(
-        //       props.selectedDate
-        //     ).unix()}?latitude=${position.coords.latitude}&longitude=${
-        //       position.coords.longitude
-        //     }&method=${localStorage.getItem('calculationMethod') || 0}`
-        //   )
-        //   .then(res => setPrayerTimes(res.data.data.timings));
+        ).then(res => {
+          setPrayerTimes(res.prayerTimes);
+          setLoadingPrayerTimes(false);
+        });
       });
       console.log('Available');
     } else {
@@ -94,8 +95,9 @@ const PrayerTimes = props => {
       <h6>
         <small>{t('haderLogs')}</small>
       </h6>
-      {props.haderPrayers.loadingDay ||
-        (props.haderPrayers.updateLoading && <LoadingOverlay />)}
+      {(loadingPrayerTimes ||
+        props.haderPrayers.loadingDay ||
+        props.haderPrayers.updateLoading) && <LoadingOverlay />}
       <div className='prayer-times mt-4'>{prayertimes}</div>
       <Row className='justify-content-end'>
         <Col sm={6}>
@@ -159,7 +161,7 @@ const PrayerItem = ({ prayer, onCheck, isDone, date }) => {
             <div className='prayer-name'>{t(prayer.id)}</div>
           </label>
         </div>
-        <div className='prayer-time'>{prayer.time}</div>
+        <div className='prayer-time'>{prayer.time !== 0 && prayer.time}</div>
       </div>
     );
 };

@@ -29,6 +29,7 @@ const Settings = props => {
   const { t } = useTranslation(['home']);
   const [isFemale, setIsFemale] = useState(false);
   const [enterManually, setEnterManually] = useState(false);
+  const [trackHader, setTrackHader] = useState(props.userInfo?.user?.preferences?.trackHader);
   const {
     register,
     handleSubmit,
@@ -58,7 +59,8 @@ const Settings = props => {
     if (enterManually) {
       reset({
         days: props.userInfo?.user?.preferences?.days || 1,
-        dailyTarget: props.userInfo?.user?.preferences?.dailyTarget || 2
+        dailyTarget: props.userInfo?.user?.preferences?.dailyTarget || 2,
+        // trackHader: props.userInfo?.user?.preferences?.trackHader
       });
     } else {
       if (!objectEmpty(props.userInfo.user.preferences)) {
@@ -83,15 +85,8 @@ const Settings = props => {
   };
 
   const onSaveSettings = data => {
+    console.log(trackHader);
     if (enterManually) {
-      // console.log({
-      //   start: day().subtract(data.days, 'days'),
-      //   end: day(),
-      //   isFemale,
-      //   days: data.days,
-      //   dailyTarget: data.dailyTarget || 0,
-      //   updatedAt: new Date()
-      // });
       props
         .updatePreferences(
           {
@@ -100,7 +95,8 @@ const Settings = props => {
             isFemale,
             days: data.days,
             dailyTarget: data.dailyTarget || 0,
-            updatedAt: new Date()
+            updatedAt: new Date(),
+            trackHader
           },
           props.user
         )
@@ -129,7 +125,8 @@ const Settings = props => {
               days: numberOfDays,
               period: periodLength,
               dailyTarget: data.dailyTarget || 0,
-              updatedAt: new Date()
+              updatedAt: new Date(),
+              trackHader
             },
             props.user
           )
@@ -196,12 +193,22 @@ const Settings = props => {
         </div>
       ) : (
         <div className='settings'>
+          <Form.Group controlId='trackHader'>
+            <div className='custom-control custom-checkbox d-flex align-items-center'>
+              <input
+                type='checkbox'
+                className='custom-control-input'
+                id='trackHader'
+                checked={trackHader}
+                onChange={e => setTrackHader(e.target.checked)}
+              />
+              <label className='custom-control-label' htmlFor='trackHader'>
+                <div>{t('logHader')}</div>
+              </label>
+            </div>
+          </Form.Group>
+          <hr/>
           <Form.Group controlId='set-manually'>
-            {/* <Form.Check
-              type='checkbox'
-              label={t('enterManually')}
-              onChange={e => setEnterManually(e.target.checked)}
-            /> */}
             <div className='custom-control custom-checkbox d-flex align-items-center'>
               <input
                 type='checkbox'

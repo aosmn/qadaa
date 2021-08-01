@@ -81,5 +81,6 @@
   },
   "prayerTimes": "Prayer Times",
   "haderLogs": "Your hader prayer logs",
-  "qadaaLogs": "Your qadaa prayer logs"
+  "qadaaLogs": "Your qadaa prayer logs",
+  "logHader": "Log hader prayers"
 }
