@@ -27,7 +27,7 @@
   .hader-empty,
   .has-hader,
   .hader-done.partial {
-    display: none;
+    display: none !important;
   }
 }
 .has-hader {

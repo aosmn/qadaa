@@ -18,7 +18,8 @@
   "calendar": {
     "1": "You can see your logs here",
     "2": "This  is the number of prayers you made up that day, Click to see details",
-    "3": "You can view and edit the day prayers here"
+    "3": "You can view and edit the day prayers here",
+    "4": "You can check your hader prayers here"
   },
   "settings": {
     "1": "Let's setup your profile to calculate the number of prayers you missed",

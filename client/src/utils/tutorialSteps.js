@@ -59,11 +59,15 @@ export const calendarSteps = [
   { target: '.calendar', content: i18next.t('tutorial:calendar.1') },
   {
     target: '.count',
-    content: i18next.t('tutorial:counter.2')
+    content: i18next.t('tutorial:calendar.2')
+  },
+  {
+    target: '.hader-done',
+    content: i18next.t('tutorial:calendar.4')
   },
   {
     target: '.dayDetails',
-    content: i18next.t('tutorial:counter.3')
+    content: i18next.t('tutorial:calendar.3')
   }
 ];
 
@@ -71,33 +75,33 @@ export const settingsSteps = [
   {
     target: '.settings',
     content: i18next.t('tutorial:settings.1')
-    },
+  },
   {
     target: '.startDate',
     content: i18next.t('tutorial:settings.2')
-    },
+  },
   {
     target: '.endDate',
     content: i18next.t('tutorial:settings.3')
-    },
+  },
   {
     target: '.isFemale',
     content: i18next.t('tutorial:settings.4')
-    },
+  },
   {
     target: '.period',
     content: i18next.t('tutorial:settings.5')
-    },
+  },
   {
     target: '.dailyTarget',
     content: i18next.t('tutorial:settings.6')
-    },
+  },
   {
     target: '.saveSettings',
     content: i18next.t('tutorial:settings.7')
-    },
+  },
   {
     target: '.personal',
     content: i18next.t('tutorial:settings.8')
-     }
+  }
 ];
