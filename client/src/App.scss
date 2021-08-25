@@ -476,7 +476,7 @@ input.small:not(:placeholder-shown) + label {
       font-family: 'Montserrat', sans-serif !important;
     }
   }
-  *:not(.react-calendar__tile):not(.react-calendar__tile .count) {
+  *:not(.react-calendar__tile):not(.react-calendar__tile .count):not(.en-font) {
     font-family: 'Tajawal', sans-serif !important;
   }
   // font-family: 'Tajawal', sans-serif !important;
@@ -574,4 +574,11 @@ input.small:not(:placeholder-shown) + label {
 .btn-slim {
   padding-top: 14px;
   padding-bottom: 14px;
+}
+
+.ar-font {
+  font-family: 'Tajawal', sans-serif !important;
+}
+.en-font {
+  font-family: 'Montserrat', sans-serif !important;
 }

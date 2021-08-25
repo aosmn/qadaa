@@ -21,7 +21,7 @@ function ChangeLanguage({ changeLanguage, className = '' }) {
         setLanguage(lan === 'en' ? 'ar' : 'en');
       }}>
       <ion-icon name='earth-outline'></ion-icon>
-      <span className='mx-2'>{t('language')}</span>
+      <span className={`mx-2 ${lan==='en' ? 'ar-font' : 'en-font'}`}>{t('language')}</span>
       {/* <GlobalOutlined className={lan === 'en' ? 'ml-2' : 'mr-2'} /> */}
     </button>
   );

@@ -7,6 +7,7 @@ import userRouter from './routes/user.routes.js';
 import prayerRouter from './routes/prayer.routes.js';
 import dayPrayerRouter from './routes/day.prayer.routes.js';
 import prayerTimesRouter from './routes/prayerTimes.routes.js';
+import fatwaRouter from './routes/fatwa.routes.js';
 import path from 'path';
 import fs from 'fs';
 import https from 'https';
@@ -30,6 +31,7 @@ app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
 
 app.use('/api/users', userRouter);
+app.use('/api/fatwas', fatwaRouter);
 app.use('/api/prayers/', prayerRouter);
 app.use('/api/dayPrayers/', dayPrayerRouter);
 app.use('/api/prayerTimes/', prayerTimesRouter);

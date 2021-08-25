@@ -10,6 +10,7 @@ import prayerTimesImg from '../assets/screens/prayer_times.png';
 import { Link } from 'react-router-dom';
 import { Container, Navbar, Nav } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import FatwaSlider from './FatwaSlider';
 
 import { useSelector } from 'react-redux';
 // import { logout } from '../redux/actions/userActions';
@@ -109,6 +110,11 @@ const LandingPage = ({ changeLanguage }) => {
               </p>
             </div>
           </div>
+          <div className='w-100 px-5'>
+            <hr className='w-100' />
+          </div>
+          <FatwaSlider />
+
           <div className='w-100 px-5'>
             <hr className='w-100' />
           </div>
