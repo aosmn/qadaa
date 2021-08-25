@@ -45,7 +45,7 @@ const ForgotPasswordScreen = ({ location, history }) => {
       });
       history.push('/');
     }
-  }, [submitted, message, history]);
+  }, [submitted, message, history, t]);
 
   return (
     <FormContainer

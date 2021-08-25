@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import day from 'dayjs';
 import Method from '../components/CalculationMethod';
 import { Button } from 'react-bootstrap';
@@ -99,6 +98,7 @@ const PrayerTimes = props => {
   }, []);
   useEffect(() => {
     props.getTodayLogs();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.userInfo.user._id]);
   const updateLocation = () => {
     if ('geolocation' in navigator) {

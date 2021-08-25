@@ -295,45 +295,8 @@ const App = props => {
           });
         }
       });
-
-      // getOfflineHaderLogs(user).then(res => {
-      //   if (res.length > 0) {
-      //     const nDays = res.length;
-      //     const Msg = ({ closeToast, toastProps }) => (
-      //       <div>
-      //         You have offline entries for {nDays} days, do you want to sync
-      //         them online, or just delete them?
-      //         <div className='mt-3'>
-      //           <button
-      //             className='btn btn-success py-2'
-      //             onClick={() => {
-      //               onClickSyncHader(user);
-      //               closeToast();
-      //             }}>
-      //             Sync
-      //           </button>
-      //           <button
-      //             className='btn btn-danger py-2 mx-2'
-      //             onClick={() => {
-      //               onClickDeleteHader(user);
-      //               closeToast();
-      //             }}>
-      //             Delete
-      //           </button>
-      //         </div>
-      //       </div>
-      //     );
-      //     toast.info(Msg, {
-      //       position: 'top-right',
-      //       autoClose: false,
-      //       hideProgressBar: false,
-      //       closeOnClick: false,
-      //       draggable: false,
-      //       progress: undefined
-      //     });
-      //   }
-      // });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.userInfo?.user?._id]);
   const handleJoyrideCallback = data => {
     const { status } = data;

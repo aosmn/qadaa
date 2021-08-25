@@ -9,9 +9,6 @@ const FatwaSlider = () => {
   const [fatwasLoading, setFatwasLoading] = useState(false);
   const { t, i18n } = useTranslation(['landing']);
   const [modalShow, setModalShow] = useState(false);
-  // const [modalTitle, setModalTitle] = useState('');
-  // const [modalDescription, setModalDescription] = useState('');
-  // const [modalHeading, setModalHeading] = useState('');
   const [selectedItem, setSelectedItem] = useState({});
 
   useEffect(() => {
@@ -26,8 +23,6 @@ const FatwaSlider = () => {
     };
   }, [i18n.language]);
   const onClickItem = item => {
-    // setModalDescription(item.description);
-    // setModalTitle(item.title);
     setSelectedItem(item);
     setModalShow(true);
   };

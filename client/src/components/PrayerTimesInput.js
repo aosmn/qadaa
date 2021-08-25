@@ -81,6 +81,7 @@ const PrayerTimes = props => {
   useEffect(() => {
     // getLogs
     props.getDayLogs(props.selectedDate);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.userInfo.user._id]);
 
   return (

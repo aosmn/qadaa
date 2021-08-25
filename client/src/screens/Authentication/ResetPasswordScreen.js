@@ -53,7 +53,7 @@ const ResetPasswordScreen = ({ location, history }) => {
       });
       history.push('/');
     }
-  }, [submitted, message, history]);
+  }, [submitted, message, history, t]);
 
   const onSubmit = data => {
     const { password } = data;
