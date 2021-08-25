@@ -582,3 +582,7 @@ input.small:not(:placeholder-shown) + label {
 .en-font {
   font-family: 'Montserrat', sans-serif !important;
 }
+
+.btn-link {
+  text-decoration: none !important;
+}
