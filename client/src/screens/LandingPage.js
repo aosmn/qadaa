@@ -119,7 +119,7 @@ const LandingPage = ({ changeLanguage }) => {
             <hr className='w-100' />
           </div>
           <div className='intro text-center m-5'>
-            <h2 className='title'>{t('title1')}</h2>
+            <h2 className='title mb-4'>{t('title1')}</h2>
             <h6>{t('description1')}</h6>
             <div className='mt-5'>
               <div className='feature'>
