@@ -292,7 +292,7 @@ export class PrayerLogs extends Component {
         this.props.prayerLogs.prayers.find(dDate =>
           day(dDate.day).isSame(nextValue, 'day')
         )) || {
-        day: nextValue,
+        day: day(nextValue),
         prayers: { fajr: 0, dhuhr: 0, asr: 0, maghrib: 0, isha: 0 }
       }
     });
