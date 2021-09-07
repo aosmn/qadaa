@@ -50,6 +50,7 @@ const HomeScreen = props => {
 
   const selectDate = selected => {
     setSelectedHaderDate(null);
+    console.log('mn onSelect', selected);
     setSelectedDate(selected);
     // console.log(selectedDate, selectedHaderDate);
   };
