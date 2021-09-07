@@ -7,6 +7,8 @@ import { LoadingOverlay } from '../../components/Loader';
 // import Back from '../../components/BackButton';
 import 'react-calendar/dist/Calendar.css';
 import { getLogs as getHaderLogs } from '../../redux/actions/haderPrayerActions.js';
+var utc = require('dayjs/plugin/utc')
+day.extend(utc)
 
 const mapStateToProps = state => ({
   userInfo: state.userInfo,
@@ -292,7 +294,7 @@ export class PrayerLogs extends Component {
         this.props.prayerLogs.prayers.find(dDate =>
           day(dDate.day).isSame(nextValue, 'day')
         )) || {
-        day: day(nextValue),
+        day: day(nextValue).utc(),
         prayers: { fajr: 0, dhuhr: 0, asr: 0, maghrib: 0, isha: 0 }
       }
     });
