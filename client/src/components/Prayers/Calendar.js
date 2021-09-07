@@ -285,6 +285,7 @@ export class PrayerLogs extends Component {
     }
   };
   onChange = nextValue => {
+    console.log(nextValue);
     this.props.onSelect({
       prayers: (this.props.prayerLogs.prayers &&
         this.props.prayerLogs.prayers.length > 0 &&
