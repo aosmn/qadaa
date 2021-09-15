@@ -85,7 +85,7 @@ const Settings = props => {
   };
 
   const onSaveSettings = data => {
-    console.log(trackHader);
+    // console.log(trackHader);
     if (enterManually) {
       props
         .updatePreferences(

@@ -7,8 +7,8 @@ import { LoadingOverlay } from '../../components/Loader';
 // import Back from '../../components/BackButton';
 import 'react-calendar/dist/Calendar.css';
 import { getLogs as getHaderLogs } from '../../redux/actions/haderPrayerActions.js';
-var utc = require('dayjs/plugin/utc')
-day.extend(utc)
+var utc = require('dayjs/plugin/utc');
+day.extend(utc);
 
 const mapStateToProps = state => ({
   userInfo: state.userInfo,
@@ -287,14 +287,17 @@ export class PrayerLogs extends Component {
     }
   };
   onChange = nextValue => {
-    console.log(nextValue);
+    // console.log(day(nextValue).utc());
+    let hasOne =
+      this.props.prayerLogs.prayers &&
+      this.props.prayerLogs.prayers.length > 0 &&
+      this.props.prayerLogs.prayers.find(dDate =>
+        day(dDate.day).isSame(nextValue, 'day')
+      );
+    console.log(hasOne);
     this.props.onSelect({
-      prayers: (this.props.prayerLogs.prayers &&
-        this.props.prayerLogs.prayers.length > 0 &&
-        this.props.prayerLogs.prayers.find(dDate =>
-          day(dDate.day).isSame(nextValue, 'day')
-        )) || {
-        day: day(nextValue).utc(),
+      prayers: hasOne || {
+        day: day(nextValue).format('DD-MM-YYYY'),
         prayers: { fajr: 0, dhuhr: 0, asr: 0, maghrib: 0, isha: 0 }
       }
     });
@@ -306,7 +309,7 @@ export class PrayerLogs extends Component {
               day(dDate.day).isSame(nextValue, 'day')
             )
           : {
-              day: nextValue,
+              day: day(nextValue).format('DD-MM-YYYY'),
               prayers: { fajr: 0, dhuhr: 0, asr: 0, maghrib: 0, isha: 0 }
             },
       visible: true
