@@ -288,16 +288,15 @@ export class PrayerLogs extends Component {
   };
   onChange = nextValue => {
     let selectedValue = day(nextValue);
-    console.log(new Date(nextValue));
+    console.log(selectedValue.format());
+    console.log('utc', selectedValue.utc().format());
     let hasOne =
       this.props.prayerLogs.prayers &&
       this.props.prayerLogs.prayers.length > 0 &&
       this.props.prayerLogs.prayers.find(dDate => {
-        console.log(dDate.day);
         return day(dDate.day).isSame(nextValue, 'day')
       }
       );
-    console.log(hasOne);
     this.props.onSelect({
       prayers: hasOne || {
         day: selectedValue,
