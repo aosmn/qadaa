@@ -11,6 +11,7 @@ import { LoadingOverlay } from '../components/Loader';
 import { connect } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { getPrayerTimes } from '../api/prayerTimes.api';
+import useForceUpdate from '../utils/useForceUpdate';
 
 const mapStateToProps = state => ({
   userInfo: state.userInfo,
@@ -29,6 +30,7 @@ day.extend(isBetween);
 
 const PrayerTimes = props => {
   const { t } = useTranslation(['home']);
+  const forceUpdate = useForceUpdate();
   const [showSettings, setShowSettings] = useState(false);
   const [prayerTimes, setPrayerTimes] = useState({
     Fajr: 0,
@@ -91,15 +93,24 @@ const PrayerTimes = props => {
           setLoadingPrayerTimes(false);
         });
       });
-      console.log('Available');
+      // console.log('Available');
     } else {
-      console.log('Not Available');
+      // console.log('Not Available');
     }
   }, []);
   useEffect(() => {
     props.getTodayLogs();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.userInfo.user._id]);
+
+  useEffect(() => {
+    let inter = setInterval(() => {
+      forceUpdate()
+    }, 60 * 1000);
+    return () => {
+      clearInterval(inter);
+    };
+  }, []);
   const updateLocation = () => {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(function (position) {
