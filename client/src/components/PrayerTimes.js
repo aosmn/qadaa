@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useReducer } from 'react';
 import day from 'dayjs';
 import Method from '../components/CalculationMethod';
 import { Button } from 'react-bootstrap';
@@ -11,7 +11,6 @@ import { LoadingOverlay } from '../components/Loader';
 import { connect } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { getPrayerTimes } from '../api/prayerTimes.api';
-import useForceUpdate from '../utils/useForceUpdate';
 
 const mapStateToProps = state => ({
   userInfo: state.userInfo,
@@ -30,7 +29,6 @@ day.extend(isBetween);
 
 const PrayerTimes = props => {
   const { t } = useTranslation(['home']);
-  const forceUpdate = useForceUpdate();
   const [showSettings, setShowSettings] = useState(false);
   const [prayerTimes, setPrayerTimes] = useState({
     Fajr: 0,
@@ -40,6 +38,8 @@ const PrayerTimes = props => {
     Isha: 0
   });
   const [loadingPrayerTimes, setLoadingPrayerTimes] = useState(false);
+  const [, forceUpdate] = useReducer(x => x + 1, 0);
+
   const isCurrentTime = (prayerTime, nextPrayer, index) => {
     if (!!prayerTime && !!nextPrayer) {
       const prayer = day()
@@ -105,8 +105,9 @@ const PrayerTimes = props => {
 
   useEffect(() => {
     let inter = setInterval(() => {
-      forceUpdate()
-    }, 60 * 1000);
+      console.log('updating');
+      forceUpdate();
+    }, 60*1000);
     return () => {
       clearInterval(inter);
     };
