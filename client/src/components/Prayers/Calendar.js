@@ -7,6 +7,11 @@ import { LoadingOverlay } from '../../components/Loader';
 // import Back from '../../components/BackButton';
 import 'react-calendar/dist/Calendar.css';
 import { getLogs as getHaderLogs } from '../../redux/actions/haderPrayerActions.js';
+var utc = require('dayjs/plugin/utc');
+var timezone = require('dayjs/plugin/timezone');
+
+day.extend(utc);
+day.extend(timezone);
 
 const mapStateToProps = state => ({
   userInfo: state.userInfo,
@@ -285,27 +290,25 @@ export class PrayerLogs extends Component {
     }
   };
   onChange = nextValue => {
+    console.log(nextValue);
+    const selectedDay =
+      this.props.prayerLogs.prayers &&
+      this.props.prayerLogs.prayers.length > 0 &&
+      this.props.prayerLogs.prayers.find(dDate => {
+        console.log(day(dDate.day).tz(day.tz.guess()).format());
+        return day(dDate.day).tz(day.tz.guess()).isSame(nextValue, 'day');
+      });
+
+    const newDay = {
+      day: nextValue,
+      prayers: { fajr: 0, dhuhr: 0, asr: 0, maghrib: 0, isha: 0 }
+    };
+
     this.props.onSelect({
-      prayers: (this.props.prayerLogs.prayers &&
-        this.props.prayerLogs.prayers.length > 0 &&
-        this.props.prayerLogs.prayers.find(dDate =>
-          day(dDate.day).isSame(nextValue, 'day')
-        )) || {
-        day: nextValue,
-        prayers: { fajr: 0, dhuhr: 0, asr: 0, maghrib: 0, isha: 0 }
-      }
+      prayers: selectedDay || newDay
     });
     this.setState({
-      prayers:
-        this.props.prayerLogs.prayers &&
-        this.props.prayerLogs.prayers.length > 0
-          ? this.props.prayerLogs.prayers.find(dDate =>
-              day(dDate.day).isSame(nextValue, 'day')
-            )
-          : {
-              day: nextValue,
-              prayers: { fajr: 0, dhuhr: 0, asr: 0, maghrib: 0, isha: 0 }
-            },
+      prayers: selectedDay || newDay,
       visible: true
     });
   };
