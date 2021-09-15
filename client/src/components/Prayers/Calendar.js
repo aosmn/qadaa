@@ -287,17 +287,20 @@ export class PrayerLogs extends Component {
     }
   };
   onChange = nextValue => {
-    // console.log(day(nextValue).utc());
+    // let selectedValue = day(nextValue).utc().startOf('day');
+    console.log(new Date(nextValue));
     let hasOne =
       this.props.prayerLogs.prayers &&
       this.props.prayerLogs.prayers.length > 0 &&
-      this.props.prayerLogs.prayers.find(dDate =>
-        day(dDate.day).isSame(nextValue, 'day')
+      this.props.prayerLogs.prayers.find(dDate => {
+        console.log(dDate.day);
+        return day(dDate.day).isSame(nextValue, 'day')
+      }
       );
     console.log(hasOne);
     this.props.onSelect({
       prayers: hasOne || {
-        day: day(nextValue).format('DD-MM-YYYY'),
+        day: nextValue,
         prayers: { fajr: 0, dhuhr: 0, asr: 0, maghrib: 0, isha: 0 }
       }
     });
@@ -309,7 +312,7 @@ export class PrayerLogs extends Component {
               day(dDate.day).isSame(nextValue, 'day')
             )
           : {
-              day: day(nextValue).format('DD-MM-YYYY'),
+              day: nextValue,
               prayers: { fajr: 0, dhuhr: 0, asr: 0, maghrib: 0, isha: 0 }
             },
       visible: true

@@ -38,6 +38,7 @@ const dayPrayerLogSchema = new Schema(
 );
 
 dayPrayerLogSchema.statics.updateDay = function ({ user, day, prayer, done }) {
+  day = dayjs(day).utc();
   return this.findOne({
     user,
     day: {
@@ -65,6 +66,8 @@ dayPrayerLogSchema.statics.updateDayPrayers = function ({
   day,
   prayers
 }) {
+  day = dayjs(day).utc();
+
   return this.findOne({
     user,
     day: {
@@ -74,7 +77,7 @@ dayPrayerLogSchema.statics.updateDayPrayers = function ({
   }).then(dayLog => {
     if (dayLog) {
       Object.keys(prayers).forEach(key => {
-        dayLog[key] = prayers[key]
+        dayLog[key] = prayers[key];
       });
       // dayLog[PRAYERS.FAJR] = prayers[PRAYERS.FAJR];
       // dayLog[PRAYERS.DHUHR] = prayers[PRAYERS.DHUHR];
@@ -95,6 +98,7 @@ dayPrayerLogSchema.statics.updateDayPrayers = function ({
 };
 
 dayPrayerLogSchema.statics.setDay = function ({ user, day, prayers }) {
+  day = dayjs(day).utc();
   return this.findOne({
     user,
     day: {
