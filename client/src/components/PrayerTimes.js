@@ -105,9 +105,8 @@ const PrayerTimes = props => {
 
   useEffect(() => {
     let inter = setInterval(() => {
-      console.log('updating');
       forceUpdate();
-    }, 60*1000);
+    }, 30*60*1000);
     return () => {
       clearInterval(inter);
     };
