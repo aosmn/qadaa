@@ -7,11 +7,11 @@ import { LoadingOverlay } from '../../components/Loader';
 // import Back from '../../components/BackButton';
 import 'react-calendar/dist/Calendar.css';
 import { getLogs as getHaderLogs } from '../../redux/actions/haderPrayerActions.js';
-var utc = require('dayjs/plugin/utc');
-var timezone = require('dayjs/plugin/timezone');
+// var utc = require('dayjs/plugin/utc');
+// var timezone = require('dayjs/plugin/timezone');
 
-day.extend(utc);
-day.extend(timezone);
+// day.extend(utc);
+// day.extend(timezone);
 
 const mapStateToProps = state => ({
   userInfo: state.userInfo,
@@ -155,133 +155,6 @@ export class PrayerLogs extends Component {
       );
     }
   };
-  tileContentOld = ({ date, view }) => {
-    const datesList =
-      (this.props.prayerLogs.prayers &&
-        this.props.prayerLogs.prayers.length > 0 &&
-        this.props.prayerLogs.prayers.map(p => ({
-          day: p.day,
-          count: p.total
-        }))) ||
-      [];
-
-    const haderDatesList =
-      (this.props.haderPrayers.prayers &&
-        this.props.haderPrayers.prayers.length > 0 &&
-        this.props.haderPrayers.prayers.map(p => ({
-          day: p.day,
-          done: p.fajr && p.dhuhr && p.asr && p.maghrib && p.isha
-        }))) ||
-      [];
-
-    const hasPrayers = datesList.find(({ day: cDay }) =>
-      day(cDay).isSame(day(date), 'day')
-    );
-    const prayersCount = hasPrayers?.count;
-
-    const hasHader = haderDatesList.find(({ day: cDay }) =>
-      day(cDay).isSame(day(date), 'day')
-    );
-    const haderDoneAll = hasHader?.done;
-
-    const getHaderDay = this.props.haderPrayers.prayers.find(({ day: cDay }) =>
-      day(cDay).isSame(day(date), 'day')
-    );
-    // Add class to tiles in month view only
-    if (view === 'month') {
-      // Check if a date React-Calendar wants to check is on the list of dates to add class to
-      if (hasPrayers) {
-        if (hasHader && haderDoneAll) {
-          return (
-            <>
-              <div className='count'>{prayersCount}</div>
-              <div className='hader-done'>
-                <ion-icon name='checkmark-outline'></ion-icon>
-              </div>
-            </>
-          );
-        }
-        // !haderDone
-        return (
-          <>
-            <div className='count'>{prayersCount}</div>
-            <div
-              className='hader-empty hader-done'
-              onClick={e => {
-                e.stopPropagation();
-                this.props.onSelectHader({
-                  prayers: hasHader || {
-                    day: date,
-                    prayers: {
-                      fajr: false,
-                      dhuhr: false,
-                      asr: false,
-                      maghrib: false,
-                      isha: false
-                    }
-                  }
-                });
-              }}></div>
-          </>
-        );
-      }
-      if (
-        haderDatesList.find(dDate => day(dDate.day).isSame(day(date), 'day'))
-      ) {
-        return (
-          <>
-            <div
-              className={`hader-done ${
-                hasHader && haderDoneAll ? '' : 'hader-empty'
-              }`}
-              onClick={e => {
-                e.stopPropagation();
-                // console.log(getHaderDay);
-                this.props.onSelectHader({
-                  prayers: getHaderDay || {
-                    day: date,
-                    prayers: {
-                      fajr: false,
-                      dhuhr: false,
-                      asr: false,
-                      maghrib: false,
-                      isha: false
-                    }
-                  }
-                });
-              }}>
-              {haderDatesList.find(dDate =>
-                day(dDate.day).isSame(day(date), 'day')
-              ) &&
-                haderDatesList.find(dDate =>
-                  day(dDate.day).isSame(day(date), 'day')
-                ).done && <ion-icon name='checkmark-outline'></ion-icon>}
-            </div>
-          </>
-        );
-      }
-      return (
-        <div
-          className='hader-empty hader-done'
-          onClick={e => {
-            e.stopPropagation();
-            // console.log(date);
-            this.props.onSelectHader({
-              prayers: getHaderDay || {
-                day: date,
-                prayers: {
-                  fajr: false,
-                  dhuhr: false,
-                  asr: false,
-                  maghrib: false,
-                  isha: false
-                }
-              }
-            });
-          }}></div>
-      );
-    }
-  };
   tileDisabled = ({ date, view }) => {
     // Add class to tiles in month view only
     if (view === 'month') {
@@ -290,13 +163,13 @@ export class PrayerLogs extends Component {
     }
   };
   onChange = nextValue => {
-    console.log(nextValue);
+    console.log(new Date(nextValue));
     const selectedDay =
       this.props.prayerLogs.prayers &&
       this.props.prayerLogs.prayers.length > 0 &&
       this.props.prayerLogs.prayers.find(dDate => {
-        console.log(day(dDate.day).tz(day.tz.guess()).format());
-        return day(dDate.day).tz(day.tz.guess()).isSame(nextValue, 'day');
+        console.log(day(dDate.day).format());
+        return day(dDate.day).isSame(nextValue, 'day');
       });
 
     const newDay = {

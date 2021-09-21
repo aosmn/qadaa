@@ -38,7 +38,7 @@ const dayPrayerLogSchema = new Schema(
 );
 
 dayPrayerLogSchema.statics.updateDay = function ({ user, day, prayer, done }) {
-  day = dayjs(day).utc();
+  // day = dayjs(day).utc();
   return this.findOne({
     user,
     day: {
@@ -66,7 +66,7 @@ dayPrayerLogSchema.statics.updateDayPrayers = function ({
   day,
   prayers
 }) {
-  day = dayjs(day).utc();
+  // day = dayjs(day).utc();
 
   return this.findOne({
     user,
@@ -98,7 +98,7 @@ dayPrayerLogSchema.statics.updateDayPrayers = function ({
 };
 
 dayPrayerLogSchema.statics.setDay = function ({ user, day, prayers }) {
-  day = dayjs(day).utc();
+  // day = dayjs(day).utc();
   return this.findOne({
     user,
     day: {

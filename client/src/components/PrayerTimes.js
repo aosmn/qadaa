@@ -91,6 +91,8 @@ const PrayerTimes = props => {
         ).then(res => {
           setPrayerTimes(res.prayerTimes);
           setLoadingPrayerTimes(false);
+        }).catch(err => {
+          setLoadingPrayerTimes(false);
         });
       });
       // console.log('Available');
