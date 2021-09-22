@@ -42,11 +42,13 @@ const prayerLogSchema = new Schema(
 );
 
 prayerLogSchema.statics.updateDay = function ({ user, day, prayer, count }) {
+  // console.log(dayjs(day.day).add(day.tz).format());
+
   return this.findOne({
     user,
     day: {
-      $gte: dayjs(day).startOf('day'),
-      $lte: dayjs(day).endOf('day')
+      $gte: dayjs(day.day).add(day.tz).startOf('day'),
+      $lte: dayjs(day.day).add(day.tz).endOf('day')
     }
   }).then(dayLog => {
     if (prayer === 'all') {
@@ -61,7 +63,11 @@ prayerLogSchema.statics.updateDay = function ({ user, day, prayer, count }) {
       } else {
         // console.log('dayLog 2');
 
-        let newLog = { user, day: dayjs(day), total: count * 5 };
+        let newLog = {
+          user,
+          day: dayjs(day.day).add(day.tz),
+          total: count * 5
+        };
         newLog[PRAYERS.FAJR] = count;
         newLog[PRAYERS.DHUHR] = count;
         newLog[PRAYERS.ASR] = count;
@@ -80,7 +86,7 @@ prayerLogSchema.statics.updateDay = function ({ user, day, prayer, count }) {
 
         return this.create({
           user,
-          day: dayjs(day),
+          day: dayjs(day.day).add(day.tz),
           [prayer]: count,
           total: count
         });
