@@ -54,7 +54,7 @@ export const getDayLogs = asyncHandler(async (req, res) => {
   let query = {}
   if (req.query.day) {
     let start = day(req.query.day).startOf('day');
-    let end = day(req.query.day).day().endOf('day');
+    let end = day(req.query.day).endOf('day');
 
     query.$and = [{day: {$lte: end }}, {day: {$gte: start}}]
   }
