@@ -63,7 +63,8 @@ export const getDayLogs = asyncHandler(async (req, res) => {
     let start = day(req.query.day).startOf('day');
     let end = day(req.query.day).endOf('day');
     query.$and = [{ day: { $lte: end } }, { day: { $gte: start } }];
-    console.log(query);
+    console.log(start.format());
+    console.log(end.format());
   }
   query.user = req.user._id;
   let fullQuery = { ...req.query, ...query };
