@@ -113,24 +113,24 @@ class PrayersCounter extends Component {
   };
 
   onMiss = prayer => {
-    this.props.updateDayLogs({ day: day().startOf('day'), prayer, count: -1 });
+    this.props.updateDayLogs({ day: day(), prayer, count: -1 });
     this.setState({ today: this.state.today - 1 });
   };
 
   onMakeup = prayer => {
-    this.props.updateDayLogs({ day: day().startOf('day'), prayer, count: 1 });
+    this.props.updateDayLogs({ day: day(), prayer, count: 1 });
     this.setState({ today: this.state.today + 1 });
   };
 
   onMakeupMany = (prayer, count) => {
-    this.props.updateDayLogs({ day: day().startOf('day'), prayer, count });
+    this.props.updateDayLogs({ day: day(), prayer, count });
     this.setState({ today: this.state.today + count });
   };
 
   onMakeupDays = e => {
     const count = parseInt(this.state.dayCount, 10, this.props.isOffline);
     if (count > 0) {
-      this.props.updateDayLogs({ day: day().startOf('day'), prayer: 'all', count });
+      this.props.updateDayLogs({ day: day(), prayer: 'all', count });
       this.setState({ today: this.state.today + count * 5 });
     }
   };
@@ -152,7 +152,7 @@ class PrayersCounter extends Component {
     } else {
       this.setState({ clicksCounter: 1 });
     }
-    this.props.updateDayLogs({ day: day().startOf('day'), prayer: 'all', count: 1 });
+    this.props.updateDayLogs({ day: day(), prayer: 'all', count: 1 });
     this.setState({ today: this.state.today + 1 });
   };
 
@@ -217,7 +217,7 @@ class PrayersCounter extends Component {
     }, 200);
     const count = parseInt(this.state.addOnePrayerCount);
     this.props.updateDayLogs({
-      day: day().startOf('day'),
+      day: day(),
       prayer: this.state.prayerManyWhich,
       count
     });

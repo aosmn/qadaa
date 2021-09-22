@@ -58,6 +58,7 @@ export const setDayLogs = asyncHandler(async (req, res) => {
 // @access  Private
 export const getDayLogs = asyncHandler(async (req, res) => {
   let query = {};
+  console.log(req.query.day);
   console.log(day(req.query.day).format());
   if (req.query.day) {
     let start = day(req.query.day).startOf('day');
