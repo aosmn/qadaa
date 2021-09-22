@@ -2,7 +2,6 @@ import Prayers from '../models/prayerLogs.model.js';
 import asyncHandler from 'express-async-handler';
 import { ALL } from '../constants.js';
 import day from 'dayjs';
-
 // @desc    Get user prayer logs
 // @route   GET /api/prayers/:id
 // @access  Private
@@ -59,6 +58,7 @@ export const setDayLogs = asyncHandler(async (req, res) => {
 // @access  Private
 export const getDayLogs = asyncHandler(async (req, res) => {
   let query = {};
+  console.log(day(req.query.day).format());
   if (req.query.day) {
     let start = day(req.query.day).startOf('day');
     let end = day(req.query.day).endOf('day');
