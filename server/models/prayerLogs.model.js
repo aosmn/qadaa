@@ -141,6 +141,7 @@ prayerLogSchema.statics.setDay = function ({ user, day, prayers }) {
       $lte: dayjs(day.day).subtract(day.tz, 'hours').endOf('day')
     }
   }).then(dayLog => {
+    console.log('daylog', dayLog);
     if (dayLog) {
       dayLog[PRAYERS.FAJR] = prayers[PRAYERS.FAJR];
       dayLog[PRAYERS.DHUHR] = prayers[PRAYERS.DHUHR];
