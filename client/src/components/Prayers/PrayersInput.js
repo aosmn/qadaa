@@ -125,7 +125,9 @@ const PrayersCounter = props => {
   const setPrayers = () => {
     // console.log(props.selectedDate);
     props.setLogs({
-      day: day(props.selectedDate.prayers.day),
+      day: { day: day(props.selectedDate.prayers.day), tz: new Date().getTimezoneOffset() / 60 },
+
+      // day: day(props.selectedDate.prayers.day),
       prayers: { fajr, dhuhr, asr, maghrib, isha }
     });
     props.onCancel();
