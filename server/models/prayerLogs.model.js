@@ -42,8 +42,6 @@ const prayerLogSchema = new Schema(
 );
 
 prayerLogSchema.statics.updateDay = function ({ user, day, prayer, count }) {
-  console.log('hena',dayjs(day.day).add(day.tz).format());
-
   return this.findOne({
     user,
     day: {
@@ -61,8 +59,6 @@ prayerLogSchema.statics.updateDay = function ({ user, day, prayer, count }) {
         dayLog.total += count * 5;
         return dayLog.save();
       } else {
-        // console.log('dayLog 2');
-
         let newLog = {
           user,
           day: dayjs(day.day).subtract(day.tz, 'hours'),
@@ -77,13 +73,10 @@ prayerLogSchema.statics.updateDay = function ({ user, day, prayer, count }) {
       }
     } else {
       if (dayLog) {
-        // console.log(dayLog);
         dayLog[prayer] += count;
         dayLog.total += count;
         return dayLog.save();
       } else {
-        // console.log('dayLog 3');
-
         return this.create({
           user,
           day: dayjs(day.day).subtract(day.tz, 'hours'),
@@ -96,8 +89,6 @@ prayerLogSchema.statics.updateDay = function ({ user, day, prayer, count }) {
 };
 
 prayerLogSchema.statics.updateDayPrayers = function ({ user, day, prayers }) {
-  console.log('hena',dayjs(day.day).add(day.tz).format());
-
   return this.findOne({
     user,
     day: {
@@ -132,8 +123,6 @@ prayerLogSchema.statics.updateDayPrayers = function ({ user, day, prayers }) {
 };
 
 prayerLogSchema.statics.setDay = function ({ user, day, prayers }) {
-  console.log(day);
-  console.log('hena',dayjs(day.day).subtract(day.tz, 'hours').format());
   return this.findOne({
     user,
     day: {
@@ -141,7 +130,6 @@ prayerLogSchema.statics.setDay = function ({ user, day, prayers }) {
       $lte: dayjs(day.day).subtract(day.tz, 'hours').endOf('day')
     }
   }).then(dayLog => {
-    console.log('daylog', dayLog);
     if (dayLog) {
       dayLog[PRAYERS.FAJR] = prayers[PRAYERS.FAJR];
       dayLog[PRAYERS.DHUHR] = prayers[PRAYERS.DHUHR];
