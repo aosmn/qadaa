@@ -29,7 +29,9 @@ const Settings = props => {
   const { t } = useTranslation(['home']);
   const [isFemale, setIsFemale] = useState(false);
   const [enterManually, setEnterManually] = useState(false);
-  const [trackHader, setTrackHader] = useState(props.userInfo?.user?.preferences?.trackHader);
+  const [trackHader, setTrackHader] = useState(
+    props.userInfo?.user?.preferences?.trackHader
+  );
   const {
     register,
     handleSubmit,
@@ -59,7 +61,7 @@ const Settings = props => {
     if (enterManually) {
       reset({
         days: props.userInfo?.user?.preferences?.days || 1,
-        dailyTarget: props.userInfo?.user?.preferences?.dailyTarget || 2,
+        dailyTarget: props.userInfo?.user?.preferences?.dailyTarget || 2
         // trackHader: props.userInfo?.user?.preferences?.trackHader
       });
     } else {
@@ -194,32 +196,27 @@ const Settings = props => {
       ) : (
         <div className='settings'>
           <Form.Group controlId='trackHader'>
-            <div className='custom-control custom-checkbox d-flex align-items-center'>
-              <input
-                type='checkbox'
-                className='custom-control-input'
-                id='trackHader'
-                checked={trackHader}
-                onChange={e => setTrackHader(e.target.checked)}
-              />
-              <label className='custom-control-label' htmlFor='trackHader'>
-                <div>{t('logHader')}</div>
-              </label>
-            </div>
+            <Form.Check
+              inline
+              label={t('logHader')}
+              name='trackHader'
+              type='checkbox'
+              id='trackHader'
+              onChange={e => setTrackHader(e.target.checked)}
+              checked={trackHader}
+            />
           </Form.Group>
-          <hr/>
-          <Form.Group controlId='set-manually'>
-            <div className='custom-control custom-checkbox d-flex align-items-center'>
-              <input
-                type='checkbox'
-                className='custom-control-input'
-                id='enterManual'
-                onChange={e => setEnterManually(e.target.checked)}
-              />
-              <label className='custom-control-label' htmlFor='enterManual'>
-                <div>{t('enterManually')}</div>
-              </label>
-            </div>
+          <hr />
+          <Form.Group controlId='set-manually' className='mb-3'>
+            <Form.Check
+              inline
+              label={t('enterManually')}
+              name='enterManual'
+              type='checkbox'
+              id='enterManual'
+              onChange={e => setEnterManually(e.target.checked)}
+              checked={enterManually}
+            />
           </Form.Group>
           {enterManually ? (
             <Form.Group controlId='days' className='mb-4'>

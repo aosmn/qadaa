@@ -4,19 +4,20 @@ import { useTranslation } from 'react-i18next';
 const Loader = () => {
   const { t } = useTranslation(['home']);
   return (
-    <Spinner
-      animation='grow'
-      size='sm'
-      role='status'
-      // style={{
-      //   width: '100px',
-      //   height: '100px',
-      //   margin: 'auto',
-      //   display: 'block'
-      // }}
-    >
-      <span className='sr-only'>{t('loading')}...</span>
-    </Spinner>
+    <div className='d-flex flex-column'>
+      <Spinner
+        animation='grow'
+        size='sm'
+        role='status'
+        // style={{
+        //   width: '100px',
+        //   height: '100px',
+        //   margin: 'auto',
+        //   display: 'block'
+        // }}
+      ></Spinner>
+      <span className='sr-only mt-3'>{t('loading')}...</span>
+    </div>
   );
 };
 
@@ -25,9 +26,8 @@ export const LoadingOverlay = () => {
 
   return (
     <div className='loading-overlay'>
-      <Spinner animation='grow' size='sm' role='status'>
-        <span className='sr-only'>{t('loading')}...</span>
-      </Spinner>
+      <Spinner animation='grow' size='sm' role='status'></Spinner>
+      <span className='sr-only mt-3'>{t('loading')}...</span>
     </div>
   );
 };

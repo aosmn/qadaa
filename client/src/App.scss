@@ -439,6 +439,7 @@ input.small:not(:placeholder-shown) + label {
   z-index: 100;
   border-radius: $border-radius;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
@@ -465,7 +466,7 @@ input.small:not(:placeholder-shown) + label {
 }
 
 .Toastify__toast.Toastify__toast--info {
-  background-color: $teal-dk;
+  color: $teal-dk;
 }
 
 .ar {
@@ -585,4 +586,8 @@ input.small:not(:placeholder-shown) + label {
 
 .btn-link {
   text-decoration: none !important;
+}
+
+.form-check .form-check-input {
+  border-radius: 100%;
 }

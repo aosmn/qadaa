@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import PageContainer from '../../components/PageContainer';
 
 const LogsScreen = props => {
-  const { t } = useTranslation(['home']);
+  const { t, i18n } = useTranslation(['home']);
   const [selectedDate, setSelectedDate] = useState(null);
 
   const selectDate = selected => {
@@ -22,8 +22,16 @@ const LogsScreen = props => {
               <Col className='h-100' sm={12} md={6} lg={5}>
                 <h5>
                   <LinkContainer to='/'>
-                    <Button variant='link-light' className='p-0 mr-4'>
-                      <ion-icon name='chevron-back-outline'></ion-icon>
+                    <Button
+                      variant='link-light'
+                      className={`p-0 ${
+                        i18n.language.indexOf('ar') > -1 ? 'ml-4' : 'mr-4'
+                      }`}>
+                      {i18n.language.indexOf('ar') > -1 ? (
+                        <ion-icon name='chevron-forward-outline'></ion-icon>
+                      ) : (
+                        <ion-icon name='chevron-back-outline'></ion-icon>
+                      )}
                     </Button>
                   </LinkContainer>
                   {t('calendar')}

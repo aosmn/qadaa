@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useReducer } from 'react';
 import day from 'dayjs';
 import Method from '../components/CalculationMethod';
-import { Button } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import {
   getLogs,
   updateDayLogs,
@@ -88,12 +88,14 @@ const PrayerTimes = props => {
           position.coords.latitude,
           position.coords.longitude,
           localStorage.getItem('calculationMethod')
-        ).then(res => {
-          setPrayerTimes(res.prayerTimes);
-          setLoadingPrayerTimes(false);
-        }).catch(err => {
-          setLoadingPrayerTimes(false);
-        });
+        )
+          .then(res => {
+            setPrayerTimes(res.prayerTimes);
+            setLoadingPrayerTimes(false);
+          })
+          .catch(err => {
+            setLoadingPrayerTimes(false);
+          });
       });
       // console.log('Available');
     } else {
@@ -108,7 +110,7 @@ const PrayerTimes = props => {
   useEffect(() => {
     let inter = setInterval(() => {
       forceUpdate();
-    }, 30*60*1000);
+    }, 30 * 60 * 1000);
     return () => {
       clearInterval(inter);
     };
@@ -181,7 +183,6 @@ const PrayerItem = ({ prayer, onCheck, isDone }) => {
   const { t } = useTranslation(['home']);
 
   const onChange = e => {
-    // console.log(e.target.checked);
     onCheck({
       day: new Date(),
       prayer: prayer.id,
@@ -205,18 +206,15 @@ const PrayerItem = ({ prayer, onCheck, isDone }) => {
         key={prayer.id}
         className={`prayer-time-item d-flex flex-row w-100 ${prayer.status}`}>
         <div className='custom-control custom-checkbox d-flex align-items-center'>
-          <input
-            type='checkbox'
-            className='custom-control-input'
-            id={`checkbox-${prayer.id}`}
+          <Form.Check
+            inline
+            label={t(prayer.id)}
+            name={prayer.id}
+            type={'checkbox'}
+            id={prayer.id}
             onChange={onChange}
             checked={done}
           />
-          <label
-            className='custom-control-label'
-            htmlFor={`checkbox-${prayer.id}`}>
-            <div className='prayer-name'>{t(prayer.id)}</div>
-          </label>
         </div>
         <div className='prayer-time'>{prayer.time !== 0 && prayer.time}</div>
       </div>

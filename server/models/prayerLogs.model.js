@@ -42,6 +42,7 @@ const prayerLogSchema = new Schema(
 );
 
 prayerLogSchema.statics.updateDay = function ({ user, day, prayer, count }) {
+  console.log(day);
   return this.findOne({
     user,
     day: {
@@ -111,7 +112,11 @@ prayerLogSchema.statics.updateDayPrayers = function ({ user, day, prayers }) {
       dayLog.total += count;
       return dayLog.save();
     } else {
-      let newLog = { user, day: dayjs(day.day).subtract(day.tz, 'hours'), total: count };
+      let newLog = {
+        user,
+        day: dayjs(day.day).subtract(day.tz, 'hours'),
+        total: count
+      };
       newLog[PRAYERS.FAJR] = prayers[PRAYERS.FAJR];
       newLog[PRAYERS.DHUHR] = prayers[PRAYERS.DHUHR];
       newLog[PRAYERS.ASR] = prayers[PRAYERS.ASR];
@@ -123,42 +128,48 @@ prayerLogSchema.statics.updateDayPrayers = function ({ user, day, prayers }) {
 };
 
 prayerLogSchema.statics.setDay = function ({ user, day, prayers }) {
+  console.log(day);
   return this.findOne({
     user,
     day: {
       $gte: dayjs(day.day).subtract(day.tz, 'hours').startOf('day'),
       $lte: dayjs(day.day).subtract(day.tz, 'hours').endOf('day')
     }
-  }).then(dayLog => {
-    if (dayLog) {
-      dayLog[PRAYERS.FAJR] = prayers[PRAYERS.FAJR];
-      dayLog[PRAYERS.DHUHR] = prayers[PRAYERS.DHUHR];
-      dayLog[PRAYERS.ASR] = prayers[PRAYERS.ASR];
-      dayLog[PRAYERS.MAGHRIB] = prayers[PRAYERS.MAGHRIB];
-      dayLog[PRAYERS.ISHA] = prayers[PRAYERS.ISHA];
-      dayLog.total =
-        prayers[PRAYERS.FAJR] +
-        prayers[PRAYERS.DHUHR] +
-        prayers[PRAYERS.ASR] +
-        prayers[PRAYERS.MAGHRIB] +
-        prayers[PRAYERS.ISHA];
-      return dayLog.save();
-    } else {
-      let newLog = { user, day: dayjs(day.day).subtract(day.tz, 'hours') };
-      newLog[PRAYERS.FAJR] = prayers[PRAYERS.FAJR];
-      newLog[PRAYERS.DHUHR] = prayers[PRAYERS.DHUHR];
-      newLog[PRAYERS.ASR] = prayers[PRAYERS.ASR];
-      newLog[PRAYERS.MAGHRIB] = prayers[PRAYERS.MAGHRIB];
-      newLog[PRAYERS.ISHA] = prayers[PRAYERS.ISHA];
-      newLog.total =
-        prayers[PRAYERS.FAJR] +
-        prayers[PRAYERS.DHUHR] +
-        prayers[PRAYERS.ASR] +
-        prayers[PRAYERS.MAGHRIB] +
-        prayers[PRAYERS.ISHA];
-      return this.create(newLog);
-    }
-  });
+  })
+    .then(dayLog => {
+      if (dayLog) {
+        dayLog[PRAYERS.FAJR] = prayers[PRAYERS.FAJR];
+        dayLog[PRAYERS.DHUHR] = prayers[PRAYERS.DHUHR];
+        dayLog[PRAYERS.ASR] = prayers[PRAYERS.ASR];
+        dayLog[PRAYERS.MAGHRIB] = prayers[PRAYERS.MAGHRIB];
+        dayLog[PRAYERS.ISHA] = prayers[PRAYERS.ISHA];
+        dayLog.total =
+          prayers[PRAYERS.FAJR] +
+          prayers[PRAYERS.DHUHR] +
+          prayers[PRAYERS.ASR] +
+          prayers[PRAYERS.MAGHRIB] +
+          prayers[PRAYERS.ISHA];
+        return dayLog.save();
+      } else {
+        let newLog = { user, day: dayjs(day.day).subtract(day.tz, 'hours') };
+        newLog[PRAYERS.FAJR] = prayers[PRAYERS.FAJR];
+        newLog[PRAYERS.DHUHR] = prayers[PRAYERS.DHUHR];
+        newLog[PRAYERS.ASR] = prayers[PRAYERS.ASR];
+        newLog[PRAYERS.MAGHRIB] = prayers[PRAYERS.MAGHRIB];
+        newLog[PRAYERS.ISHA] = prayers[PRAYERS.ISHA];
+        newLog.total =
+          prayers[PRAYERS.FAJR] +
+          prayers[PRAYERS.DHUHR] +
+          prayers[PRAYERS.ASR] +
+          prayers[PRAYERS.MAGHRIB] +
+          prayers[PRAYERS.ISHA];
+        return this.create(newLog);
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      throw err;
+    });
 };
 const PrayerLog = mongoose.model('PrayerLog', prayerLogSchema);
 

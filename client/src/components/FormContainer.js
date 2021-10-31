@@ -28,7 +28,7 @@ const FormContainer = ({
             <Card className='h-100 w-100' style={{ maxWidth: '600px' }}>
               {loading && <LoadingOverlay />}
               <Card.Body>
-                <Col className='h-100'>
+                <Col className='h-100 mx-auto' xs={11}>
                   <div className='d-flex flex-column h-100 mx-4'>
                     {!hideLogo && (
                       <>
@@ -72,7 +72,7 @@ const FormContainer = ({
                           <Link
                             className='text-secondary text-center'
                             to={linkButton.to}>
-                            {linkButton.text}
+                            <Button variant='link'>{linkButton.text}</Button>
                           </Link>
                         </Form.Group>
                       )}

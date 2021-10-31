@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form } from 'react-bootstrap';
+import { Form, FloatingLabel } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import FormContainer from '../../components/FormContainer';
@@ -53,30 +53,38 @@ const RegisterScreen = ({ location, history }) => {
         to: redirect ? `/login?redirect=${redirect}` : '/login',
         text: t('register.login')
       }}>
-      <Form.Group controlId='name' className='mb-4'>
+      <FloatingLabel
+        className='mt-3'
+        controlId='name'
+        label={t('inputFields.name.label')}>
         <Form.Control
-          type='text'
-          placeholder={t('inputFields.name.placeholder')}
-          {...register('name', { required: t('inputFields.name.required') })}
+          {...register('name', {
+            required: t('inputFields.name.required')
+          })}
+          type='name'
+          placeholder={t('inputFields.name.label')}
           isInvalid={errors.name}
         />
-        <Form.Label>{t('inputFields.name.label')}</Form.Label>
         <Form.Control.Feedback type='invalid'>
           {errors.name && errors.name.message}
         </Form.Control.Feedback>
-      </Form.Group>
-      <Form.Group controlId='email' className='mb-3'>
+      </FloatingLabel>
+      <FloatingLabel
+        className='mt-3'
+        controlId='email'
+        label={t('inputFields.email.label')}>
         <Form.Control
+          {...register('email', {
+            required: t('inputFields.email.required')
+          })}
           type='email'
-          placeholder={t('inputFields.email.placeholder')}
-          {...register('email', { required: t('inputFields.email.required') })}
+          placeholder={t('inputFields.email.label')}
           isInvalid={errors.email}
         />
-        <Form.Label>{t('inputFields.email.label')}</Form.Label>
         <Form.Control.Feedback type='invalid'>
           {errors.email && errors.email.message}
         </Form.Control.Feedback>
-      </Form.Group>
+      </FloatingLabel>
       <Swipe
         checkedText={t('register.female')}
         unCheckedText={t('register.male')}

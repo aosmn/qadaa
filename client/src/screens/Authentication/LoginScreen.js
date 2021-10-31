@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Form } from 'react-bootstrap';
+import { Form, FloatingLabel } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import FormContainer from '../../components/FormContainer';
 import { login } from '../../redux/actions/userActions';
@@ -45,21 +45,43 @@ const LoginScreen = ({ location, history }) => {
         to: redirect ? `/register?redirect=${redirect}` : '/register',
         text: t('login.register')
       }}>
-      <Form.Group controlId='email' className='mb-4'>
+      <FloatingLabel
+        className='mt-3'
+        controlId='email'
+        label={t('inputFields.email.label')}>
         <Form.Control
-          {...register('email', { required: t('inputFields.email.required') })}
+          {...register('email', {
+            required: t('inputFields.email.required')
+          })}
           type='email'
-          placeholder={t('inputFields.email.placeholder')}
-          isInvalid={errors.email}></Form.Control>
-        <Form.Label>{t('inputFields.email.label')}</Form.Label>
+          placeholder={t('inputFields.email.label')}
+          isInvalid={errors.email}
+        />
         <Form.Control.Feedback type='invalid'>
           {errors.email && errors.email.message}
         </Form.Control.Feedback>
-      </Form.Group>
+      </FloatingLabel>
       <div className='d-flex flex-column mb-4 password-container'>
         <Form.Group controlId='password' className='mb-4'>
-          <Form.Control
-            {...register('password', { required:  t('inputFields.password.required') })}
+          <FloatingLabel
+            controlId='password'
+            label={t('inputFields.password.label')}>
+            <Form.Control
+              {...register('password', {
+                required: t('inputFields.password.required')
+              })}
+              type='password'
+              placeholder={t('inputFields.password.label')}
+              isInvalid={errors.password}
+            />
+            <Form.Control.Feedback type='invalid'>
+              {errors.password && errors.password.message}
+            </Form.Control.Feedback>
+          </FloatingLabel>
+          {/* <Form.Control
+            {...register('password', {
+              required: t('inputFields.password.required')
+            })}
             type='password'
             placeholder={t('inputFields.password.placeholder')}
             isInvalid={errors.password}></Form.Control>
@@ -67,7 +89,7 @@ const LoginScreen = ({ location, history }) => {
 
           <Form.Control.Feedback type='invalid'>
             {errors.password && errors.password.message}
-          </Form.Control.Feedback>
+          </Form.Control.Feedback> */}
           <small className='input-action ml-auto mt-1 mr-0 mb-2 password-reset-link'>
             <Link to='/forgot-password' className='text-secondary'>
               {t('login.forgot')}

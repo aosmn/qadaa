@@ -35,7 +35,7 @@ import {
 } from './redux/actions/prayerActions.js';
 
 import {
-  saveHaderOfflineLogs,
+  saveHaderOfflineLogs
   // getPrayerTotals
 } from './redux/actions/haderPrayerActions.js';
 import { ToastContainer, toast } from 'react-toastify';
@@ -77,7 +77,10 @@ const App = props => {
       res.forEach(offlineDay => {
         props
           .saveOfflineLogs({
-            day: day(offlineDay.day),
+            day: {
+              day: day(offlineDay.day),
+              tz: new Date().getTimezoneOffset() / 60
+            },
             prayers: {
               fajr: offlineDay.fajr || 0,
               dhuhr: offlineDay.dhuhr || 0,
@@ -100,7 +103,8 @@ const App = props => {
                 progress: undefined
               });
             }
-          });
+          })
+          .catch(err => console.log(err));
       });
     });
   };
@@ -228,12 +232,17 @@ const App = props => {
         if (res.length > 0) {
           const nDays = res.length;
           const Msg = ({ closeToast, toastProps }) => (
-            <div>
-              You have offline entries for {nDays} days, do you want to upload
-              them online, or just delete them?
+            <div className='d-flex flex-column'>
+              <div className='toast-text d-flex align-items-center'>
+                <h1 className='text-danger mb-0 me-3'>
+                  <ion-icon name='alert-outline'></ion-icon>
+                </h1>
+                You have offline entries for {nDays} days, do you want to upload
+                them online, or just delete them?
+              </div>
               <div className='mt-3'>
                 <button
-                  className='btn btn-success py-2'
+                  className='btn btn-primary py-2'
                   onClick={() => {
                     onClickSync(user);
                     closeToast();
@@ -241,7 +250,7 @@ const App = props => {
                   Upload
                 </button>
                 <button
-                  className='btn btn-danger py-2 mx-2'
+                  className='btn btn-danger py-2 ms-2'
                   onClick={() => {
                     onClickDelete(user);
                     closeToast();
@@ -251,7 +260,7 @@ const App = props => {
               </div>
             </div>
           );
-          toast.info(Msg, {
+          toast(Msg, {
             position: 'top-right',
             autoClose: false,
             hideProgressBar: false,
@@ -296,7 +305,7 @@ const App = props => {
         }
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.userInfo?.user?._id]);
   const handleJoyrideCallback = data => {
     const { status } = data;
@@ -352,7 +361,11 @@ const App = props => {
 
           <ProtectedRoute exact path='/logs' component={Logs} />
           <ProtectedRoute exact path='/' component={Home} />
-          <Route exact path='/landing'  render={() => <LandingPage  changeLanguage={changeLanguage}/>} />
+          <Route
+            exact
+            path='/landing'
+            render={() => <LandingPage changeLanguage={changeLanguage} />}
+          />
         </main>
         <Footer />
       </Router>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form } from 'react-bootstrap';
+import { Form, FloatingLabel } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import FormContainer from '../../components/FormContainer';
 import {
@@ -60,14 +60,17 @@ const ForgotPasswordScreen = ({ location, history }) => {
         to: redirect ? `/login?redirect=${redirect}` : '/login',
         text: t('cancel')
       }}>
-      <Form.Group controlId='email'>
+      <FloatingLabel
+        className='mt-3'
+        controlId='email'
+        label={t('inputFields.email.label')}>
         <Form.Control
           type='email'
-          placeholder={t('inputFields.email.placeholder')}
           value={email}
-          onChange={e => setEmail(e.target.value)}></Form.Control>
-        <Form.Label>{t('inputFields.email.label')}</Form.Label>
-      </Form.Group>
+          placeholder={t('inputFields.email.label')}
+          onChange={e => setEmail(e.target.value)}
+        />
+      </FloatingLabel>
     </FormContainer>
   );
 };
