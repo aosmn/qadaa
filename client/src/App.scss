@@ -2,7 +2,7 @@
 @import './styles/_variables_light.scss';
 @import '../node_modules/bootstrap/scss/bootstrap.scss';
 // @import './styles/bootswatch_cyborg.scss';
-@import './styles/bootswatch_light.scss';
+@import './styles/_bootswatch_light';
 @import './Responsive.scss';
 @import './styles/calendar.scss';
 
@@ -459,7 +459,12 @@ input.small:not(:placeholder-shown) + label {
 }
 
 .password-container {
+  position: relative;
   .input-action {
+    a {
+      text-decoration: none;
+    }
+    position: absolute;
     bottom: -3px;
     right: 10px;
   }

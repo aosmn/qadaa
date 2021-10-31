@@ -62,7 +62,7 @@ const LoginScreen = ({ location, history }) => {
         </Form.Control.Feedback>
       </FloatingLabel>
       <div className='d-flex flex-column mb-4 password-container'>
-        <Form.Group controlId='password' className='mb-4'>
+        <Form.Group controlId='password' className='mb-4 password-container'>
           <FloatingLabel
             controlId='password'
             label={t('inputFields.password.label')}>
