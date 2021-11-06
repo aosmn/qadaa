@@ -16,12 +16,14 @@ const PasswordInput = props => {
           {...props}
           type={showPass ? 'text' : 'password'}
           placeholder={t('inputFields.password.placeholder')}
+          autoComplete="new-password"
         />
         <button
           type='button'
+          tabIndex={-1}
           onClick={onClick}
           className={`btn btn-link text-dark show-pass ${
-            props.isInvalid ? 'mr-4' : ''
+            props.isInvalid ? 'mr-4 parent-invalid' : ''
           }`}>
           {showPass ? (
             <svg

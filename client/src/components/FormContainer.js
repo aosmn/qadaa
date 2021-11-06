@@ -72,7 +72,7 @@ const FormContainer = ({
                           <Link
                             className='text-secondary text-center'
                             to={linkButton.to}>
-                            <Button variant='link'>{linkButton.text}</Button>
+                            <Button variant='link' className="text-normal">{linkButton.text}</Button>
                           </Link>
                         </Form.Group>
                       )}

@@ -304,7 +304,14 @@ td {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  right: 0;
+  &:not(.parent-invalid) {
+    right: 0;
+  }
+  &.parent-invalid {
+  top: calc(50% - .8rem) !important;
+  right: 1rem;
+    
+  }
 }
 
 .btn.btn-round {
@@ -614,4 +621,12 @@ input.small:not(:placeholder-shown) + label {
   .form-check-label {
     margin: 0 0.75rem;
   }
+}
+
+.text-capitalize {
+  text-transform: capitalize !important;
+}
+
+.text-normal {
+  text-transform: none !important;
 }

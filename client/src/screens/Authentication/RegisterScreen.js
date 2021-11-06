@@ -32,8 +32,8 @@ const RegisterScreen = ({ location, history }) => {
   }, [history, user, redirect]);
 
   const onSubmit = data => {
-    const { name, email, password } = data;
-    dispatch(registerUser(name, email, password, isFemale));
+    const { name, nemail, password } = data;
+    dispatch(registerUser(name, nemail, password, isFemale));
   };
 
   const submitHandler = e => {
@@ -46,6 +46,7 @@ const RegisterScreen = ({ location, history }) => {
       loading={loading}
       error={error}
       submit={submitHandler}
+      autocomplete="off"
       // title='Create an Account'
       // hasSeparator
       submitButtonText={t('register.register')}
@@ -71,18 +72,19 @@ const RegisterScreen = ({ location, history }) => {
       </FloatingLabel>
       <FloatingLabel
         className='mt-3'
-        controlId='email'
+        controlId='nemail'
         label={t('inputFields.email.label')}>
         <Form.Control
-          {...register('email', {
+        autoComplete='new-password'
+        {...register('nemail', {
             required: t('inputFields.email.required')
           })}
           type='email'
           placeholder={t('inputFields.email.label')}
-          isInvalid={errors.email}
+          isInvalid={errors.nemail}
         />
         <Form.Control.Feedback type='invalid'>
-          {errors.email && errors.email.message}
+          {errors.nemail && errors.nemail.message}
         </Form.Control.Feedback>
       </FloatingLabel>
       <Swipe
