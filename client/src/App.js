@@ -363,7 +363,7 @@ const App = props => {
           <ProtectedRoute exact path='/' component={Home} />
           <Route
             exact
-            path='/landing'
+            path='/about'
             render={() => <LandingPage changeLanguage={changeLanguage} />}
           />
         </main>

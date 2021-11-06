@@ -81,5 +81,7 @@
   "prayerTimes": "مواقيت الصلاة",
   "haderLogs": "سجل صلاتك الحاضرة",
   "qadaaLogs": "سجل صلاتك المقضية",
-  "logHader": "تسجيل صلاتك الحاضرة"
+  "logHader": "تسجيل صلاتك الحاضرة",
+  "refreshLocation": "تحديث الموقع",
+  "calculationMethod": "طريقة الحساب"
 }

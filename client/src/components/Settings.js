@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Swipe from './SwipeComponent';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, FloatingLabel } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import day from 'dayjs';
 import duration from 'dayjs/plugin/duration';
@@ -148,7 +148,7 @@ const Settings = props => {
         <div className='info mt-3'>
           <div>
             <small className='font-weight-bold'>
-              {t('inputFields.start.label')}
+              <strong>{t('inputFields.start.label')}</strong>
             </small>
             <p className='mb-2'>
               {day(props.userInfo?.user?.preferences.start).format(
@@ -158,7 +158,7 @@ const Settings = props => {
           </div>
           <div>
             <small className='font-weight-bold'>
-              {t('inputFields.end.label')}
+              <strong>{t('inputFields.end.label')}</strong>
             </small>
             <p className='mb-2'>
               {day(props.userInfo?.user?.preferences.end).format('DD/MM/YYYY')}
@@ -166,7 +166,7 @@ const Settings = props => {
           </div>
           <div>
             <small className='font-weight-bold'>
-              {t('inputFields.numberOfDays.label')}
+              <strong>{t('inputFields.numberOfDays.label')}</strong>
             </small>
             <p className='mb-2'>
               {props.userInfo?.user?.preferences.days * 5} (
@@ -175,7 +175,7 @@ const Settings = props => {
           </div>
           <div>
             <small className='font-weight-bold'>
-              {t('inputFields.dailyTarget.label')}
+              <strong>{t('inputFields.dailyTarget.label')}</strong>
             </small>
             <p className='mb-2'>
               {(props.userInfo?.user?.preferences.dailyTarget || 0) * 5}{' '}
@@ -185,7 +185,7 @@ const Settings = props => {
           {props.userInfo?.user?.preferences.isFemale && (
             <div>
               <small className='font-weight-bold'>
-                {t('inputFields.periodDays.label')}
+                <strong>{t('inputFields.periodDays.label')}</strong>
               </small>
               <p className='mb-2'>
                 {props.userInfo?.user?.preferences.period || 4}
@@ -219,7 +219,10 @@ const Settings = props => {
             />
           </Form.Group>
           {enterManually ? (
-            <Form.Group controlId='days' className='mb-4'>
+            <FloatingLabel
+              className='mb-4 small'
+              controlId='days'
+              label={t('inputFields.numberOfDays.label')}>
               <Form.Control
                 {...register('days', {
                   required: t('inputFields.numberOfDays.required'),
@@ -232,14 +235,53 @@ const Settings = props => {
                 className='small days'
                 isInvalid={errors.days}
               />
-              <Form.Label>{t('inputFields.numberOfDays.label')}</Form.Label>
               <Form.Control.Feedback type='invalid'>
-                {errors.days && errors.days.message}
+                {errors.numberOfDays && errors.numberOfDays.message}
               </Form.Control.Feedback>
-            </Form.Group>
+            </FloatingLabel>
           ) : (
+            // <Form.Group controlId='days' className='mb-4'>
+            //   <Form.Control
+            //     {...register('days', {
+            //       required: t('inputFields.numberOfDays.required'),
+            //       validate: val => {
+            //         return val > 1 || t('inputFields.numberOfDays.invalid');
+            //       }
+            //     })}
+            //     min={1}
+            //     type='number'
+            //     className='small days'
+            //     isInvalid={errors.days}
+            //   />
+            //   <Form.Label>{t('inputFields.numberOfDays.label')}</Form.Label>
+            //   <Form.Control.Feedback type='invalid'>
+            //     {errors.days && errors.days.message}
+            //   </Form.Control.Feedback>
+            // </Form.Group>
             <>
-              <Form.Group controlId='start' className='mb-4'>
+              <FloatingLabel
+                className='mb-4 small'
+                controlId='start'
+                label={t('inputFields.start.label')}>
+                <Form.Control
+                  {...register('start', {
+                    required: t('inputFields.start.required'),
+                    validate: val => {
+                      return (
+                        day(val).isBefore(day(getValues().end)) ||
+                        t('inputFields.start.invalid')
+                      );
+                    }
+                  })}
+                  type='date'
+                  className='small startDate'
+                  isInvalid={errors.start}
+                />
+                <Form.Control.Feedback type='invalid'>
+                  {errors.start && errors.start.message}
+                </Form.Control.Feedback>
+              </FloatingLabel>
+              {/* <Form.Group controlId='start' className='mb-4'>
                 <Form.Control
                   {...register('start', {
                     required: t('inputFields.start.required'),
@@ -259,8 +301,31 @@ const Settings = props => {
                 <Form.Control.Feedback type='invalid'>
                   {errors.start && errors.start.message}
                 </Form.Control.Feedback>
-              </Form.Group>
-              <Form.Group controlId='end' className='mb-4'>
+              </Form.Group> */}
+
+              <FloatingLabel
+                className='mb-4 small'
+                controlId='end'
+                label={t('inputFields.end.label')}>
+                <Form.Control
+                  {...register('end', {
+                    required: t('inputFields.end.required'),
+                    validate: val => {
+                      return (
+                        day(val).isAfter(day(getValues().start)) ||
+                        t('inputFields.end.invalid')
+                      );
+                    }
+                  })}
+                  type='date'
+                  className='small endDate'
+                  isInvalid={errors.end}
+                />
+                <Form.Control.Feedback type='invalid'>
+                  {errors.end && errors.end.message}
+                </Form.Control.Feedback>
+              </FloatingLabel>
+              {/* <Form.Group controlId='end' className='mb-4'>
                 <Form.Control
                   {...register('end', {
                     required: t('inputFields.end.required'),
@@ -279,7 +344,7 @@ const Settings = props => {
                 <Form.Control.Feedback type='invalid'>
                   {errors.end && errors.end.message}
                 </Form.Control.Feedback>
-              </Form.Group>
+              </Form.Group> */}
               <Swipe
                 small
                 checkedText={t('female')}
@@ -289,7 +354,10 @@ const Settings = props => {
                 onChange={v => setIsFemale(v)}
               />
               {isFemale && (
-                <Form.Group controlId='period' className='mb-4'>
+                <FloatingLabel
+                  className='mb-4 small'
+                  controlId='period'
+                  label={t('inputFields.periodDays.label')}>
                   <Form.Control
                     {...register('period', {
                       required: t('inputFields.periodDays.required'),
@@ -304,16 +372,50 @@ const Settings = props => {
                     min={3}
                     max={15}
                     className='small period'
-                    isInvalid={errors.period}></Form.Control>
-                  <Form.Label>{t('inputFields.periodDays.label')}</Form.Label>
+                    isInvalid={errors.period}
+                  />
                   <Form.Control.Feedback type='invalid'>
                     {errors.period && errors.period.message}
                   </Form.Control.Feedback>
-                </Form.Group>
+                </FloatingLabel>
+                //   {/* <Form.Group controlId='period' className='mb-4'>
+                //   <Form.Control
+                //     {...register('period', {
+                //       required: t('inputFields.periodDays.required'),
+                //       validate: val => {
+                //         return (
+                //           (val < 16 && val > 3) ||
+                //           t('inputFields.periodDays.invalid')
+                //         );
+                //       }
+                //     })}
+                //     type='number'
+                //     min={3}
+                //     max={15}
+                //     className='small period'
+                //     isInvalid={errors.period}></Form.Control>
+                //   <Form.Label>{t('inputFields.periodDays.label')}</Form.Label>
+                //   <Form.Control.Feedback type='invalid'>
+                //     {errors.period && errors.period.message}
+                //   </Form.Control.Feedback>
+                // </Form.Group> */}
               )}
             </>
           )}
-          <Form.Group controlId='dailyTarget' className='mb-4'>
+          <FloatingLabel
+            className='mb-4 small'
+            controlId='dailyTarget'
+            label={t('inputFields.dailyTarget.label') + ' (' + t('days') + ')'}>
+            <Form.Control
+              {...register('dailyTarget')}
+              type='number'
+              className='small dailyTarget'
+            />
+            <Form.Control.Feedback type='invalid'>
+              {errors.dailyTarget && errors.dailyTarget.message}
+            </Form.Control.Feedback>
+          </FloatingLabel>
+          {/* <Form.Group controlId='dailyTarget' className='mb-4'>
             <Form.Control
               {...register('dailyTarget')}
               type='number'
@@ -321,7 +423,7 @@ const Settings = props => {
             <Form.Label>
               {t('inputFields.dailyTarget.label')} ({t('days')})
             </Form.Label>
-          </Form.Group>
+          </Form.Group> */}
           <Form.Group controlId='save' className='w-100'>
             <Button
               className='w-100 saveSettings btn-slim'

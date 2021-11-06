@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, ListGroup, Row, Col, Form } from 'react-bootstrap';
+import { Button, ListGroup, Row, Col, Form, FloatingLabel } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import day from 'dayjs';
 import LongPressable from 'react-longpressable';
@@ -125,7 +125,10 @@ const PrayersCounter = props => {
   const setPrayers = () => {
     // console.log(props.selectedDate);
     props.setLogs({
-      day: { day: day(props.selectedDate.prayers.day), tz: new Date().getTimezoneOffset() / 60 },
+      day: {
+        day: day(props.selectedDate.prayers.day),
+        tz: new Date().getTimezoneOffset() / 60
+      },
 
       // day: day(props.selectedDate.prayers.day),
       prayers: { fajr, dhuhr, asr, maghrib, isha }
@@ -210,7 +213,10 @@ const PrayersCounter = props => {
                     </>
                   )}
                 </h6>
-                <Form.Group controlId='prayerCount'>
+                <FloatingLabel
+                  className='mb-4 small'
+                  controlId='days'
+                  label={`${t('howMany')} ${showManyDays ? t('aldays') : t('alprayers')}${t('?')}`}>
                   <Form.Control
                     required
                     type='number'
@@ -222,15 +228,13 @@ const PrayersCounter = props => {
                     onChange={e => setAddPrayersCount(e.target.value)}
                     className={`small ${
                       showManyDays ? 'manyDaysCount' : 'manyPrayersCount'
-                    }`}></Form.Control>
-                  <Form.Label>
-                    {t('howMany')} {showManyDays ? t('aldays') : t('alprayers')}
-                    {t('?')}
-                  </Form.Label>
-                </Form.Group>
+                    }`}
+                  />
+                </FloatingLabel>
+                
                 <Form.Group controlId='save' className='w-100'>
                   <Button
-                    className='w-100 small saveManyPrayers'
+                    className='w-100 saveManyPrayers btn-slim'
                     type='button'
                     variant='light'
                     onClick={submitManyForm}>

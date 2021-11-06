@@ -3,10 +3,10 @@
   "loginBtn": "Log In",
   "qadaa": "Qadaa",
   "registerBtn": "Register Now !",
-  "title1": "Make up your qadaa prayers",
+  "title1": "Let's start your qada prayer journey",
   "description1": "If you have prayers that you want to make up for and fulfill your debt to Allah, Qadaa is your companion to do just that.",
-  "title2": "Log",
-  "description2": "your qadaa prayers every day",
+  "title2": "Keep",
+  "description2": "track of your daily qadaa prayers",
   "title3": "Calculate",
   "description3": "the prayers you missed over the years",
   "title4": "Set",
@@ -15,5 +15,8 @@
   "description5": "your logs and total prayers you've made up for",
   "title6": "See",
   "description6": "daily prayer times, and log your hader prayers",
-  "readMore": "Read More"
+  "readMore": "Read More",
+  "source": "Source",
+  "fatwasTitle": "Qada Prayers Fatwas",
+  "subtitle": "Your companion on your Qada prayer journey!"
 }

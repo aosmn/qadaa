@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, FloatingLabel } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { getCalculationMethods } from '../api/prayerTimes.api';
 
@@ -20,7 +20,9 @@ const CalculationMethod = ({ onSubmit }) => {
             {op.name}
           </option>
         );
-        methodsList.push(option);
+        if (op.name) {
+          methodsList.push(option);
+        }
       });
       setMethods(methodsList);
       // console.log(methodsList);
@@ -40,17 +42,14 @@ const CalculationMethod = ({ onSubmit }) => {
   };
   return (
     <div className='w-100'>
-      <Form.Group controlId='save' className='w-100'>
-        <label htmlFor='method'>Calculation Method</label>
-        <select
-          id='method'
-          className='custom-select'
-          aria-label='.form-select-lg example'
-          onChange={e => setMethod(e.target.value)}
-          value={method}>
+      <FloatingLabel
+        className='mb-4 small'
+        controlId='days'
+        label={`${t('calculationMethod')}`}>
+        <Form.Select value={method} onChange={e => setMethod(e.target.value)}>
           {methods}
-        </select>
-      </Form.Group>
+        </Form.Select>
+      </FloatingLabel>
       <Form.Group controlId='save' className='w-100'>
         <Button
           className='w-100 saveSettings'

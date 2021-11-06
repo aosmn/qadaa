@@ -46,7 +46,7 @@ const LandingPage = ({ changeLanguage }) => {
           <img src={pattern} alt='' className='pattern right' />
           <img src={pattern} alt='' className='pattern left' />
         </div>
-        <div className='title-container d-flex w-100 justify-content-center'>
+        <div className='title-container d-flex flex-column align-items-center w-100 justify-content-center'>
           <div className='cover-logo d-flex flex-row align-items-center'>
             <img
               src={logo}
@@ -57,6 +57,24 @@ const LandingPage = ({ changeLanguage }) => {
             />
             <div className='logo-text large text-light'>{t('qadaa')}</div>
           </div>
+          <div className='text-light text-center sub-title'>
+            {t("subtitle")}
+          </div>
+        </div>
+        <div className={`l-header top ${!collapse ? '' : 'd-none'} mt-2 me-5 pe-5`}>
+            <Nav className='justify-content-end py-2'>
+              <Language changeLanguage={changeLanguage} />
+              {user ? (
+                // <Nav.Link onClick={logoutHandler}>{t('logout')}</Nav.Link>
+                <LinkContainer to='/'>
+                  <Nav.Link>{t('goToApp')}</Nav.Link>
+                </LinkContainer>
+              ) : (
+                <LinkContainer to='/login'>
+                  <Nav.Link>{t('loginBtn')}</Nav.Link>
+                </LinkContainer>
+              )}
+            </Nav>
         </div>
         <Navbar
           bg='light'
@@ -100,13 +118,15 @@ const LandingPage = ({ changeLanguage }) => {
         <div className='section d-flex flex-column mt-2 align-items-center'>
           <div className='my-5'>
             <div className='quran d-flex flex-column mt-5 align-items-center text-secondary'>
-              <p className='mb-4'>
-                "Indeed, I am Allah. There is no deity except Me, so worship Me
-                and establish prayer for My remembrance"
-              </p>
-              <p className='m-0 ar-text'>
+              
+                <p className='mb-2 ar-text'> بِسْمِ اللَّـهِ الرَّحْمَـٰنِ الرَّحِيمِ</p>
+              <p className='mb-4 ar-text'>
                 "إِنَّنِي أَنَا اللَّهُ لَا إِلَٰهَ إِلَّا أَنَا فَاعْبُدْنِي
                 وَأَقِمِ الصَّلَاةَ لِذِكْرِي"
+              </p>
+              <p className='m-0'>
+                "Indeed, I am Allah. There is no deity except Me, so worship Me
+                and establish prayer for My remembrance"
               </p>
             </div>
           </div>
@@ -118,43 +138,43 @@ const LandingPage = ({ changeLanguage }) => {
           <div className='w-100 px-5'>
             <hr className='w-100' />
           </div>
-          <div className='intro text-center m-5'>
+          <div className='intro text-center m-5 mb-0'>
             <h2 className='title mb-4'>{t('title1')}</h2>
-            <h6>{t('description1')}</h6>
+            <p className="mx-auto" style={{width: "70%"}}>{t('description1')}</p>
             <div className='mt-5'>
               <div className='feature'>
-                <div className='text'>
-                  <span>1. {t('title2')} </span>
-                  {t('description2')}
+                <div className='text text-end'>
+                  <span>{t('title2')} </span>
+                  {t('description2')}.
                 </div>
                 <img src={countImg} alt='' />
               </div>
               <div className='feature left'>
-                <div className='text'>
-                  <span>2. {t('title3')} </span>
-                  {t('description4')}
+                <div className='text text-start'>
+                  <span>{t('title3')} </span>
+                  {t('description3')}.
                 </div>
                 <img src={settingsImg} alt='' />
               </div>
               <div className='feature'>
-                <div className='text'>
-                  <span>3. {t('title4')} </span>
-                  {t('description4')}
+                <div className='text text-end'>
+                  <span>{t('title4')} </span>
+                  {t('description4')}.
                 </div>
                 <img src={progressImg} alt='' />
               </div>
               <div className='feature left'>
-                <div className='text'>
-                  <span>4. {t('title5')} </span>
-                  {t('description5')}
+                <div className='text text-start'>
+                  <span>{t('title5')} </span>
+                  {t('description5')}.
                 </div>
                 <img src={calendarImg} alt='' />
               </div>
 
               <div className='feature'>
-                <div className='text'>
-                  <span>5. {t('title6')} </span>
-                  {t('description6')}
+                <div className='text text-end'>
+                  <span>{t('title6')} </span>
+                  {t('description6')}.
                 </div>
                 <img src={prayerTimesImg} alt='' />
               </div>

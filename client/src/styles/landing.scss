@@ -1,5 +1,9 @@
 @import './variables_light';
+@import '../../node_modules/bootstrap/scss/bootstrap.scss';
 
+// * {
+//   border: 1px red solid !important;
+// }
 .landing-header.navbar-light.bg-light.landing-header {
   background-color: #fff0 !important;
   border-bottom: none;
@@ -47,6 +51,9 @@
       .cover-logo {
         display: none !important;
       }
+      .pattern {
+        display: none !important;
+      }
     }
     .title-container-background {
       position: absolute;
@@ -61,6 +68,7 @@
       z-index: -1;
       .pattern {
         height: 200px;
+        // position: absolute;
         position: fixed;
         &.right {
           // right: 32px;
@@ -107,9 +115,31 @@
       .btn {
         color: white !important;
       }
+      &.top {
+        bottom: unset;
+        top: 0;
+      }
     }
   }
+  .sub-title {
+    position: relative;
+    // width: 290px;
+    color: #fffa !important;
+    font-size: 1rem;
+    line-height: 1.2;
+    margin-top: 1.8rem;
+    max-width: 80%;
+    &::before {
+      position: absolute;
+      content: '';
+      width: 60%;
 
+      height: 1px;
+      top: -10px;
+      right: 20%;
+      background-color: #fff2;
+    }
+  }
   .content-collapsed-header {
     margin-top: 200px;
   }
@@ -139,7 +169,8 @@
     .text {
       font-size: 1.1rem;
       margin: 0 2rem;
-      max-width: 40%;
+      max-width: 35%;
+      line-height: 1.1;
       // text-align: start;
       span {
         // font-family: Quicksand;
@@ -154,17 +185,30 @@
   }
   hr {
     max-width: 60%;
+    margin: 1rem auto;
+    background-color: #ababab !important;
   }
 }
 .item-container {
   // width: 500px !important;
-  min-width: 500px !important;
+  // min-width: 500px !important;
   overflow: hidden;
-  height: 300px;
+  height: 500px;
   .f-description {
     max-height: 100px !important;
     max-width: 500px;
     overflow: hidden !important;
+    position: relative;
+    &::after {
+      width: 100%;
+      height: 2rem;
+      content: '';
+      // background-color: #fff;
+      position: absolute;
+      top: calc(100% - 1.5rem);
+      background: linear-gradient(#fff0, #fff);
+      left: 0;
+    }
   }
   * {
     color: #757575 !important;
@@ -172,11 +216,11 @@
 }
 
 .carousel.carousel-fade {
+  width: 800px;
   .carousel-caption {
     top: 50%;
     transform: translateY(-50%);
   }
-  width: 800px;
   a .carousel-control-prev-icon {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23888' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath d='M5.25 0l-4 4 4 4 1.5-1.5L4.25 4l2.5-2.5L5.25 0z'/%3e%3c/svg%3e") !important;
   }
@@ -192,3 +236,85 @@
     background-color: #888;
   }
 }
+
+@include media-breakpoint-down(sm) {
+  .title-container-background {
+    .pattern {
+      &.right {
+
+        display: none;
+      }
+      opacity: .2;
+      // top: -150px !important;
+      // transform: scale(1.5) rotate(-30deg) !important;
+    }
+  }
+  .sub-title {
+    font-size: .9rem !important;
+    // margin-top: 1rem !important;
+    max-width: 50% !important;
+    &::before {
+      // position: absolute;
+      // content: '';
+      // width: 60%;
+
+      // height: 1px;
+      top: -8px !important;
+      // right: 20%;
+      // background-color: #fff2;
+    }
+  }
+}
+@include media-breakpoint-down(md) {
+  .quran {
+    max-width: 100vw !important;
+    padding: 0 2rem;
+  }
+  .carousel.carousel-fade {
+    width: 100%;
+  }
+  .item-container {
+    min-width: calc(100% - 100px) !important;
+  }
+
+  .feature {
+    flex-direction: column !important;
+    .text {
+      // font-size: 1.1rem;
+      // margin: 0 2rem;
+      max-width: 70% !important;
+      // line-height: 1.1;
+      text-align: center !important;
+      margin-bottom: 2rem !important;
+      // text-align: start;
+      span {
+        // font-family: Quicksand;
+        font-size: 1.5rem;
+        color: $orange;
+        font-weight: 900;
+      }
+    }
+    img {
+      max-width: 300px;
+    }
+  }
+}
+// @include media-breakpoint-down(lg) { ... }
+// @include media-breakpoint-down(xl) { ... }
+// @include media-breakpoint-down(xxl) { ... }
+// `sm` applies to x-small devices (portrait phones, less than 576px)
+// @media (max-width: 575.98px) { ... }
+
+// `md` applies to small devices (landscape phones, less than 768px)
+// @media (max-width: map-get($grid-breakpoints,md)) {   .title-container-background {
+//   display: none;
+//   } }
+
+// `lg` applies to medium devices (tablets, less than 992px)
+// @media (max-width: 991.98px) { ... }
+
+// `xl` applies to large devices (desktops, less than 1200px)
+// @media (max-width: 1199.98px) { ... }
+
+// `xxl` applies to x-large devices (large desktops, less than 1400px)
+// @media (max-width: 1399.98px) { ... }

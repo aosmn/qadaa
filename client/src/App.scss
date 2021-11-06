@@ -380,13 +380,21 @@ td {
 }
 
 input.small {
-  height: 50px;
+  height: 50px !important;
   // padding: 14px;
-  padding-top: 16px;
+  border-radius: .5rem !important;
+  padding-top: 16px !important;
+}
+.form-floating.small > .form-control:not(:placeholder-shown) ~ label {
+  transform: scale(0.85) translateY(-1.5rem) translateX(0.15rem) !important;
+
 }
 input.small:not(:placeholder-shown) + label {
   top: 10px !important;
 }
+// input.small label {
+//   padding: 0.5rem !important;
+// }
 
 .prayers-container.small {
   .list-group-item {
@@ -578,8 +586,8 @@ input.small:not(:placeholder-shown) + label {
 }
 
 .btn-slim {
-  padding-top: 14px;
-  padding-bottom: 14px;
+  padding-top: 14px !important;
+  padding-bottom: 14px !important;
 }
 
 .ar-font {
@@ -595,4 +603,15 @@ input.small:not(:placeholder-shown) + label {
 
 .form-check .form-check-input {
   border-radius: 100%;
+  width: 1rem;
+  height: 1rem;
+}
+
+.container {
+  max-width: 1140px !important;
+}
+.prayer-name {
+  .form-check-label {
+    margin: 0 0.75rem;
+  }
 }

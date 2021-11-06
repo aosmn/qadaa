@@ -46,7 +46,7 @@ const LoginScreen = ({ location, history }) => {
         text: t('login.register')
       }}>
       <FloatingLabel
-        className='mt-3'
+        className='mb-4'
         controlId='email'
         label={t('inputFields.email.label')}>
         <Form.Control

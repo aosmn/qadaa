@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useReducer } from 'react';
 import day from 'dayjs';
 import Method from '../components/CalculationMethod';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import {
   getLogs,
   updateDayLogs,
@@ -139,27 +139,41 @@ const PrayerTimes = props => {
       <h6 className='d-flex justify-content-between'>
         {t('prayerTimes')}
         <div>
-          <Button
-            title='update location'
-            variant='link'
-            className='btn text-dark p-0 mx-2'
-            onClick={() => {
-              updateLocation();
-            }}>
-            <ion-icon name='location-outline'></ion-icon>
-          </Button>
-          <Button
-            variant='link'
-            className='btn text-dark p-0'
-            onClick={() => {
-              setShowSettings(!showSettings);
-            }}>
-            {showSettings ? (
-              <ion-icon name='close'></ion-icon>
-            ) : (
-              <ion-icon name='settings-outline'></ion-icon>
-            )}
-          </Button>
+          <OverlayTrigger
+            placement='top'
+            overlay={
+              <Tooltip id='tooltip-top'>{t('refreshLocation')}</Tooltip>
+            }>
+            <Button
+              variant='link'
+              className='btn text-dark p-0 mx-2'
+              onClick={() => {
+                updateLocation();
+              }}>
+              <ion-icon name='location-outline'></ion-icon>
+            </Button>
+          </OverlayTrigger>
+
+          <OverlayTrigger
+            placement='top'
+            overlay={
+              <Tooltip id='tooltip-top'>
+                {showSettings ? t('close') : t('calculationMethod')}
+              </Tooltip>
+            }>
+            <Button
+              variant='link'
+              className='btn text-dark p-0'
+              onClick={() => {
+                setShowSettings(!showSettings);
+              }}>
+              {showSettings ? (
+                <ion-icon name='close'></ion-icon>
+              ) : (
+                <ion-icon name='settings-outline'></ion-icon>
+              )}
+            </Button>
+          </OverlayTrigger>
         </div>
       </h6>
       {showSettings ? (
@@ -214,6 +228,7 @@ const PrayerItem = ({ prayer, onCheck, isDone }) => {
             id={prayer.id}
             onChange={onChange}
             checked={done}
+            className='prayer-name'
           />
         </div>
         <div className='prayer-time'>{prayer.time !== 0 && prayer.time}</div>

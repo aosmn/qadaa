@@ -33,16 +33,26 @@ const FatwaSlider = () => {
         <div className='item-container'>
           <Carousel.Caption className='h-100 d-flex justify-content-center align-items-center'>
             <Card>
-              <Card.Body>
-                <h5>
-                  {fatwa.title}{' '}
-                  <small className='text-secondary'>({fatwa.src})</small>
-                </h5>
+              <Card.Body className="m-4">
+                <h4 className='mb-0'>{fatwa.title} </h4>
+                <a
+                  target='_blank'
+                  rel='noreferrer'
+                  href={fatwa.url}
+                  className='p-0 mt-3 btn btn-link text-primary'>
+                  {t('source')}: {fatwa.src}
+                  <small className='ms-2'>
+                    <ion-icon
+                      className='text-secondary'
+                      name='open-outline'></ion-icon>{' '}
+                  </small>
+                </a>
+                <hr/>
                 <p className='f-description'>{fatwa.brief}</p>
                 <Button
                   onClick={() => onClickItem(fatwa)}
                   variant='link'
-                  className='p-0 text-secondary'>
+                  className='p-0 text-primary'>
                   {t('readMore')}
                 </Button>
               </Card.Body>
@@ -51,21 +61,26 @@ const FatwaSlider = () => {
         </div>
       </Carousel.Item>
     ));
-  return fatwasLoading ? (
-    <div className='d-flex align-items-center' style={{ minHeight: 300 }}>
-      <Spinner animation='grow' variant='secondary' />
+  return (
+    <div className='w-100 m-5 d-flex flex-column align-items-center'>
+      <h2 className='title'>{t('fatwasTitle')}</h2>
+      {fatwasLoading ? (
+        <div className='d-flex align-items-center' style={{ minHeight: 300 }}>
+          <Spinner animation='grow' variant='secondary' />
+        </div>
+      ) : (
+        <>
+          <Modal
+            show={modalShow}
+            onHide={() => setModalShow(false)}
+            item={selectedItem}
+          />
+          <Carousel variant='dark' interval={20000} fade slide={false}>
+            {fatwaItems}
+          </Carousel>
+        </>
+      )}
     </div>
-  ) : (
-    <>
-      <Modal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-        item={selectedItem}
-      />
-      <Carousel variant='dark' interval={20000} fade slide={false}>
-        {fatwaItems}
-      </Carousel>
-    </>
   );
 };
 

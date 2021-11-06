@@ -25,7 +25,7 @@ const Header = ({ changeLanguage }) => {
     history.push('/login');
   };
   const isLandingPage = () => {
-    return location.pathname === '/landing';
+    return location.pathname === '/about';
   };
   return (
     <header>

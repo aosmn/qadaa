@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, ListGroup, Form } from 'react-bootstrap';
+import { Button, ListGroup, Form, FloatingLabel } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import LongPressable from 'react-longpressable';
 import { LoadingOverlay } from '../Loader';
@@ -161,7 +161,7 @@ class PrayersCounter extends Component {
     if (this.state.timerRunning) {
       let newCounter = this.state.clicksCounter + 1;
       let newState = { clicksCounter: newCounter };
-      if (newCounter === 2) {
+      if (newCounter > 2) {
         newState.showManyDays = true;
       }
       this.setState(newState);
@@ -300,7 +300,13 @@ class PrayersCounter extends Component {
                     </>
                   )}
                 </h6>
-                <Form.Group controlId='prayerCount'>
+
+                <FloatingLabel
+                  className='mb-4'
+                  controlId='days'
+                  label={`${t('howMany')} ${
+                    this.state.showManyDays ? t('aldays') : t('alprayers')
+                  }${t('?')}`}>
                   <Form.Control
                     required
                     type='number'
@@ -312,17 +318,14 @@ class PrayersCounter extends Component {
                     onChange={e =>
                       this.setState({ addOnePrayerCount: e.target.value })
                     }
-                    className={`small ${
+                    className={`${
                       this.state.showManyDays
                         ? 'manyDaysCount'
                         : 'manyPrayersCount'
-                    }`}></Form.Control>
-                  <Form.Label>
-                    {t('howMany')}{' '}
-                    {this.state.showManyDays ? t('aldays') : t('alprayers')}
-                    {t('?')}
-                  </Form.Label>
-                </Form.Group>
+                    }`}
+                  />
+                </FloatingLabel>
+
                 <Form.Group controlId='save' className='w-100'>
                   <Button
                     className='w-100 small saveManyPrayers'
