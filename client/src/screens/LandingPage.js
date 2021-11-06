@@ -61,8 +61,8 @@ const LandingPage = ({ changeLanguage }) => {
             {t("subtitle")}
           </div>
         </div>
-        <div className={`l-header top ${!collapse ? '' : 'd-none'} mt-2 me-5 pe-5`}>
-            <Nav className='justify-content-end py-2'>
+        <div className={`l-header top ${!collapse ? '' : 'd-none'} mt-2`}>
+            <Nav className='justify-content-end py-2 mx-0 mx-md-5 px-0 px-md-5'>
               <Language changeLanguage={changeLanguage} />
               {user ? (
                 // <Nav.Link onClick={logoutHandler}>{t('logout')}</Nav.Link>
