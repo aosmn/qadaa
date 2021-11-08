@@ -40,6 +40,11 @@
   }
 }
 .landing {
+  .intro {
+    max-width: 800px;
+    width: 80%;
+    text-align: center !important;
+  }
   .cover {
     z-index: 1000;
     &.collapsed {

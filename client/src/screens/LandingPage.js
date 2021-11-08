@@ -116,10 +116,10 @@ const LandingPage = ({ changeLanguage }) => {
 
       <div className={`content ${collapse ? 'content-collapsed-header' : ''}`}>
         <div className='section d-flex flex-column mt-2 align-items-center'>
-          <div className='my-5'>
+        <div className='my-5'>
             <div className='quran d-flex flex-column mt-5 align-items-center text-secondary'>
               
-                <p className='mb-2 ar-text'> بِسْمِ اللَّـهِ الرَّحْمَـٰنِ الرَّحِيمِ</p>
+              <p className='mb-2 ar-text'> بِسْمِ اللَّـهِ الرَّحْمَـٰنِ الرَّحِيمِ</p>
               <p className='mb-4 ar-text'>
                 "إِنَّنِي أَنَا اللَّهُ لَا إِلَٰهَ إِلَّا أَنَا فَاعْبُدْنِي
                 وَأَقِمِ الصَّلَاةَ لِذِكْرِي"
@@ -127,6 +127,16 @@ const LandingPage = ({ changeLanguage }) => {
               <p className='m-0'>
                 "Indeed, I am Allah. There is no deity except Me, so worship Me
                 and establish prayer for My remembrance"
+              </p>
+            </div>
+          </div>
+          <div className='w-100 px-5'>
+            <hr className='w-100' />
+          </div>
+          <div className='my-5'>
+            <div className='d-flex flex-column align-items-center'>
+              <p className='m-0 intro'>
+                {t('intro')}
               </p>
             </div>
           </div>
