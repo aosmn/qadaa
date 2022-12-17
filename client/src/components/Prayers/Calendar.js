@@ -163,12 +163,12 @@ export class PrayerLogs extends Component {
     }
   };
   onChange = nextValue => {
-    console.log(new Date(nextValue));
+    // console.log(new Date(nextValue));
     const selectedDay =
       this.props.prayerLogs.prayers &&
       this.props.prayerLogs.prayers.length > 0 &&
       this.props.prayerLogs.prayers.find(dDate => {
-        console.log(day(dDate.day).format());
+        // console.log(day(dDate.day).format());
         return day(dDate.day).isSame(nextValue, 'day');
       });
 

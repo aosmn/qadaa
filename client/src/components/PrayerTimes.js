@@ -58,7 +58,7 @@ const PrayerTimes = props => {
         : 'upcoming';
     }
   };
-  const prayers = Object.keys(prayerTimes);
+  const prayers = Object.keys(prayerTimes).filter(k => ['Firstthird','Lastthird', 'Sunrise', 'Sunset', 'Imsak', 'Midnight'].indexOf(k)===-1);
   const prayertimes = prayers.map((key, index) => {
     const prayerStatus = isCurrentTime(
       prayerTimes[key],
