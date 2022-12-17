@@ -8,4 +8,6 @@ Run `npm run dev` in the root directory to startup the client and server
 
 # Deployment
 
-Todo
+To deploy to heroku
+- Run `heroku git:remote -a qadaa`
+- Run `git push heroku main`
