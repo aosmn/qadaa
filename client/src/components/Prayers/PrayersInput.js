@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Button, ListGroup, Row, Col, Form, FloatingLabel } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import day from 'dayjs';
-import LongPressable from 'react-longpressable';
 import 'dayjs/locale/ar';
+import LongPressButton from './LongPressButton';
 // import { Link } from 'react-router-dom';
 import PrayerItem from './PrayerItem';
 
@@ -303,17 +303,15 @@ const PrayersCounter = props => {
           />
         </ListGroup>
         <div className='add-day-container'>
-          <LongPressable
-            onShortPress={addDayPrayers}
+        <LongPressButton
+            onClick={addDayPrayers}
             onLongPress={onLongPress}
-            longPressTime={700}>
-            <Button
-              variant='primary'
-              title={t('makeUpDay')}
-              className='btn-add-many h-100 py-3 px-3 align-items-center addDay'>
-              <ion-icon name='duplicate-outline'></ion-icon>
-            </Button>
-          </LongPressable>
+            btnText={<ion-icon name='duplicate-outline'></ion-icon>}
+            className="btn-add-many h-100 py-3 px-3 align-items-center addDay"
+            variant="primary"
+            title={t("makeUpDay")}
+            longPressThreshold={700}
+          />
         </div>
       </div>
       <Row className='mt-3'>
