@@ -10,7 +10,6 @@ import prayerTimesRouter from './routes/prayerTimes.routes.js';
 import fatwaRouter from './routes/fatwa.routes.js';
 import path from 'path';
 import fs from 'fs';
-import https from 'https';
 
 import { notFound, errorHandler } from './middleware/error.middleware.js';
 
@@ -55,7 +54,7 @@ if (process.env.NODE_ENV === 'production') {
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 const httpsPort = parseInt(PORT, 10) + 443;
 // app.all('*', (req, res, next) => {
 //   if (req.secure) {
@@ -70,14 +69,14 @@ app.listen(
         `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold
     )
 );
-const httpsOptions = {
-    cert: fs.readFileSync(
-        path.join(__dirname, 'server', 'bin', 'qadaa.aosmn.com.pem')
-    ),
-    key: fs.readFileSync(
-        path.join(__dirname, 'server', 'bin', 'qadaa.aosmn.com.key')
-    )
-};
+// const httpsOptions = {
+//     cert: fs.readFileSync(
+//         path.join(__dirname, 'server', 'bin', 'qadaa.aosmn.com.pem')
+//     ),
+//     key: fs.readFileSync(
+//         path.join(__dirname, 'server', 'bin', 'qadaa.aosmn.com.key')
+//     )
+// };
 // https
 //   .createServer(httpsOptions, app)
 //   .listen(
