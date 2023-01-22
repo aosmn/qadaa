@@ -43,10 +43,21 @@ const HomeScreen = props => {
   const [selectedHaderDate, setSelectedHaderDate] = useState(null);
   const [showSettings, setShowSettings] = useState(false);
   const [offlineTotal, setOfflineTotal] = useState(0);
+  const [enableNotifications, setEnableNotifications] = useState(false)
 
   const [dailyTarget] = useState(
     props.userInfo?.user?.preferences?.dailyTarget || 2
   );
+
+  const showNotification = () => {
+    Notification.requestPermission((result) => {
+      if (result === "granted") {
+        navigator.serviceWorker.ready.then((registration) => {
+          registration.showNotification('Have you prayed your qadaa prayers today?')
+        });
+      }
+    });
+  } 
 
   const selectDate = selected => {
     setSelectedHaderDate(null);
@@ -72,6 +83,18 @@ const HomeScreen = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    setInterval(() => {
+      showNotification()
+    }, 1000*60*60*24);
+  }, [])
+  
+  useEffect(() => {
+    Notification.requestPermission((result) => {
+      setEnableNotifications(result==='granted');
+    });
+  }, [])
+  
   const round2 = num => {
     const rounded = Math.floor(num * 100) / 100;
     return rounded;
