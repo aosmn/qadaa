@@ -1,6 +1,5 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import colors from 'colors';
 import cors from 'cors';
 import connectDB from './config/db.config.js';
 import userRouter from './routes/user.routes.js';
@@ -8,16 +7,15 @@ import prayerRouter from './routes/prayer.routes.js';
 import dayPrayerRouter from './routes/day.prayer.routes.js';
 import prayerTimesRouter from './routes/prayerTimes.routes.js';
 import fatwaRouter from './routes/fatwa.routes.js';
+import notificationRouter from './routes/notification.routes.js';
 import path from 'path';
-import fs from 'fs';
-
 import { notFound, errorHandler } from './middleware/error.middleware.js';
 
 dotenv.config({
     path: `.env${process.env.NODE_ENV === 'production' ? '' : '.development'}`
 });
 
-var corsOptions = {
+const corsOptions = {
     origin: [process.env.CLIENT_URL, process.env.CLIENT],
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
@@ -34,6 +32,8 @@ app.use('/api/fatwas', fatwaRouter);
 app.use('/api/prayers/', prayerRouter);
 app.use('/api/dayPrayers/', dayPrayerRouter);
 app.use('/api/prayerTimes/', prayerTimesRouter);
+app.use('/subscribe', notificationRouter);
+
 const __dirname = path.resolve();
 
 if (process.env.NODE_ENV === 'production') {
