@@ -98,6 +98,17 @@ function registerValidSW(swUrl, config) {
 
               // Execute callback
               if (config && config.onSuccess) {
+                const subscription = await registration.pushManager.subscribe({
+                  userVisibleOnly: true,
+                  applicationServerKey: process.env.REACT_APP_PUBLIC_VAPID_KEY
+                });
+      
+                await axios.post('/subscribe', {
+                  body: JSON.stringify(subscription),
+                  headers: {
+                    'Content-Type': 'application/json'
+                  }
+                });
                 config.onSuccess(registration);
               }
             }
