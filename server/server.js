@@ -10,14 +10,17 @@ import fatwaRouter from './routes/fatwa.routes.js';
 import notificationRouter from './routes/notification.routes.js';
 import path from 'path';
 import { notFound, errorHandler } from './middleware/error.middleware.js';
+import cron from 'node-cron';
+import NotificationSubscription from './models/subscription.model.js';
+import webpush from 'web-push';
 
 dotenv.config({
-    path: `.env${process.env.NODE_ENV === 'production' ? '' : '.development'}`
+  path: `.env${process.env.NODE_ENV === 'production' ? '' : '.development'}`
 });
 
 const corsOptions = {
-    origin: [process.env.CLIENT_URL, process.env.CLIENT],
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  origin: [process.env.CLIENT_URL, process.env.CLIENT],
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
 connectDB();
@@ -37,18 +40,18 @@ app.use('/subscribe', notificationRouter);
 const __dirname = path.resolve();
 
 if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '/client/build')));
-    app.use(express.static(path.join(__dirname, '/server/public')));
-    // app.get('/.well-known/acme-challenge/T4Ho2OuT53Vi2X9fCWGJEU4t7SN1vyik90usZPiJYro', (req, res) => {
-    //   res.sendFile(path.resolve(__dirname, 'server', 'public', 'T4Ho2OuT53Vi2X9fCWGJEU4t7SN1vyik90usZPiJYro'));
-    // });
-    app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-    });
+  app.use(express.static(path.join(__dirname, '/client/build')));
+  app.use(express.static(path.join(__dirname, '/server/public')));
+  // app.get('/.well-known/acme-challenge/T4Ho2OuT53Vi2X9fCWGJEU4t7SN1vyik90usZPiJYro', (req, res) => {
+  //   res.sendFile(path.resolve(__dirname, 'server', 'public', 'T4Ho2OuT53Vi2X9fCWGJEU4t7SN1vyik90usZPiJYro'));
+  // });
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
 } else {
-    app.get('/', (req, res) => {
-        res.send('API is running');
-    });
+  app.get('/', (req, res) => {
+    res.send('API is running');
+  });
 }
 
 app.use(notFound);
@@ -64,11 +67,30 @@ const httpsPort = parseInt(PORT, 10) + 443;
 //   }
 // })
 app.listen(
-    PORT,
-    console.log(
-        `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold
-    )
+  PORT,
+  console.log(
+    `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold
+  )
 );
+
+// every day at 10
+cron.schedule('0 10 * * *', async () => {
+  try {
+    const subs = await NotificationSubscription.find({});
+    subs.forEach(sub => {
+      const subscription = sub.parseSubscription();
+      const payload = JSON.stringify({
+        title: 'Log your prayers!',
+        body: 'Did you remember to log your prayers today?'
+      });
+
+      webpush.sendNotification(subscription, payload).catch(console.log);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 // const httpsOptions = {
 //     cert: fs.readFileSync(
 //         path.join(__dirname, 'server', 'bin', 'qadaa.aosmn.com.pem')
