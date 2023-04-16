@@ -43,7 +43,7 @@ const HomeScreen = props => {
   const [selectedHaderDate, setSelectedHaderDate] = useState(null);
   const [showSettings, setShowSettings] = useState(false);
   const [offlineTotal, setOfflineTotal] = useState(0);
-  const [enableNotifications, setEnableNotifications] = useState(false)
+  const [,setEnableNotifications] = useState(false)
 
   const [dailyTarget] = useState(
     props.userInfo?.user?.preferences?.dailyTarget || 2
