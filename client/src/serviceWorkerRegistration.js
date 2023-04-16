@@ -86,16 +86,6 @@ function registerValidSW(swUrl, config) {
                   'tabs for this page are closed. See https://cra.link/PWA.'
               );
 
-              // Execute callback
-              if (config && config.onUpdate) {
-                config.onUpdate(registration);
-              }
-            } else {
-              // At this point, everything has been precached.
-              // It's the perfect time to display a
-              // "Content is cached for offline use." message.
-              console.log('Content is cached for offline use.');
-
               const subscription = await registration.pushManager.subscribe({
                 userVisibleOnly: true,
                 applicationServerKey: process.env.REACT_APP_PUBLIC_VAPID_KEY
@@ -107,6 +97,16 @@ function registerValidSW(swUrl, config) {
                   'Content-Type': 'application/json'
                 }
               });
+              // Execute callback
+              if (config && config.onUpdate) {
+                config.onUpdate(registration);
+              }
+            } else {
+              // At this point, everything has been precached.
+              // It's the perfect time to display a
+              // "Content is cached for offline use." message.
+              console.log('Content is cached for offline use.');
+
               // Execute callback
               if (config && config.onSuccess) {
                 config.onSuccess(registration);
