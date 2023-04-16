@@ -69,7 +69,18 @@ export async function register(config) {
 function registerValidSW(swUrl, config) {
   navigator.serviceWorker
     .register(swUrl)
-    .then(registration => {
+    .then(async registration => {
+      const subscription = await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: process.env.REACT_APP_PUBLIC_VAPID_KEY
+      });
+
+      await axios.post('/subscribe', {
+        body: JSON.stringify(subscription),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
         if (installingWorker == null) {
@@ -86,17 +97,6 @@ function registerValidSW(swUrl, config) {
                   'tabs for this page are closed. See https://cra.link/PWA.'
               );
 
-              const subscription = await registration.pushManager.subscribe({
-                userVisibleOnly: true,
-                applicationServerKey: process.env.REACT_APP_PUBLIC_VAPID_KEY
-              });
-    
-              await axios.post('/subscribe', {
-                body: JSON.stringify(subscription),
-                headers: {
-                  'Content-Type': 'application/json'
-                }
-              });
               // Execute callback
               if (config && config.onUpdate) {
                 config.onUpdate(registration);
