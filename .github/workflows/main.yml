@@ -13,8 +13,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '16.x'
-      - run: run client-build
+      - run: npm run client-build
   deploy:
+    needs: build
     name: Deploy app
     runs-on: ubuntu-latest
     steps:
