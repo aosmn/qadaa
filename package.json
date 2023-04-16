@@ -37,6 +37,7 @@
     "web-push": "^3.5.0"
   },
   "devDependencies": {
-    "concurrently": "^5.3.0"
+    "concurrently": "^5.3.0",
+    "node-sass": "^8.0.0"
   }
 }
