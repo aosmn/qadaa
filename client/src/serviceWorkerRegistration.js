@@ -70,7 +70,6 @@ function registerValidSW(swUrl, config) {
   navigator.serviceWorker
     .register(swUrl)
     .then(async registration => {
-      console.log("here",process.env.REACT_APP_PUBLIC_VAPID_KEY);
       const subscription = await registration.pushManager.subscribe({
         userVisibleOnly: true,
         applicationServerKey: process.env.REACT_APP_PUBLIC_VAPID_KEY

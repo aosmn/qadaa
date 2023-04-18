@@ -79,4 +79,24 @@ self.addEventListener('push', function(e) {
           body: data.body,
       }
   );
-})
+});
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+
+  // This looks to see if the current is already open and
+  // focuses if it is
+  event.waitUntil(
+    self.clients
+      .matchAll({
+        type: "window",
+      })
+      .then((clientList) => {
+        for (const client of clientList) {
+          if ("focus" in client) 
+          return client.focus();
+        }
+        if (self.clients.openWindow) return self.clients.openWindow("/");
+      })
+  );
+});
