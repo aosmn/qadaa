@@ -10,7 +10,9 @@ Run `npm run dev` in the root directory to startup the client and server
 
 We are currently using [Fly.io](https://fly.io/docs/) for hosting the application
 
-To deploy the application:
+There is a github action that deploys the app on push
+
+To deploy the application manually:
 - Login to Fly.io `fly auth login`
 - Run the `deploy.sh` script.
 - In order to add environment secrets to flyctl we use the following command
