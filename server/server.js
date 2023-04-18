@@ -74,7 +74,8 @@ app.listen(
 );
 
 // every day at 10
-cron.schedule('0 10 * * *', async () => {
+cron.schedule('0 */12 * * *', async () => {
+  console.log('cron job running', new Date());
   try {
     const subs = await NotificationSubscription.find({});
     subs.forEach(sub => {
