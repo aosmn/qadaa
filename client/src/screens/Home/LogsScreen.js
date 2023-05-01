@@ -23,8 +23,8 @@ const LogsScreen = props => {
                 <h5>
                   <LinkContainer to='/'>
                     <Button
-                      variant='link-light'
-                      className={`p-0 ${
+                      variant='link'
+                      className={`border-0 p-0 ${
                         i18n.language.indexOf('ar') > -1 ? 'ml-4' : 'mr-4'
                       }`}>
                       {i18n.language.indexOf('ar') > -1 ? (

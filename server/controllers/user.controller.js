@@ -116,9 +116,6 @@ const sendPasswordReset = asyncHandler(async (req, res) => {
     user.setupPasswordReset(token, 3600000);
     const savedUser = await user.save();
     const link = `${req.headers.origin}/reset-password?token=${savedUser.resetPasswordToken}&email=${savedUser.email}`;
-    const text = `Hello ${savedUser.name.split(' ')[0]} \n
-    Please click on the following link ${link} to reset your password. \n\n
-    If you did not request this, please ignor this email and your password will remain unchanged`;
     const subject = 'Password reset link';
     const to = savedUser.email;
 
@@ -130,6 +127,7 @@ const sendPasswordReset = asyncHandler(async (req, res) => {
 
     sendMessage({ to, subject, templateId, data })
       .then(() => {
+        console.log('sent');
         res.status(200).json({
           message: `A reset email was sent to ${savedUser.email}`
         });
@@ -164,40 +162,9 @@ const passwordReset = asyncHandler(async (req, res) => {
     user.resetPasswordExpires = undefined;
     const savedUser = await user.save();
 
-    // const text = `Hello ${user.name.split(' ')[0]} \n\n
-    // This is a confirmation that the password for your account ${
-    //   savedUser.email
-    // } was changed.`;
-    // const subject = 'Your password was changed';
-    const to = savedUser.email;
-    const templateId = process.env.PASSWORD_RESET_CONFIRM_TEMPLATE;
-    const data = {
-      user_name: user.name.split(' ')[0]
-    };
-    // sendMessage({ to, templateId, data })
-    //   .then(() => {
-    //     res.status(200).json({
-    //       message: `Success! A confirmation email was sent to ${savedUser.email}`
-    //     });
-    //   })
-    //   .catch(err => {
-    //     res.status(500);
-    //     throw new Error(err);
-    //   });
-
     res.status(200).json({
-      message: `Success! A confirmation email was sent to ${savedUser.email}`
+      message: `Success! Password reset done for ${savedUser.email}`
     });
-
-    // , (error, info) => {
-    //   if (error) {
-    //     res.status(500);
-    //     throw new Error(error);
-    //   }
-    //   res.status(200).json({
-    //     message: `Success! A confirmation email was sent to ${savedUser.email}`
-    //   });
-    // });
   } else {
     res.status(401);
     throw new Error('Password reset token is invalid or has expired');
