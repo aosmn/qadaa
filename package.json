@@ -33,7 +33,6 @@
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^5.11.7",
     "node-cron": "^3.0.2",
-    "nodemailer": "^6.4.17",
     "web-push": "^3.5.0"
   },
   "devDependencies": {

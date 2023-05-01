@@ -136,9 +136,6 @@ const sendPasswordReset = asyncHandler(async (req, res) => {
         res.status(500);
         throw new Error(error);
       });
-    // res.status(200).json({
-    //   message: `A reset email was sent to ${savedUser.email}`
-    // });
   } else {
     res.status(404);
     throw new Error(
