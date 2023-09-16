@@ -55,9 +55,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "serve": "serve -s build -p 3000"
+    "serve": "serve -s build -p 3000",
+    "test": "jest --coverage --ci",
+    "test:watch": "jest --watch --no-cache"
   },
   "eslintConfig": {
     "extends": [
@@ -78,6 +79,15 @@
     ]
   },
   "devDependencies": {
-    "node-sass": "^4.14.1"
+    "@babel/core": "^7.22.19",
+    "@babel/preset-env": "^7.22.15",
+    "babel-jest": "^29.7.0",
+    "nock": "^13.3.3"
+  },
+  "jest": {
+    "setupFiles": [
+      "<rootDir>/src/__jest__/browserMocks.js",
+      "<rootDir>/src/__jest__/setEnvVars.js"
+    ]
   }
 }

@@ -26,7 +26,8 @@ export const login = async user => {
     localStorage.setItem('user', JSON.stringify(data));
     setAxiosAuth('Bearer ' + data.token);
   } else {
-    return JSON.parse(localStorage.getItem('user'));
+    if(localStorage.getItem('user'))
+      return JSON.parse(localStorage.getItem('user'));
   }
   return data;
 };
