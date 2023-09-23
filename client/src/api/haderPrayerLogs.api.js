@@ -2,7 +2,6 @@ import axios from './axiosRequest';
 
 export const getLogs = async () => {
   const { data } = await axios.get(`/api/dayPrayers`);
-  // console.log('getLogs',data);
   // setLocalStorage
   return data;
 };
